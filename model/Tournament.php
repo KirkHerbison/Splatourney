@@ -16,7 +16,7 @@ class Tournament {
 
     public function __construct($id, $tournament_owner_id, $tournament_organizer_name, $tournament_type_id, $tournament_banner_link, $tournament_name, $tournament_date, $tournament_registration_deadline, $tournament_about, $tournament_prizes, $tournament_contact, $tournament_rules, $isActive) {
         $this->id = $id;
-        $this->tournament_owner_id = $$tournament_owner_id;
+        $this->tournament_owner_id = $tournament_owner_id;
         $this->tournament_organizer_name = $tournament_organizer_name;
         $this->tournament_type_id = $tournament_type_id;
         $this->tournament_banner_link = $tournament_banner_link;

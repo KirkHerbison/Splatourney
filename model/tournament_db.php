@@ -25,25 +25,30 @@ function get_tournament_types() {
     return $tournamentTypeArray;
 }
 
-function get_tournament_by_name_and_date() {
+function get_tournament_by_id($id) {
     $db = Database::getDB();
-    $tournamentTypeArray = array();
 
-    $query = 'SELECT * FROM tournament_type';
+    $query = 'SELECT * FROM tournament
+              WHERE id= :id';
     $statement = $db->prepare($query);
+    $statement->bindValue(':id', $id);
     $statement->execute();
-    $tournamentTypes = $statement->fetchAll();
+    $tournament = $statement->fetch();
     $statement->closeCursor();
-
-    foreach ($tournamentTypes as $tournamentType) {
-        $tournamentObject = new TournamnetType($tournamentType['ID'],
-                $tournamentType['description'],
-                $tournamentType['isActive']);
-
-        $tournamentTypeArray[] = $tournamentObject;
-    }
-
-    return $tournamentTypeArray;
+    $tournamentObject = new Tournament($tournament['ID'],
+                $tournament['tournament_owner_id'],
+                $tournament['tournament_organizer_name'],
+                $tournament['tournament_type_id'],
+                $tournament['tournament_banner_link'],
+                $tournament['tournament_name'],
+                $tournament['tournament_date'],
+                $tournament['tournament_registration_deadline'],
+                $tournament['tournament_about'],
+                $tournament['tournament_prizes'],
+                $tournament['tournament_contact'],
+                $tournament['tournament_rules'],
+                $tournament['isActive']);
+    return $tournamentObject;
 }
 
 function add_tournament($tournament) {
@@ -51,6 +56,31 @@ function add_tournament($tournament) {
     $query = 'INSERT INTO tournament (tournament_owner_id, tournament_organizer_name, tournament_type_id, tournament_banner_link, tournament_name,tournament_date, tournament_registration_deadline,  tournament_about, tournament_prizes, tournament_contact, tournament_rules, isActive)
                 VALUES(:tournament_owner_id, :tournament_organizer_name, :tournament_type_id, :tournament_banner_link, :tournament_name, :tournament_date, :tournament_registration_deadline, :tournament_about, :tournament_prizes, :tournament_contact, :tournament_rules, :isActive)';
     $statement = $db->prepare($query);
+    $statement->bindValue(':tournament_owner_id', $tournament->getTournamentOwnerId());
+    $statement->bindValue(':tournament_organizer_name', $tournament->getTournamentOrganizerName());
+    $statement->bindValue(':tournament_type_id', $tournament->getTournamentTypeId());
+    $statement->bindValue(':tournament_banner_link', $tournament->getTournamentBannerLink());
+    $statement->bindValue(':tournament_name', $tournament->getTournamentName());
+    $statement->bindValue(':tournament_date', $tournament->getTournamentDate());
+    $statement->bindValue(':tournament_registration_deadline', $tournament->getTournamentRegistrationDeadline());
+    $statement->bindValue(':tournament_about', $tournament->getTournamentAbout());
+    $statement->bindValue(':tournament_prizes', $tournament->getTournamentPrizes());
+    $statement->bindValue(':tournament_contact', $tournament->getTournamentContact());
+    $statement->bindValue(':tournament_rules', $tournament->getTournamentRules());
+    $statement->bindValue(':isActive', $tournament->getIsActive());
+    $statement->execute();
+    $statement->closeCursor();
+
+    return $db->lastInsertId();
+}
+
+function edit_tournament($tournament) {
+    $db = Database::getDB();
+    $query = 'UPDATE tournament
+                SET tournament_organizer_name = :tournament_organizer_name, tournament_type_id = :tournament_type_id, tournament_banner_link = :tournament_banner_link, tournament_name = :tournament_name,tournament_date = :tournament_date, tournament_registration_deadline = :tournament_registration_deadline,  tournament_about = :tournament_about, tournament_prizes = :tournament_prizes, tournament_contact = :tournament_contact, tournament_rules = :tournament_rules
+                WHERE id = :id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':id', $tournament->getId());
     $statement->bindValue(':tournament_owner_id', $tournament->getTournamentOwnerId());
     $statement->bindValue(':tournament_organizer_name', $tournament->getTournamentOrganizerName());
     $statement->bindValue(':tournament_type_id', $tournament->getTournamentTypeId());

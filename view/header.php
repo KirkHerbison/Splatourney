@@ -45,6 +45,9 @@
                 <li>
                     <a href="team_manager?controllerRequest=team_list">My Teams</a>
                 </li>
+                <li>
+                    <a href="tournament_manager?controllerRequest=tournament_register">Create Tournament</a>
+                </li>
                 <?php }?>
             </ul>
 

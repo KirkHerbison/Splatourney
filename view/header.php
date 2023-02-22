@@ -9,6 +9,7 @@
         <base href="http://localhost/projects/Splatourney/">
 
         <link rel="stylesheet" type="text/css" href="styles/main.css">
+        <link rel="stylesheet" type="text/css" href="styles/header_nav.css">
 
     </head>
 
@@ -38,12 +39,15 @@
                 <li>
                     <a href="user_manager?controllerRequest=list_users">User List</a>
                 </li>
+                <li>
+                    <a href="team_manager?controllerRequest=team_list">Team List</a>
+                </li>
                 <?php if ($userLogedin->getID() != null) { ?>
                 <li>
                     <a href="team_manager?controllerRequest=create_team">Create Team</a>
                 </li>
                 <li>
-                    <a href="team_manager?controllerRequest=team_list">My Teams</a>
+                    <a href="team_manager?controllerRequest=my_team_list">My Teams</a>
                 </li>
                 <li>
                     <a href="tournament_manager?controllerRequest=tournament_register">Create Tournament</a>

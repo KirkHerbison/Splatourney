@@ -14,16 +14,6 @@ h1 {
     color: navy;
     padding: .5em;
 }
-#header{
-    background-color: lightblue;
-    padding: 14px 70px;
-    margin-bottom: 0;
-}
-header a{
-    background-color: lightblue;
-    font-size: 20px;
-    float: right;
-}
 
 label {
     width: 10em;

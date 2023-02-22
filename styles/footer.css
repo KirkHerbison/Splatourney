@@ -1,0 +1,11 @@
+/*footer*/
+footer{
+    clear: both;
+    background-color: indigo;
+    padding: .9375em 3.3333%;
+}
+footer p{
+    text-align: center;
+    font-size: 85%;
+    color: white;
+}

@@ -1,0 +1,143 @@
+/* header style */
+header{
+    display: flex;
+    flex-direction: column;
+    background-image: linear-gradient(to bottom, rgb(161, 101, 204) 0%, rgb(104, 0, 179) 100%);
+    padding: 1em;
+    padding-left: 5px;
+    padding-bottom: 0;
+    border-bottom: indigo 4px solid;
+}
+#headerTop{
+
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+}
+#darkLight{
+    display: flex;
+    flex-direction: row;
+    margin-left: auto;
+    width: 40%;
+}
+#headerText{
+    width: 70%;
+}
+#darkLight label{
+    color: white;
+    margin-left: auto;
+    text-align: right;
+    margin-right: 1em;
+    width: 100%;
+}
+#darkLight input{
+    width: auto;
+    height: auto;
+    text-align: right;
+}
+header h1{
+    font-family: "Lucida Console";
+    margin-top: 0;
+    font-size: 280%;
+    color: white;
+    text-shadow: 3px 3px #000000;
+    margin-bottom: 0;
+    width: 100%;
+    text-overflow: clip;
+}
+header h2{
+    font-size: 150%;
+    font-weight: normal;
+    color: white;
+    text-indent: 2em;
+    margin-top: .2em;
+    margin-bottom: 0;
+}
+/* the styles for the navigation menu */
+#mobile_menu{
+    display: none;
+}
+#nav_menu{
+    margin-bottom: 1em;
+}
+#nav_menu ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	position: relative;
+    
+}
+#nav_menu ul li {
+	float: left;
+    width: 15%;
+}
+#nav_menu ul li a {
+    display: block;
+    text-align: center;
+    font-size: 100%;
+    padding: 1em 0;
+    text-decoration: none;
+    background-color: indigo;
+    border-radius:  15px 15px 0 0;
+    margin-right: 5px;
+    color: white;
+    font-weight: bold;    
+}
+#nav_menu a.current {
+	color: grey;
+}
+#nav_menu ul li a:hover{
+    font-style: italic;
+}
+@media only screen and (max-width: 900px){
+	body{
+		font-size: 90%;
+        box-shadow: none;
+	}
+}
+
+@media only screen and (max-width: 767px){
+    #nav_menu{
+        display: none;
+    }
+    #mobile_menu{
+        display:block;
+    }
+    #mobile_menu ul{
+        background-color: indigo;
+    }
+    #mobile_menu a{
+        background-color: indigo;
+    }
+    #mobile_menu ul li a:hover{
+        color: white;
+        background-color: rgb(104, 0, 179);
+    }
+    .slicknav_menu{
+        padding: 3px !important;
+		background-color: indigo !important;
+	}
+    header h1{
+		font-size: 200%;
+    }
+}
+    @media only screen and (max-width: 476px){
+
+    #headerTop{
+        display: flex;
+        flex-direction: column-reverse;
+    }
+    
+    header h1{
+        font-size: 180%;
+    }
+    header h2{
+		font-size: 130%;
+    }
+    section p{
+        font-size: 90%;
+    }
+    header h2, header h3{
+        text-indent: 0;
+    }
+}

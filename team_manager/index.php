@@ -43,6 +43,7 @@ else if ($controllerChoice == 'team_register_confirmation') {
         $teamToCreate = new Team(
                 null,
                 $userLogedin->getID(),
+                $userLogedin->getUsername(),
                 filter_input(INPUT_POST, 'teamName'),
                 'test for now',
                 1
@@ -102,9 +103,21 @@ else if ($controllerChoice == 'delete_team_member'){
 }
 
 // In the header when the user selects my teams
-else if ($controllerChoice == 'team_list'){   
+else if ($controllerChoice == 'my_team_list'){   
     $teams = get_teams_by_user_id($userLogedin->getId());
     require_once("user_team_list.php");
+}
+
+// In the header when the user team list
+else if ($controllerChoice == 'team_list'){   
+    $teams = get_teams();
+    require_once("team_list.php");
+}
+
+//Finds teams bassed on a name search and sends a list back to the list page
+else if ($controllerChoice == 'team_search_by_name') {
+    $teams = search_teams(filter_input(INPUT_POST, 'team_search'));
+    include("team_list.php");
 }
 
 // In user_team_list when the user selects edit

@@ -12,10 +12,11 @@
  */
 class Team {
 
-    private $id, $captain_user_id, $team_name, $team_image_link, $isActive;
+    private $id, $captain_user_id, $team_captain_name, $team_name, $team_image_link, $isActive;
 
-    public function __construct($id, $captain_user_id, $team_name, $team_image_link, $isActive) {
+    public function __construct($id, $captain_user_id, $team_captain_name, $team_name, $team_image_link, $isActive) {
         $this->id = $id;
+        $this->team_captain_name = $team_captain_name;
         $this->captain_user_id = $captain_user_id;
         $this->team_name = $team_name;
         $this->team_image_link = $team_image_link;
@@ -40,6 +41,15 @@ class Team {
 
     public function getIsActive() {
         return $this->isActive;
+    }
+    
+    
+    public function getTeamCaptainName() {
+        return $this->team_captain_name;
+    }
+    
+    public function setTeamCaptainName($team_captain_name) {
+        $this->team_captain_name = $team_captain_name;
     }
 
     public function setId($id) {

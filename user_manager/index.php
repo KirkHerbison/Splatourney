@@ -143,8 +143,6 @@ else if ($controllerChoice == 'validate_login') {
 else if ($controllerChoice == 'list_users') {
     $users = get_users();
     include("user_list.php");
-
-    
 }
 //Finds users bassed on a last name search and sends a list back to the list page
 //If a non admin attempts they will be sent to user_login

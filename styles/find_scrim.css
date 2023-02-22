@@ -1,0 +1,120 @@
+/* images */
+#row1, #row2{
+    display: flex;
+    width: 100%;
+    margin-bottom: 30px;
+    justify-content: center;
+    align-items: center;
+}
+img{
+    max-width: 15%;
+    margin: auto;
+}
+/* results */
+
+#divisionTitle{
+    color: rgb(149, 0, 255);
+    text-decoration: underline;
+}
+
+#divResults{
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+.list{
+    font-size: 140%;
+    font-weight: bolder;
+    color: rgb(149, 0, 255);
+    margin-top: 1em;
+    margin-left: 0;
+    margin-bottom: 10px;
+}
+
+a:hover, a:focus{
+    color: rgb(183, 83, 255);
+}
+
+a{
+    color: rgb(149, 0, 255);
+}
+
+.resultGroup{
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+}
+.listItem{
+    width: 30%;
+    margin: 0;
+    margin-right: 0;
+    text-align: right;
+    font-weight: bold;
+}
+
+.listResult{
+    width: 50%;
+    margin:0;
+    margin-left: 10px;
+}
+
+/*dark mode colors*/
+.dark #divResults .list{
+    color: rgb(207, 149, 248);
+}
+.dark #divResults a:hover,.dark #divResults a:focus{
+    color: rgb(207, 149, 248);
+}
+
+.dark #divResults  a{
+    color: rgb(231, 197, 255);
+}
+.dark #divisionTitle{
+    color: rgb(207, 149, 248);
+}
+
+@media only screen and (max-width: 900px){
+    .listItem{
+        width: 30%;
+
+    }
+}
+
+@media only screen and (max-width: 767px){
+    .listItem{
+        width: 58%;
+
+    }
+}
+
+@media only screen and (max-width: 476px){
+    .resultGroup{
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+    }
+    .list{
+        margin-left: 0;
+    }
+
+    .resultGroup{
+        margin-left: 1em;
+    }
+
+    .listItem{
+        width: 100%;
+        text-align: left;
+        font-size: 120%;
+        margin-bottom: .5em;
+        margin-top: .5em;
+    }
+
+    main div{
+        width: auto;
+    }
+
+    .listResult{
+        width: 100%;
+        margin-left: 0;
+    }
+}

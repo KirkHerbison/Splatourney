@@ -17,10 +17,55 @@ function add_team($team) {
     return $db->lastInsertId();
 }
 
+function get_teams(){
+    $db = Database::getDB();
+    $teamArray = array();
+    $query = 'SELECT * FROM team t
+              JOIN splatourney_user u ON u.ID = t.captain_user_id';
+    $statement = $db->prepare($query);
+    $statement->execute();
+    $teams = $statement->fetchAll();
+    $statement->closeCursor();
+    foreach ($teams as $team) {
+        $teamObject = new Team($team['ID'],
+                $team['captain_user_id'],
+                $team['username'],
+                $team['team_name'],
+                $team['team_image_link'],
+                $team['isActive']);
+        $teamArray[] = $teamObject;
+    }
+    return $teamArray;
+}
+
+function search_teams($name) {
+    $db = Database::getDB();
+    $teamArray = array();
+    $query = 'SELECT * FROM team t
+                JOIN splatourney_user u ON u.ID = t.captain_user_id
+                WHERE team_name LIKE "%":team_name"%"';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':team_name', $name);
+    $statement->execute();
+    $teams = $statement->fetchAll();
+    $statement->closeCursor();
+    foreach ($teams as $team) {
+        $teamObject = new Team($team['ID'],
+                $team['captain_user_id'],
+                $team['username'],
+                $team['team_name'],
+                $team['team_image_link'],
+                $team['isActive']);
+        $teamArray[] = $teamObject;
+    }
+    return $teamArray;
+}
+
 function get_team_by_id($id){
     $db = Database::getDB();
-    $query = 'SELECT * FROM team
-                WHERE id = :id';
+    $query = 'SELECT * FROM team t
+                JOIN splatourney_user u ON u.ID = t.captain_user_id
+                WHERE t.id = :id';
     $statement = $db->prepare($query);
     $statement->bindValue(':id', $id);
     $statement->execute();
@@ -28,6 +73,8 @@ function get_team_by_id($id){
     $statement->closeCursor();
         $team = new Team($selectedTeam['ID'],
                 $selectedTeam['captain_user_id'],
+                $selectedTeam['username'],
+                
                 $selectedTeam['team_name'],
                 $selectedTeam['team_image_link'],
                 $selectedTeam['isActive']);
@@ -38,7 +85,8 @@ function get_teams_by_user_id($id){
     $db = Database::getDB();
     $teamArray = array();
 
-    $query = 'SELECT * FROM team
+    $query = 'SELECT * FROM team t
+                JOIN splatourney_user u ON u.ID = t.captain_user_id
                 WHERE captain_user_id = :captain_user_id';
     $statement = $db->prepare($query);
     $statement->bindValue(':captain_user_id', $id);
@@ -49,6 +97,7 @@ function get_teams_by_user_id($id){
         $teamObject = new Team($team['ID'],
                 $team['captain_user_id'],
                 $team['team_name'],
+                $team['username'],
                 $team['team_image_link'],
                 $team['isActive']);
         $teamArray[] = $teamObject;

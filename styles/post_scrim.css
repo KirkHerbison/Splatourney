@@ -1,0 +1,332 @@
+body{
+    color:black;
+}
+
+/* form */
+fieldset{
+    margin: auto;
+    max-width: 100%;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+}
+
+form div{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-left: 10px;
+    margin-right: 0;
+    margin-bottom: 1em;
+}
+label{
+    text-align: right;
+    width: 15%;
+    margin-right: 20px;
+}
+input{
+    height: 1.8em;
+}
+input[type="radio"]{
+    height: auto;
+}
+
+.dark h2{
+        color: rgb(222, 175, 255);
+}
+
+h2{
+
+    color: rgb(149, 0, 255);
+    text-decoration: underline;
+    font-size: 180%;
+    width: 100%;
+}
+
+p{
+    color: red;
+    margin-top: 0;
+}
+
+form div input[type="date"]{
+    margin-bottom: .5em;
+}
+
+form div input[type="time"]{
+    margin-bottom: .5em;
+}
+
+div label{
+    margin-bottom: .5em;
+}
+
+input{
+    width: 40%;
+    color: black;
+}
+
+/* team info 1 */
+#teamInfo1 div{
+    display: flex;
+    flex-direction: row;
+    margin-left: 0;
+}
+
+#teamInfo1 div div{
+    width: 60%;
+}
+
+#teamInfo1 div .divs div{
+    width:50px;
+}
+
+
+/* team info 2 */
+#teamInfo2 div{
+    display: flex;
+    flex-direction: row;
+    margin-left: 0;
+}
+
+#teamInfo2 div div{
+    width: 60%;
+}
+
+.divs label{
+    margin-right: 15px;
+}
+
+
+
+.divs div{
+    margin-right: 25px;
+}
+
+/* date time 1 */
+#timeAndDate1 div{
+    display: flex;
+    flex-direction: row;
+    margin-left: 0;
+}
+
+#timeAndDate1 div div{
+    width: 60%;
+}
+
+/* date time 2 */
+#timeAndDate2 div{
+    display: flex;
+    flex-direction: row;
+    margin-left: 0;
+}
+
+#timeAndDate2 div div{
+    width: 60%;
+}
+#timeEndError{
+    width: 50%;
+}
+
+/* request division power */
+#requestDivisonPower div{
+    display: flex;
+    flex-direction: row;
+    margin-left: 0;
+}
+
+#requestDivisonPower  div div{
+    width: 60%;
+}
+
+#requestDivisonPower  div .divs div{
+    width:50px;
+}
+
+/* submit button */
+#submitButton div{ 
+    display: flex;
+    flex-direction: row;
+}
+
+#submitButton div div{
+margin-left: 0;
+width: 60%;
+}
+
+
+@media only screen and (max-width: 476px){
+
+    /* form */
+
+    label{
+        text-align: left;
+        width: 100%;
+        font-size: 120%;
+    }
+    
+    h2{
+        margin-top: 0;
+    }
+
+    input{
+        width: 80%;
+    }
+
+    /* team info 1 */
+    #teamInfo1 div{
+        margin-bottom: 0;
+    }
+
+    #teamInfo1 div{
+        flex-direction: column;
+    }
+
+    #teamInfo1 div div{
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    #teamInfo1 div div input{
+        margin-right: .5em;
+    }
+
+    #teamInfo1 div div p{
+        margin-top: .5em;
+        padding: 0;
+    }
+
+    /* team info 2 */
+    #teamInfo2 div{
+        margin-bottom: 0;
+    }
+
+    #teamInfo2 div{
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+    #teamInfo2 div .divs{ 
+
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    #teamInfo2 div .divs div{ 
+
+        display: flex;
+        flex-direction: row;
+        flex-wrap:nowrap;
+    }
+
+    #teamInfo2 div .divs div label{ 
+        width: auto;
+        margin-right: 5px;
+    }
+
+    #teamInfo2 div .divs div input{ 
+        margin-top: 5px;
+    }
+
+    /* time date 1 */
+    #timeAndDate1 div{
+        margin-bottom: 0;
+    }
+
+    #timeAndDate1 div{
+        flex-direction: column;
+    }
+
+    #timeAndDate1 div div{
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    #timeAndDate1 div div input{
+        margin-right: .5em;
+    }
+
+    /* time date 2 */
+
+    #timeAndDate2 div{
+        margin-bottom: 0;
+    }
+
+    #timeAndDate2 div{
+        flex-direction: column;
+    }
+
+    #timeAndDate2 div div{
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    #timeAndDate2 div div input{
+        margin-right: .5em;
+    }
+    #timeEndError{
+        width: auto;
+    }
+
+    #timeAndDate2 div div p{
+        margin-top: .5em;
+        padding: 0;
+    }
+
+    /* request division power */
+
+
+    #requestDivisonPower div{
+        margin-bottom: 0;
+    }
+
+    #requestDivisonPower div{
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+    #requestDivisonPower div .divs{ 
+
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    #requestDivisonPower div .divs div{ 
+
+        display: flex;
+        flex-direction: row;
+        flex-wrap:nowrap;
+    }
+
+    #requestDivisonPower div .divs div label{ 
+        width: auto;
+        margin-right: 5px;
+    }
+
+    #requestDivisonPower div .divs div input{ 
+        margin-top: 5px;
+    }
+
+    /* submit button */
+    #submitButton{
+        margin-bottom: 0;
+    }
+
+    #submitButton div{
+        display: flex;
+        flex-direction: column;
+        margin-left: 0;
+    }
+    #submitButton div div{
+        width: 100%;
+        
+    }
+
+}

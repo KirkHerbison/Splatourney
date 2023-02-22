@@ -39,6 +39,7 @@ if ($controllerChoice == 'create_team') {
 else if ($controllerChoice == 'team_register_confirmation') {
     if (isset($_SESSION['userLogedin'])) {
         $userLogedin = $_SESSION['userLogedin'];
+        $imageValid = true;
 
         $teamToCreate = new Team(
                 null,
@@ -55,12 +56,38 @@ else if ($controllerChoice == 'team_register_confirmation') {
         } else if (check_if_team_exists($teamToCreate) != null) {
             $error_message = "You have already created a team under this name.";
             require_once("team_register.php");
-        } else {
-            $teamId = add_team($teamToCreate);
-            $team = get_team_by_id($teamId);
-            add_team_member($userLogedin, $team);
-            $teamMembers = get_team_members($team);
-            require_once 'team_edit.php';
+        } else {            
+            //for uploading images
+            if (isset($_FILES['image']) && !empty($_FILES['image']['name'])) {
+                $target_dir = "../images/";
+                $iamge_name = 'teamImage_'. uniqid().'.'.pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+                $target_file = $target_dir . $iamge_name;
+                $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+                if (in_array($imageFileType, array('jpg', 'jpeg', 'png'))) {
+                    if (move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
+                        $teamToCreate->setTeamImageLink($iamge_name);
+                    }
+                    else{
+                        $imageValid = false;
+                        $error_message = "Sorry, there was an error uploading your file.";
+                    }
+                }else{
+                    $imageValid = false;
+                        $error_message = "Sorry, only JPG, JPEG, & PNG files are allowed.";
+                }
+            }
+            
+            if($imageValid == true){
+                $teamId = add_team($teamToCreate);
+                $team = get_team_by_id($teamId);
+                add_team_member($userLogedin, $team);
+                $teamMembers = get_team_members($team);
+                require_once 'team_edit.php';
+            }
+            else{
+                require_once("team_register.php");
+            }
+
         }
     }
 }

@@ -30,9 +30,6 @@
         <p></p><input type='submit' value='Create Team'>
     </div>
     <br>
-
-    
-
 </form>
 
 

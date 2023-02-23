@@ -5,6 +5,8 @@ header{
     background-image: linear-gradient(to bottom, rgb(161, 101, 204) 0%, rgb(104, 0, 179) 100%);
     padding: 1em;
     padding-left: 5px;
+    margin-right: 0;
+    padding-right: 0;
     padding-bottom: 0;
     border-bottom: indigo 4px solid;
 }
@@ -42,7 +44,9 @@ header h1{
     color: white;
     text-shadow: 3px 3px #000000;
     margin-bottom: 0;
-    width: 100%;
+    margin-right: 0;
+    padding-right: 0;
+    width: auto;
     text-overflow: clip;
 }
 header h2{
@@ -52,6 +56,10 @@ header h2{
     text-indent: 2em;
     margin-top: .2em;
     margin-bottom: 0;
+}
+
+#header{
+    padding-right: 0;
 }
 /* the styles for the navigation menu */
 #mobile_menu{

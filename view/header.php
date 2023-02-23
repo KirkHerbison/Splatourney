@@ -15,9 +15,7 @@
 
     <!-- the body section -->
     <body>
-        <main>
-
-            <header>
+        <header>
                 <h1 id="header">Splatourney <a href="user_manager?controllerRequest=logout">
                         <?php
                         if ($userLogedin->getEmailAddress() != '') {
@@ -57,6 +55,7 @@
                 </li>
                 <?php }?>
             </ul>
+        <main>
 
 
 

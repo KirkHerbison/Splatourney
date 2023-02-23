@@ -1,9 +1,16 @@
+html{
+    background-color: #2c2f33;
+    margin: auto;
+    width: auto;
+}
 body {
     font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    width: auto;
 }
 main {
     display: block;
-    width: 880px;
+    width: 1000px;
     margin: 0 auto;
     padding: 1em;
     background: white;

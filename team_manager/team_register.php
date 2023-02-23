@@ -1,8 +1,8 @@
 <?php require_once '../view/header.php'; ?> 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/10.7.0/js/vendor/jquery.ui.widget.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/10.7.0/js/jquery.iframe-transport.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/10.7.0/js/jquery.fileupload.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><!--for image upload -->
+<script src="https://use.fontawesome.com/releases/v5.7.2/css/all.css"></script><!-- for image upload -->
+<link rel="stylesheet" type="text/css" href="styles/image_upload.css"><!-- for image upload -->
 
 <h1>Create Team</h1>
 <span style='color: red'><?php echo $error_message ?></span>
@@ -14,15 +14,28 @@
         <input type="text" name="teamName" value="My Team Name"><p class ="requiredField">*</p>
     </div>
     <br>
-    <div>
+    <div><!-- Start for image upload -->
         <p>Team Profile Picture: </p>
-        <input type="file" name="image" accept = "image/*">
-    </div>
+            <div class="drag-image">
+            <div class="icon"><i class="fas fa-cloud-upload-alt"></i></div>
+            <h6>Drag & Drop File Here</h6>
+            <span>OR</span>
+            <button type="button">Browse File</button>
+            <input type="file" name="image" accept = "image/*" hidden>
+        </div>
+        <div class="display-image" style="display: none;"></div>
+    </div><!-- end for image upload -->
     <br>
     <div>
         <p></p><input type='submit' value='Create Team'>
     </div>
     <br>
+
+    
+
 </form>
+
+
+<script src="js/image_upload.js"></script>
 
 <?php require_once '../view/footer.php'; ?>

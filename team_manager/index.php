@@ -56,38 +56,55 @@ else if ($controllerChoice == 'team_register_confirmation') {
         } else if (check_if_team_exists($teamToCreate) != null) {
             $error_message = "You have already created a team under this name.";
             require_once("team_register.php");
-        } else {            
+        } else {
             //for uploading images
-            if (isset($_FILES['image']) && !empty($_FILES['image']['name'])) {
+//            if (isset($_FILES['image']) && !empty($_FILES['image']['name'])) {
+//                $target_dir = "../images/";
+//                $iamge_name = 'teamImage_' . uniqid() . '.' . pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+//                $target_file = $target_dir . $iamge_name;
+//                $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+//                if (in_array($imageFileType, array('jpg', 'jpeg', 'png'))) {
+//                    if (move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
+//                        $teamToCreate->setTeamImageLink($iamge_name);
+//                    } else {
+//                        $imageValid = false;
+//                        $error_message = "Sorry, there was an error uploading your file.";
+//                    }
+//                } else {
+//                    $imageValid = false;
+//                    $error_message = "Sorry, only JPG, JPEG, & PNG files are allowed.";
+//                }
+//            }
+            
+            if (isset($_FILES['image']) && !empty($_FILES['image']['name'])) { // start for image upload
                 $target_dir = "../images/";
-                $iamge_name = 'teamImage_'. uniqid().'.'.pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+                $iamge_name = 'teamImage_' . uniqid() . '.' . pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
                 $target_file = $target_dir . $iamge_name;
                 $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+                
+                
                 if (in_array($imageFileType, array('jpg', 'jpeg', 'png'))) {
                     if (move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
                         $teamToCreate->setTeamImageLink($iamge_name);
-                    }
-                    else{
+                    } else {
                         $imageValid = false;
                         $error_message = "Sorry, there was an error uploading your file.";
                     }
-                }else{
+                } else {
                     $imageValid = false;
-                        $error_message = "Sorry, only JPG, JPEG, & PNG files are allowed.";
+                    $error_message = "Sorry, only JPG, JPEG, & PNG files are allowed.";
                 }
-            }
-            
-            if($imageValid == true){
+            } //end for image upload
+
+            if ($imageValid == true) {
                 $teamId = add_team($teamToCreate);
                 $team = get_team_by_id($teamId);
                 add_team_member($userLogedin, $team);
                 $teamMembers = get_team_members($team);
                 require_once 'team_edit.php';
-            }
-            else{
+            } else {
                 require_once("team_register.php");
             }
-
         }
     }
 }
@@ -96,14 +113,14 @@ else if ($controllerChoice == 'team_register_confirmation') {
 // In team_edit when the user clicks the Add Member button
 else if ($controllerChoice == 'add_team_member') {
     $team = get_team_by_id(filter_input(INPUT_POST, 'team_id'));
-    if(check_username(filter_input(INPUT_POST, 'new_member_username'))){
+    if (check_username(filter_input(INPUT_POST, 'new_member_username'))) {
         $user = get_user_by_username(filter_input(INPUT_POST, 'new_member_username'));
-        
-        if (check_if_member_exists($user,$team) != null) {
+
+        if (check_if_member_exists($user, $team) != null) {
             $error_message = "This user is already on your roster.";
             $teamMembers = get_team_members($team);
             require_once 'team_edit.php';
-        } else if (check_if_member_is_not_active($user,$team) != null) {
+        } else if (check_if_member_is_not_active($user, $team) != null) {
             update_team_member_isActive($user, $team);
             $teamMembers = get_team_members($team);
             require_once 'team_edit.php';
@@ -111,17 +128,16 @@ else if ($controllerChoice == 'add_team_member') {
             add_team_member($user, $team);
             $teamMembers = get_team_members($team);
             require_once 'team_edit.php';
-        }    
-    }
-    else{
+        }
+    } else {
         $error_message = "This user does not exist.";
         $teamMembers = get_team_members($team);
         require_once("team_edit.php");
-    } 
+    }
 }
 
 // In team_edit when the user clicks the delete member button
-else if ($controllerChoice == 'delete_team_member'){   
+else if ($controllerChoice == 'delete_team_member') {
     $user = get_user_by_id(filter_input(INPUT_POST, 'user_id'));
     $team = get_team_by_id(filter_input(INPUT_POST, 'team_id'));
     remove_team_member($user, $team);
@@ -130,13 +146,13 @@ else if ($controllerChoice == 'delete_team_member'){
 }
 
 // In the header when the user selects my teams
-else if ($controllerChoice == 'my_team_list'){   
+else if ($controllerChoice == 'my_team_list') {
     $teams = get_teams_by_user_id($userLogedin->getId());
     require_once("user_team_list.php");
 }
 
 // In the header when the user team list
-else if ($controllerChoice == 'team_list'){   
+else if ($controllerChoice == 'team_list') {
     $teams = get_teams();
     require_once("team_list.php");
 }
@@ -148,21 +164,21 @@ else if ($controllerChoice == 'team_search_by_name') {
 }
 
 // In user_team_list when the user selects edit
-else if ($controllerChoice == 'edit_selected_team'){   
+else if ($controllerChoice == 'edit_selected_team') {
     $team = get_team_by_id(filter_input(INPUT_POST, 'team_id'));
     $teamMembers = get_team_members($team);
     require_once 'team_edit.php';
 }
 
 // In user_team_list when the user selects delete
-else if ($controllerChoice == 'delete_team'){
+else if ($controllerChoice == 'delete_team') {
     remove_team(filter_input(INPUT_POST, 'team_id'));
     $teams = get_teams_by_user_id($userLogedin->getId());
     require_once("user_team_list.php");
 }
 
 // In user_team_list when the user selects activate
-else if ($controllerChoice == 'activate_team'){
+else if ($controllerChoice == 'activate_team') {
     activate_team(filter_input(INPUT_POST, 'team_id'));
     $teams = get_teams_by_user_id($userLogedin->getId());
     require_once("user_team_list.php");

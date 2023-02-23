@@ -1,6 +1,7 @@
 <?php
 require_once '../model/User.php';
 require_once '../model/Team.php';
+require_once '../model/Tournament.php';
 require_once('../model/database.php');
 require_once('../model/user_db.php');
 require_once('../model/team_db.php');
@@ -106,6 +107,13 @@ else if ($controllerChoice == 'tournament_register_confirmation') {
         require_once("tournament_edit.php");
     }
 }
+
+// In the header when the user tournament list
+else if ($controllerChoice == 'tournament_list'){   
+    $tournaments = get_tournaments();
+    require_once("tournament_list.php");
+}
+
 
 
 // Edits a tournament

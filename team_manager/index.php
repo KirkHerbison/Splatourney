@@ -57,24 +57,6 @@ else if ($controllerChoice == 'team_register_confirmation') {
             $error_message = "You have already created a team under this name.";
             require_once("team_register.php");
         } else {
-            //for uploading images
-//            if (isset($_FILES['image']) && !empty($_FILES['image']['name'])) {
-//                $target_dir = "../images/";
-//                $iamge_name = 'teamImage_' . uniqid() . '.' . pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
-//                $target_file = $target_dir . $iamge_name;
-//                $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-//                if (in_array($imageFileType, array('jpg', 'jpeg', 'png'))) {
-//                    if (move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
-//                        $teamToCreate->setTeamImageLink($iamge_name);
-//                    } else {
-//                        $imageValid = false;
-//                        $error_message = "Sorry, there was an error uploading your file.";
-//                    }
-//                } else {
-//                    $imageValid = false;
-//                    $error_message = "Sorry, only JPG, JPEG, & PNG files are allowed.";
-//                }
-//            }
             
             if (isset($_FILES['image']) && !empty($_FILES['image']['name'])) { // start for image upload
                 $target_dir = "../images/";

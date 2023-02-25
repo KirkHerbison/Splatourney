@@ -35,14 +35,15 @@ function get_matches_by_round_number($number, $tournament_id) {
     return $matchArray;
 }
 
-function check_round_exists_by_number($number) {
+function check_round_exists_by_number($number, $tournament_id) {
     $db = Database::getDB();
     $exists = false;
 
-    $query = 'SELECT round FROM tournament_match
-              WHERE round = :round';
+    $query = 'SELECT round, tournament_id FROM tournament_match
+              WHERE round = :round AND tournament_id = :tournament_id';
     $statement = $db->prepare($query);
     $statement->bindValue(':round', $number);
+    $statement->bindValue(':tournament_id', $tournament_id);
     $statement->execute();
     $matches = $statement->fetch();
     $statement->closeCursor();

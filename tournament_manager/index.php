@@ -126,7 +126,7 @@ else if ($controllerChoice == 'tournament_bracket'){
         $roundExists = true;
      
         for($roundNumber = 1; $roundExists == true; $roundNumber++){
-            if(check_round_exists_by_number($roundNumber)){
+            if(check_round_exists_by_number($roundNumber, $tournament_id)){
                 $matches = get_matches_by_round_number($roundNumber, $tournament_id);       
                 $round = new Round($roundNumber, $matches);              
                 $roundArray[] = $round;

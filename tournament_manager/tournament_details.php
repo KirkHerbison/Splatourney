@@ -1,5 +1,9 @@
 <?php require_once '../view/header.php'; ?>
-<h1>Tournament List</h1>
+<h1>Tournament Bracket</h1>
+<?php foreach ($tournaments as $tournament) : ?>
+    
+<?php endforeach; ?>
+
 <form action="team_manager/index.php" method="POST">
     <input type="hidden" name="controllerRequest" value="tournament_search_by_name" /> 
     <br>
@@ -26,7 +30,7 @@
             <td><?php echo $tournament->getTournamentName(); ?></td>
             <td><?php echo $tournament->getTournamentDate(); ?></td>
             <td>
-                <form action="tournament_manager/index.php" method="POST">
+                <form action="team_manager/index.php" method="POST">
                     <input type="hidden" name="controllerRequest" value="tournament_bracket" /> 
                     <input type="hidden" name="tournamentId" value="<?php echo $tournament->getId(); ?>">
                     <input type="submit" value="Bracket">

@@ -6,6 +6,8 @@ require_once('../model/database.php');
 require_once('../model/user_db.php');
 require_once('../model/team_db.php');
 require_once('../model/tournament_db.php');
+require_once('../model/bracket_db.php');
+require_once('../model/Round.php');
 
 session_start();
 
@@ -114,6 +116,29 @@ else if ($controllerChoice == 'tournament_list'){
     require_once("tournament_list.php");
 }
 
+else if ($controllerChoice == 'tournament_bracket'){
+    
+    $tournament_id = filter_input(INPUT_POST, 'tournamentId');
+    $tournament = get_tournament_by_id($tournament_id);
+    $roundArray = array();
+            
+    if($tournament->getTournamentTypeId() == 1){
+        $roundExists = true;
+     
+        for($roundNumber = 1; $roundExists == true; $roundNumber++){
+            if(check_round_exists_by_number($roundNumber)){
+                $matches = get_matches_by_round_number($roundNumber, $tournament_id);       
+                $round = new Round($roundNumber, $matches);              
+                $roundArray[] = $round;
+            }else{
+                $roundExists = false;
+            }
+        }
+        require_once("tournament_bracket.php");
+    }        
+            
+            
+}
 
 
 // Edits a tournament

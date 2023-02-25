@@ -15,10 +15,12 @@ if (isset($_SESSION['userLogedin'])) {
     $userLogedin = new User(null, null, '', '', '', '', '', '', '', '', '', '', false, false);
 }
 
-$error_message = '';
+
+
 
 // Get the data from either the GET or POST collection.
 $controllerChoice = filter_input(INPUT_POST, 'controllerRequest');
+$error_message = '';
 if ($controllerChoice == NULL) {
     $controllerChoice = filter_input(INPUT_GET, 'controllerRequest');
     if ($controllerChoice == NULL) {
@@ -26,7 +28,10 @@ if ($controllerChoice == NULL) {
     }
 }
 
-// sends user to the creat team page from the header
+
+
+
+// sends user to the create team page from the header
 if ($controllerChoice == 'create_team') {
     if (isset($_SESSION['userLogedin'])) {
         require_once("team_register.php");
@@ -34,6 +39,21 @@ if ($controllerChoice == 'create_team') {
         require_once("../user_manager/user_login.php");
     }
 }
+
+// In the header when the user team list
+else if ($controllerChoice == 'team_list') {
+    $teams = get_teams();
+    require_once("team_list.php");
+}
+
+// In the header when the user selects my teams
+else if ($controllerChoice == 'my_team_list') {
+    $teams = get_teams_by_user_id($userLogedin->getId());
+    require_once("user_team_list.php");
+}
+
+
+
 
 // Creates a team when the user hits the create team button on in team_register.php
 else if ($controllerChoice == 'team_register_confirmation') {
@@ -91,7 +111,6 @@ else if ($controllerChoice == 'team_register_confirmation') {
     }
 }
 
-
 // In team_edit when the user clicks the Add Member button
 else if ($controllerChoice == 'add_team_member') {
     $team = get_team_by_id(filter_input(INPUT_POST, 'team_id'));
@@ -127,23 +146,14 @@ else if ($controllerChoice == 'delete_team_member') {
     require_once("team_edit.php");
 }
 
-// In the header when the user selects my teams
-else if ($controllerChoice == 'my_team_list') {
-    $teams = get_teams_by_user_id($userLogedin->getId());
-    require_once("user_team_list.php");
-}
-
-// In the header when the user team list
-else if ($controllerChoice == 'team_list') {
-    $teams = get_teams();
-    require_once("team_list.php");
-}
-
 //Finds teams bassed on a name search and sends a list back to the list page
 else if ($controllerChoice == 'team_search_by_name') {
     $teams = search_teams(filter_input(INPUT_POST, 'team_search'));
     include("team_list.php");
 }
+
+
+
 
 // In user_team_list when the user selects edit
 else if ($controllerChoice == 'edit_selected_team') {
@@ -165,6 +175,9 @@ else if ($controllerChoice == 'activate_team') {
     $teams = get_teams_by_user_id($userLogedin->getId());
     require_once("user_team_list.php");
 }
+
+
+
 
 // Final else very helpful for debugging.
 else {

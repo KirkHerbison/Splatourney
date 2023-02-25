@@ -5,8 +5,10 @@ require_once '../model/Team.php';
 require_once('../model/database.php');
 require_once('../model/user_db.php');
 require_once('../model/team_db.php');
-
 session_start();
+
+
+////////////////////////////////////////////////////////////////////////////////
 
 //gets user for session for use or creates an empty user object so the code does not break
 if (isset($_SESSION['userLogedin'])) {
@@ -16,7 +18,7 @@ if (isset($_SESSION['userLogedin'])) {
 }
 
 
-
+////////////////////////////////////////////////////////////////////////////////
 
 // Get the data from either the GET or POST collection.
 $controllerChoice = filter_input(INPUT_POST, 'controllerRequest');
@@ -29,7 +31,7 @@ if ($controllerChoice == NULL) {
 }
 
 
-
+////////////////////////////////////////////////////////////////////////////////
 
 // sends user to the create team page from the header
 if ($controllerChoice == 'create_team') {
@@ -53,7 +55,7 @@ else if ($controllerChoice == 'my_team_list') {
 }
 
 
-
+////////////////////////////////////////////////////////////////////////////////
 
 // Creates a team when the user hits the create team button on in team_register.php
 else if ($controllerChoice == 'team_register_confirmation') {
@@ -153,7 +155,7 @@ else if ($controllerChoice == 'team_search_by_name') {
 }
 
 
-
+////////////////////////////////////////////////////////////////////////////////
 
 // In user_team_list when the user selects edit
 else if ($controllerChoice == 'edit_selected_team') {
@@ -177,7 +179,7 @@ else if ($controllerChoice == 'activate_team') {
 }
 
 
-
+////////////////////////////////////////////////////////////////////////////////
 
 // Final else very helpful for debugging.
 else {

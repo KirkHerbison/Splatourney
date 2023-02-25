@@ -1,10 +1,12 @@
 <?php
 
 require_once '../model/User.php';
-session_start();
-
 require_once('../model/database.php');
 require_once('../model/user_db.php');
+session_start();
+
+
+////////////////////////////////////////////////////////////////////////////////
 
 //gets user for session for use or creates an empty user object so the code does not break
 if (isset($_SESSION['userLogedin'])) {
@@ -13,16 +15,21 @@ if (isset($_SESSION['userLogedin'])) {
     $userLogedin = new User(null, null, '', '', '', '', '', '', '', '', '', '', false, false);
 }
 
-$error_message = '';
+
+////////////////////////////////////////////////////////////////////////////////
 
 // Get the data from either the GET or POST collection.
 $controllerChoice = filter_input(INPUT_POST, 'controllerRequest');
+$error_message = '';
 if ($controllerChoice == NULL) {
     $controllerChoice = filter_input(INPUT_GET, 'controllerRequest');
     if ($controllerChoice == NULL) {
         $controllerChoice = 'Not-Set (Null)';
     }
 }
+
+
+////////////////////////////////////////////////////////////////////////////////
 
 // Bring user to login page when Login is clicked on header 
 if ($controllerChoice == 'login_user') {
@@ -31,12 +38,75 @@ if ($controllerChoice == 'login_user') {
     }
     require_once("user_login.php");
 }
+
+// sends the user to the registration page if register is selected in the header
+else if ($controllerChoice == 'user_register') {
+    $error_message = "";
+    require_once("user_register.php");
+}
+
+//Logs the user out and returns the to user_login
+else if ($controllerChoice == 'logout') {
+    $userLogedin = new User(null, null, '', '', '', '', '', '', '', '', '', '', false, false);
+    $error_message = '';
+    session_destroy();
+    $_SESSION = array();
+    include("user_login.php");
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+//Validates user login and sends to a confirmation page
+//if the login does not validate it returns an error to the login page
+else if ($controllerChoice == 'validate_login') {
+    $email = filter_input(INPUT_POST, 'email');
+    $pass = filter_input(INPUT_POST, 'pass');
+    if ($email == '' || $pass == '') {
+        $error_message = "Please enter a valid email and password";
+        include('user_login.php');
+    } else {
+        $user = get_user_by_email_password($email, $pass);
+        $ID = -1;
+        if ($user != null) {$ID = $user->getId();} 
+        if ($ID > 0) {
+            $login_message = "Login Succesful";
+            $_SESSION['userLogedin'] = $user;
+            $userLogedin = $_SESSION['userLogedin'];
+            include('user_login_confirmation.php');
+        } else {
+            $error_message = "Incorrect email or password";
+            include('user_login.php');
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 // brings admin user to the user edit page (sends a non admin user to login)
 elseif ($controllerChoice == 'user_profile') {
     $user = get_user_by_id(filter_input(INPUT_POST, 'user_id'));
     require_once("user_profile.php");
     
 }
+
+//Sends admin user to the list of customers
+//If a non admin attempts they will be sent to user_login
+else if ($controllerChoice == 'list_users') {
+    $users = get_users();
+    include("user_list.php");
+}
+
+//Finds users bassed on a last name search and sends a list back to the list page
+//If a non admin attempts they will be sent to user_login
+else if ($controllerChoice == 'username_search') {
+    $users = search_users(filter_input(INPUT_POST, 'username_search'));
+    include("user_list.php");
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+
 // updates a user from the edit page and sends the admin back to the user list
 elseif ($controllerChoice == 'user_save') {
 
@@ -65,6 +135,7 @@ elseif ($controllerChoice == 'user_save') {
     $users = get_users();
     require_once("user_list.php");
 }
+
 //Sends user to a confirmation page if the form validates
 //Does logic to test, sends back to register and displays
 //error if form will not validate
@@ -110,54 +181,9 @@ elseif ($controllerChoice == 'user_register_confirmation') {
         require_once("user_register_confirmation.php");
     }
 }
-// sends the user to the registration page if register is selected in the header
-else if ($controllerChoice == 'user_register') {
-    $error_message = "";
-    require_once("user_register.php");
-}
-//Validates user login and sends to a confirmation page
-//if the login does not validate it returns an error to the login page
-else if ($controllerChoice == 'validate_login') {
-    $email = filter_input(INPUT_POST, 'email');
-    $pass = filter_input(INPUT_POST, 'pass');
-    if ($email == '' || $pass == '') {
-        $error_message = "Please enter a valid email and password";
-        include('user_login.php');
-    } else {
-        $user = get_user_by_email_password($email, $pass);
-        $ID = -1;
-        if ($user != null) {$ID = $user->getId();} 
-        if ($ID > 0) {
-            $login_message = "Login Succesful";
-            $_SESSION['userLogedin'] = $user;
-            $userLogedin = $_SESSION['userLogedin'];
-            include('user_login_confirmation.php');
-        } else {
-            $error_message = "Incorrect email or password";
-            include('user_login.php');
-        }
-    }
-}
-//Sends admin user to the list of customers
-//If a non admin attempts they will be sent to user_login
-else if ($controllerChoice == 'list_users') {
-    $users = get_users();
-    include("user_list.php");
-}
-//Finds users bassed on a last name search and sends a list back to the list page
-//If a non admin attempts they will be sent to user_login
-else if ($controllerChoice == 'username_search') {
-    $users = search_users(filter_input(INPUT_POST, 'username_search'));
-    include("user_list.php");
-}
-//Logs the user out and returns the to user_login
-else if ($controllerChoice == 'logout') {
-    $userLogedin = new User(null, null, '', '', '', '', '', '', '', '', '', '', false, false);
-    $error_message = '';
-    session_destroy();
-    $_SESSION = array();
-    include("user_login.php");
-}
+
+
+////////////////////////////////////////////////////////////////////////////////
 
 // Final else very helpful for debugging.
 else {

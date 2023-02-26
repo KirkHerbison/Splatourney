@@ -9,8 +9,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
         <title></title>
     </head>
     <body>
+        <p>test</p>
         <?php
-        // put your code here
+            // put your code here
         ?>
     </body>
 </html>

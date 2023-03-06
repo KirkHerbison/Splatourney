@@ -1,6 +1,7 @@
 <?php
 
 require_once('../model/User.php');
+require_once('../model/Map.php');
 require_once('../model/Tournament.php');
 require_once('../model/TournamentType.php');
 
@@ -23,6 +24,27 @@ function get_tournament_types() {
     }
 
     return $tournamentTypeArray;
+}
+
+function get_maps(){
+    $db = Database::getDB();
+    $mapArray = array();
+
+    $query = 'SELECT * FROM map';
+    $statement = $db->prepare($query);
+    $statement->execute();
+    $maps = $statement->fetchAll();
+    $statement->closeCursor();
+
+    foreach ($maps as $map) {
+        $mapObject = new Map($map['ID'],
+                $map['description'],
+                $map['image_link']);
+
+        $mapArray[] = $mapObject;
+    }
+
+    return $mapArray;
 }
 
 function get_tournament_by_id($id) {

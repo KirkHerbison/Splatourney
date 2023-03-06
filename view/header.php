@@ -39,6 +39,9 @@
                 </li>
                 <li>
                     <a href="team_manager?controllerRequest=team_list">Team List</a>
+                </li>  
+                <li>
+                    <a href="tournament_manager?controllerRequest=map_list">Map List</a>
                 </li>
                 <li>
                     <a href="tournament_manager?controllerRequest=tournament_list">Tournament List</a>

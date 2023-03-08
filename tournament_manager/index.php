@@ -11,6 +11,8 @@ require_once('../model/Round.php');
 session_start();
 
 
+
+
 ////////////////////////////////////////////////////////////////////////////////
 
 //gets user for session for use or creates an empty user object so the code does not break
@@ -239,7 +241,7 @@ else if ($controllerChoice == 'tournament_bracket'){
 
 ////////////////////////////////////////////////////////////////////////////////
 
-// Final else very helpful for debugging.
+// Final else very helpful for debugging.x
 else {
     // Show this is an unhandled $controllerChoice
     // Show generic else page

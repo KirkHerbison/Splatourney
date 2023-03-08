@@ -1,10 +1,38 @@
 <?php require_once '../view/header.php'; ?> 
 
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#tabs" ).tabs();
+  } );
+  </script>
+
+      
+  <div id="tabs">
+  <ul>
+    <li><a href="#tabs-1">Basic Info</a></li>
+    <li><a href="#tabs-2">Bracket</a></li>
+    <li><a href="#tabs-3">Map List</a></li>
+  </ul>
+  <div id="tabs-1">
+    <p>Tab 1</p>
+  </div>
+  <div id="tabs-2">
+      <p>Tab 2</p>
+  </div>
+  <div id="tabs-3">
+      <p>Tab 3</p>
+  </div>
+</div>
+
 <h1>Edit Tournament</h1>
 <span style='color: red'><?php echo $error_message ?></span>
 <form action="tournament_manager/index.php" method="post">
     <input type="hidden" name="controllerRequest" value="tournament_edit" /> 
     <input type="hidden" name="tournamentId" value="<?php echo $tournament->getId(); ?>" />
+
     <br>
     <div>
         <p>Organization Name: </p>

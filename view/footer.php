@@ -6,6 +6,6 @@
         &copy; <?php echo date("Y"); ?> Splatourney
     </p>
 </footer>
-</main>
+</main>  
 </body>
 </html>

@@ -7,7 +7,6 @@
         <title>Splatourey</title>
         <!-- Change the base href  to the correct URL!!!!! -->     
         <base href="http://localhost/projects/Splatourney/">
-
         <link rel="stylesheet" type="text/css" href="styles/main.css">
         <link rel="stylesheet" type="text/css" href="styles/header_nav.css">
 
@@ -16,14 +15,11 @@
     <!-- the body section -->
     <body>
         <header>
-                <h1 id="header">Splatourney <a href="user_manager?controllerRequest=logout">
-                        <?php
-                        if ($userLogedin->getEmailAddress() != '') {
-                            echo 'Logout';
-                        }
-                        ?>
-                    </a></h1>
-            </header>
+            <h1 id="header">Splatourney <a href="user_manager?controllerRequest=logout">
+            <?php if ($userLogedin->getEmailAddress() != '') {echo 'Logout';}?>
+            </a></h1>
+        </header>
+        <nav>
             <ul id="header_ul">
                 <li>
                     <a href="" >Home</a>
@@ -58,7 +54,9 @@
                 </li>
                 <?php }?>
             </ul>
-        <main>
+        </nav>
+          <main>
+
 
 
 

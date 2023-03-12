@@ -5,6 +5,7 @@ require_once('../model/Tournament.php');
 require_once('../model/TournamentType.php');
 require_once('../model/TournamentMatch.php');
 require_once('../model/Round.php');
+require_once('../model/Bracket.php');
 
 function get_matches_by_round_number($number, $tournament_id) {
     $db = Database::getDB();
@@ -53,4 +54,54 @@ function check_round_exists_by_number($number, $tournament_id) {
     }
 
     return $exists;
+}
+
+function get_brackets_by_tournament_id($tournament_id) {
+    $db = Database::getDB();
+    $bracketArray = array();
+
+    $query = 'SELECT * FROM tournament_bracket
+              WHERE tournament_id = :tournament_id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':tournament_id', $tournament_id);
+    $statement->execute();
+    $brackets = $statement->fetchAll();
+    $statement->closeCursor();
+
+    foreach ($brackets as $bracket) {
+        $bracketObject = new Bracket($bracket['ID'],
+                $bracket['tournament_id'],
+                $bracket['tournament_type_id'],
+                $bracket['tournament_bracket_name']);
+        $bracketArray[] = $bracketObject;
+    }
+    return $bracketArray;
+}
+
+function insert_bracket($bracket) {
+    $db = Database::getDB();
+    $query = 'INSERT INTO tournament_bracket (tournament_id, tournament_type_id, tournament_bracket_name)
+                VALUES(:tournament_id, :tournament_type_id, :tournament_bracket_name)';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':tournament_id', $bracket->getTournamentId());
+    $statement->bindValue(':tournament_type_id',$bracket->getTournamentTypeId());
+    $statement->bindValue(':tournament_bracket_name', $bracket->getTournamentBracketName());
+    $statement->execute();
+    $statement->closeCursor();
+    
+    return $db->lastInsertId();
+}
+
+function insert_match($bracket, $round) {
+    $db = Database::getDB();
+    $query = 'INSERT INTO tournament_match (tournament_id, tournament_bracket_id, round)
+                VALUES(:tournament_id, :tournament_bracket_id, :round)';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':tournament_id', $bracket->getTournamentId());
+    $statement->bindValue(':tournament_bracket_id',$bracket->getId());
+    $statement->bindValue(':round', $round);
+    $statement->execute();
+    $statement->closeCursor();
+    
+    return $db->lastInsertId();
 }

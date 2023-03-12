@@ -9,6 +9,7 @@
         <base href="http://localhost/projects/Splatourney/">
         <link rel="stylesheet" type="text/css" href="styles/main.css">
         <link rel="stylesheet" type="text/css" href="styles/header_nav.css">
+         
 
     </head>
 
@@ -55,7 +56,7 @@
                 <?php }?>
             </ul>
         </nav>
-          <main>
+        <main>
 
 
 

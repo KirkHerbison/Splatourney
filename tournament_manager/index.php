@@ -199,7 +199,7 @@ else if ($controllerChoice == 'insert_bracket') {
     );
 
     
-    //this is just a test for commit/push
+    //this is just a test for commit/pushs
     
     
     $bracket->setId(insert_bracket($bracket));

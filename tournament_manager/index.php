@@ -19,7 +19,6 @@ if (isset($_SESSION['userLogedin'])) {
     $userLogedin = new User(null, null, '', '', '', '', '', '', '', '', '', '', false, false);
 }
 
-
 ////////////////////////////////////////////////////////////////////////////////
 // Get the data from either the GET or POST collection.
 $controllerChoice = filter_input(INPUT_POST, 'controllerRequest');
@@ -52,7 +51,7 @@ else if ($controllerChoice == 'map_list') {
 
 ////////////////////////////////////////////////////////////////////////////////
 // verifys information from the tournament register page and makes a decission bassed on results
-else if ($controllerChoice == 'tournament_register_confirmation') {///////////////////////////////////////////////////////////////////////start of needs fixed 
+else if ($controllerChoice == 'tournament_register_confirmation') {
     $tournamentOrganizerName = filter_input(INPUT_POST, 'tournamentOrganizerName');
     $tournamentType = filter_input(INPUT_POST, 'tournamentType');
     $tournamentName = filter_input(INPUT_POST, 'tournamentName');
@@ -117,7 +116,7 @@ else if ($controllerChoice == 'tournament_register_confirmation') {/////////////
         $tournament->setId($id);
         require_once("tournament_edit.php");
     }
-}///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////end of needs fixed 
+}
 
 // Edits a tournament
 else if ($controllerChoice == 'tournament_edit') {
@@ -266,6 +265,7 @@ else {
         echo "<h2> controllerChoice:  $controllerChoice</h2>";
         echo "<h3> File:  team_manager/index.php </h3>";
         require_once '../view/footer.php';
+
 
 }
 

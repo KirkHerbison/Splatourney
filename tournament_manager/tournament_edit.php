@@ -1,16 +1,16 @@
 
 <?php require_once '../view/header.php'; ?> 
-<link rel="stylesheet" type="text/css" href="styles/jquery-ui.css">
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-<link rel="stylesheet" type="text/css" href="styles/tabs.css">
-<base href="http://localhost/projects/Splatourney/">
+<script src="js/hrefLinks.js"></script>
 <script>
   $( function() {
     $( "#tabs" ).tabs();
     console.log("tabs is loading");
   } );
-  </script>
+</script>
+
   
 
 <div id="tabs">

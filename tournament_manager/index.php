@@ -199,6 +199,9 @@ else if ($controllerChoice == 'insert_bracket') {
     );
 
     
+    //this is just a test for commit/push
+    
+    
     $bracket->setId(insert_bracket($bracket));
     
     $maxMatches =  pow(2,(int)filter_input(INPUT_POST, 'rounds')); 
@@ -207,7 +210,7 @@ else if ($controllerChoice == 'insert_bracket') {
     $roundCurrent = $round;
     $matchNumber = 1;
     
-    
+    //inserts each match with it's round #. will always insert like 1,1,1,1,2,2,3
     while ($matchNumber <= $maxMatches) {
         for ($i = 0; $i < pow(2, $round - 1); $i++) {
             if($round>0){

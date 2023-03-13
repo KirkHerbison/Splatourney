@@ -207,7 +207,7 @@ else if ($controllerChoice == 'insert_bracket') {
     $roundCurrent = $round;
     $matchNumber = 1;
     
-    
+    //inserts each match with it's round #. will always insert like 1,1,1,1,2,2,3
     while ($matchNumber <= $maxMatches) {
         for ($i = 0; $i < pow(2, $round - 1); $i++) {
             if($round>0){

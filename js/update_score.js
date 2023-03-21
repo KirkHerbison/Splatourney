@@ -14,9 +14,9 @@ $(document).ready(function () {
                 'matchId': matchIdFromForm
             },
             dataType: 'text',
-            success: function() {
+            success: function(data) {
                 alert("Score has been updated");
-                $('#teamOneScore').load();
+                location.reload();
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 console.log(xhr);
@@ -37,7 +37,7 @@ $(document).ready(function () {
             dataType: 'text',
             success: function() {
                 alert("Score has been updated");
-                $('#teamTwoScore').load();
+                location.reload();
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 console.log(xhr);

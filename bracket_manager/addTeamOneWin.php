@@ -8,7 +8,9 @@ require_once('../model/bracket_db.php');
 $matchId = filter_input(INPUT_POST, 'matchId', FILTER_SANITIZE_NUMBER_INT);
 
 if($matchId != null) {
-  addTeamOneWin($matchId);
+  $updatedWins = addTeamOneWin($matchId);
+  
+  echo $updatedWins;
 }
 
 ?>

@@ -71,6 +71,17 @@ function addTeamOneWin($ID) {
     $statement->closeCursor();
 }
 
+function addTeamTwoWin($ID) {
+    $db = Database::getDB();
+    $query = 'UPDATE tournament_match
+                     SET team_two_wins = (team_two_wins + 1)
+                     WHERE ID = :ID';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':ID', $ID);
+    $statement->execute();
+    $statement->closeCursor();
+}
+
 function check_round_exists_by_number($number, $tournament_id) {
     $db = Database::getDB();
     $exists = false;

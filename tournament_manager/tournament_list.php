@@ -26,8 +26,8 @@
             <td><?php echo $tournament->getTournamentName(); ?></td>
             <td><?php echo $tournament->getTournamentDate(); ?></td>
             <td>
-                <form action="tournament_manager/index.php" method="POST">
-                    <input type="hidden" name="controllerRequest" value="tournament_bracket" /> 
+                <form action="bracket_manager/index.php" method="POST">
+                    <input type="hidden" name="controllerRequest" value="bracket" />
                     <input type="hidden" name="tournamentId" value="<?php echo $tournament->getId(); ?>">
                     <input type="submit" value="Bracket">
                 </form>

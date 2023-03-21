@@ -36,6 +36,41 @@ function get_matches_by_round_number($number, $tournament_id) {
     return $matchArray;
 }
 
+function get_matche_by_id($ID) {
+    $db = Database::getDB();
+    
+    $query = 'SELECT * FROM tournament_match
+              WHERE ID = :ID';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':ID', $ID);
+    $statement->execute();
+    $match = $statement->fetch();
+    $statement->closeCursor();
+
+    $matchObject = new TournamentMatch($match['ID'],
+            $match['tournament_id'],
+            $match['team_one_id'],
+            $match['team_two_id'],
+            $match['round'],
+            $match['team_one_wins'],
+            $match['team_two_wins'],
+            $match['winner_team_id'],
+            $match['match_number'],
+            $match['isActive']);
+    return $matchObject;
+}
+
+function addTeamOneWin($ID) {
+    $db = Database::getDB();
+    $query = 'UPDATE tournament_match
+                     SET team_one_wins = (team_one_wins + 1)
+                     WHERE ID = :ID';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':ID', $ID);
+    $statement->execute();
+    $statement->closeCursor();
+}
+
 function check_round_exists_by_number($number, $tournament_id) {
     $db = Database::getDB();
     $exists = false;

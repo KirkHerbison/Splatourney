@@ -10,13 +10,14 @@
  *
  * @author Kirk
  */
-class TournamentMatch {
+class BracketMatch {
 
-    private $id, $tournament_id, $team_one_id, $team_two_id, $round, $team_one_wins, $team_two_wins, $winner_team_id, $match_number, $isActive;
+    private $id, $tournament_id, $bracket_id, $team_one_id, $team_two_id, $round, $team_one_wins, $team_two_wins, $winner_team_id, $match_number, $isActive;
 
-    public function __construct($id, $tournament_id, $team_one_id, $team_two_id, $round, $team_one_wins, $team_two_wins, $winner_team_id, $match_number, $isActive) {
+    public function __construct($id, $tournament_id, $bracket_id, $team_one_id, $team_two_id, $round, $team_one_wins, $team_two_wins, $winner_team_id, $match_number, $isActive) {
         $this->id = $id;
         $this->tournament_id = $tournament_id;
+        $this->bracket_id = $bracket_id;
         $this->team_one_id = $team_one_id;
         $this->team_two_id = $team_two_id;
         $this->round = $round;
@@ -66,7 +67,16 @@ class TournamentMatch {
     public function getIsActive() {
         return $this->isActive;
     }
+    
+    public function getBracketId() {
+        return $this->bracket_id;
+    }
 
+    public function setBracketId($bracket_id) {
+        $this->bracket_id = $bracket_id;
+    }
+
+    
     public function setId($id) {
         $this->id = $id;
     }

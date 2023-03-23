@@ -47,6 +47,23 @@ function get_maps(){
     return $mapArray;
 }
 
+function get_map_by_id($id){
+    $db = Database::getDB();
+
+    $query = 'SELECT * FROM map
+              WHERE id= :id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':id', $id);
+    $statement->execute();
+    $map = $statement->fetch();
+    $statement->closeCursor();
+
+    $mapObject= new Map($map['ID'],
+                $map['description'],
+                $map['image_link']);
+    return $mapObject;
+}
+
 function get_tournament_by_id($id) {
     $db = Database::getDB();
 

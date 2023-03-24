@@ -154,8 +154,6 @@ function get_match_games_by_id($bracket_match_list_id) {
 }
 
 
-
-
 function get_map_image_link_by_id($id) {
     $db = Database::getDB();
 
@@ -169,6 +167,26 @@ function get_map_image_link_by_id($id) {
 
     return $map['image_link'];
 }
+
+
+function get_mode_image_link_by_id($id) {
+    $db = Database::getDB();
+
+    $query = 'SELECT image_link FROM mode
+              WHERE id = :id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':id', $id);
+    $statement->execute();
+    $mode = $statement->fetch();
+    $statement->closeCursor();
+
+    return $mode['image_link'];
+}
+
+
+
+
+
 
 
 

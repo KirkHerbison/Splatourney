@@ -1,10 +1,13 @@
 /* global url, type, data */
 
-const teamOneWin = document.getElementById('teamOneWin');
-const teamTwoWin = document.getElementById('teamTwoWin');
-const matchIdFromForm = document.getElementById('matchId').value;
 
 $(document).ready(function () {
+    
+    const teamOneWin = document.getElementById('teamOneWin');
+    const teamTwoWin = document.getElementById('teamTwoWin');
+    const matchIdFromForm = document.getElementById('matchId').value;
+
+    
     
     teamOneWin.addEventListener("click", () => {
         $.ajax({
@@ -14,7 +17,7 @@ $(document).ready(function () {
                 'matchId': matchIdFromForm
             },
             dataType: 'text',
-            success: function(data) {
+            success: function() {
                 alert("Score has been updated");
                 location.reload();
             },

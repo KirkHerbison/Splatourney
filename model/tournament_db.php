@@ -64,6 +64,25 @@ function get_map_by_id($id){
     return $mapObject;
 }
 
+function get_mode_by_id($id){
+    $db = Database::getDB();
+
+    $query = 'SELECT * FROM mode
+              WHERE id= :id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':id', $id);
+    $statement->execute();
+    $mode = $statement->fetch();
+    $statement->closeCursor();
+
+    $modeObject= new Map($mode['ID'],
+                $mode['description'],
+                $mode['image_link']);
+    return $modeObject;
+}
+
+
+
 function get_tournament_by_id($id) {
     $db = Database::getDB();
 

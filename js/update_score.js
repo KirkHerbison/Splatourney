@@ -4,11 +4,13 @@
 $(document).ready(function () {
     
     const teamOneWin = document.getElementById('teamOneWin');
+    const teamOneScore = document.getElementById('teamOneScore');
+    
     const teamTwoWin = document.getElementById('teamTwoWin');
+    const teamTwoScore = document.getElementById('teamTwoScore');
+    
     const matchIdFromForm = document.getElementById('matchId').value;
 
-    
-    
     teamOneWin.addEventListener("click", () => {
         $.ajax({
             url: "bracket_manager/addTeamOneWin.php",
@@ -17,9 +19,10 @@ $(document).ready(function () {
                 'matchId': matchIdFromForm
             },
             dataType: 'text',
-            success: function() {
+            success: function(data) {
                 alert("Score has been updated");
-                location.reload();
+                const response = JSON.parse(data);
+                teamOneScore.textContent = response.score;
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 console.log(xhr);
@@ -38,9 +41,10 @@ $(document).ready(function () {
                 'matchId': matchIdFromForm
             },
             dataType: 'text',
-            success: function() {
+            success: function(data) {
                 alert("Score has been updated");
-                location.reload();
+                const response = JSON.parse(data);
+                teamTwoScore.textContent = response.score;
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 console.log(xhr);

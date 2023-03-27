@@ -66,7 +66,17 @@ function get_match_by_id($ID) {
 }
 
 
-
+function insert_message_by_chat_id($message){
+    $db = Database::getDB();
+    $query = 'INSERT INTO chat_message (chat_id, user_id, message)
+                VALUES(:chat_id, :user_id, :message)';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':chat_id', $message->getChatId());
+    $statement->bindValue(':user_id',$message->getUserId());
+    $statement->bindValue(':message', $message->getMessage());
+    $statement->execute();
+    $statement->closeCursor();
+}
 
 function addTeamOneWin($ID) {
     $db = Database::getDB();
@@ -77,6 +87,7 @@ function addTeamOneWin($ID) {
     $statement->bindValue(':ID', $ID);
     $statement->execute();
     $statement->closeCursor();
+    
 }
 
 function addTeamTwoWin($ID) {

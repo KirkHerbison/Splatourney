@@ -9,8 +9,8 @@ $matchId = filter_input(INPUT_POST, 'matchId', FILTER_SANITIZE_NUMBER_INT);
 
 if($matchId != null) {
   $updatedWins = addTeamOneWin($matchId);
-  
-  echo $updatedWins;
+  $match = get_match_by_id($matchId);
+  echo  json_encode(['success' => true, 'score' => $match->getTeamOneWins()]);
 }
 
 ?>

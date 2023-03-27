@@ -7,6 +7,8 @@ require_once('../model/BracketMatch.php');
 require_once('../model/Round.php');
 require_once('../model/Bracket.php');
 require_once('../model/Game.php');
+require_once('../model/Chat.php');
+require_once('../model/Chat_Message.php');
 
 function get_matches_by_round_number($number, $bracket_id) {
     $db = Database::getDB();
@@ -152,6 +154,47 @@ function get_match_games_by_id($bracket_match_list_id) {
     }
     return $gameArray;
 }
+
+function get_messages_by_chat_id($chat_id) {
+    $db = Database::getDB();
+    $messageArray = array();
+
+    $query = 'SELECT * FROM chat_message
+              WHERE chat_id = :chat_id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':chat_id', $chat_id);
+    $statement->execute();
+    $messages = $statement->fetchAll();
+    $statement->closeCursor();
+
+    foreach ($messages as $message) {
+        $messageObject = new Chat_Message($message['ID'],
+                $message['chat_id'],
+                $message['user_id'],
+                $message['message'],
+                $message['date_sent']);
+        $messageArray[] = $messageObject;
+    }
+    return $messageArray;
+}
+
+function get_chat_by_match_id($match_id) {
+    $db = Database::getDB();
+    $query = 'SELECT * FROM chat
+              WHERE match_id = :match_id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':match_id', $match_id);
+    $statement->execute();
+    $chat = $statement->fetch();
+    $statement->closeCursor();
+    $chatObject = new Chat($chat['ID'],
+        $chat['match_id'],
+        $chat['isActive']);
+    return $chatObject;
+}
+
+
+
 
 
 function get_map_image_link_by_id($id) {

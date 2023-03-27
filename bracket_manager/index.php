@@ -61,11 +61,10 @@ if ($controllerChoice == 'bracket') {
 
 // Sends user to a match when the match is selected
 else if ($controllerChoice == 'match') {
-    
-    
-    
-    
+
     $bracketMatch = get_match_by_id(filter_input(INPUT_POST, 'matchId'));
+    $chat = get_chat_by_match_id(filter_input(INPUT_POST, 'matchId'));
+    $messages = get_messages_by_chat_id($chat->getId());
     $games = get_match_games_by_id($bracketMatch->getBracketId());
     $tournament = get_tournament_by_id(filter_input(INPUT_POST, 'tournamentId'));
     require_once("match.php");

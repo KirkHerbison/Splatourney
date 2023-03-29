@@ -13,6 +13,11 @@ require_once 'view/header.php';
 
 ?>
 
+
+
+
+
+
  <h1>Welcome To Splatourney</h1><br>
  <p>This website is under construction.</p>
 

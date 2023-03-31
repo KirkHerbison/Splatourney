@@ -9,6 +9,7 @@ require_once('../model/team_db.php');
 require_once('../model/tournament_db.php');
 require_once('../model/bracket_db.php');
 require_once('../model/Round.php');
+require_once('../model/BracketMatch.php');
 session_start();
 
 //allows the page to reload if the back button of the browser is clicked
@@ -36,11 +37,74 @@ if ($controllerChoice == NULL) {
 ////////////////////////////////////////////////////////////////////////////////
 // sends the user to the bracket type page
 if ($controllerChoice == 'bracket') {
-    
-    
+
+
     $tournament_id = filter_input(INPUT_POST, 'tournamentId');
     $tournament = get_tournament_by_id($tournament_id);
     $roundArray = array();
+    
+//    
+//if ($tournament->getTournamentTypeId() == 1) {
+//    $roundExists = true;
+//    $teamsData = [];
+//    $resultsData = [];
+//    
+//    $matches = get_matches_by_round_number(1, $tournament_id);
+//    
+//    
+//    //creates the teams list for the bracket
+//    foreach($matches as $match){
+//        $teamOne = get_team_by_id($match->getTeamOneId());
+//        $teamTwo = get_team_by_id($match->getTeamTwoId());
+//        
+//        $teamsData[] = [
+//            $teamOne->getTeamName(),
+//            $teamTwo->getTeamName(),
+//        ];
+//        
+//    }
+//    
+//    //creates the results for the bracket
+//    for ($roundNumber = 1; $roundExists == true; $roundNumber++) {
+//        if (check_round_exists_by_number($roundNumber, $tournament_id)) {
+//            $matches = get_matches_by_round_number($roundNumber, $tournament_id);
+//
+//            $roundData = [];
+//            
+//            
+//            foreach ($matches as $match) {
+//                $teamOne = get_team_by_id($match->getTeamOneId());
+//                $teamTwo = get_team_by_id($match->getTeamTwoId());
+//
+//                $roundData[] = [
+//                    $match->getTeamOneWins(),
+//                    $match->getTeamTwoWins()
+//                ];      
+//            }
+//            $resultsData [] = $roundData;
+//        } else {
+//            $roundExists = false;
+//        }
+//    }
+//
+//    $extraTestData[] = [1,2,3,4,5,6,7];
+//    
+//    
+//    // Combine teams and results into output array
+//    $dataForBracket= array(
+//        'teams' => $teamsData,
+//        'results' => $resultsData,
+//        'extraData' => $extraTestData
+//            
+//    );
+//
+//    // Convert output to JSON format
+//    $bracketData = json_encode($dataForBracket);
+//    require_once("../testBracket.php");
+//}
+//    
+    
+    
 
     //single elimination
     if ($tournament->getTournamentTypeId() == 1) {
@@ -70,24 +134,16 @@ else if ($controllerChoice == 'match') {
     require_once("match.php");
 }
 ////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
 ////////////////////////////////////////////////////////////////////////////////
 // Final else very helpful for debugging.x
 else {
     // Show this is an unhandled $controllerChoice
     // Show generic else page
-        require_once '../view/header.php';
-        echo "<h1>Not yet implimented... </h1>";
-        echo "<h2> controllerChoice:  $controllerChoice</h2>";
-        echo "<h3> File:  team_manager/index.php </h3>";
-        require_once '../view/footer.php';
-
-
+    require_once '../view/header.php';
+    echo "<h1>Not yet implimented... </h1>";
+    echo "<h2> controllerChoice:  $controllerChoice</h2>";
+    echo "<h3> File:  team_manager/index.php </h3>";
+    require_once '../view/footer.php';
 }
 
 

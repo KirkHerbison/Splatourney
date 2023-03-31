@@ -65,6 +65,41 @@ function get_match_by_id($ID) {
     return $matchObject;
 }
 
+function get_matches_by_tournament_id($ID) {
+    $db = Database::getDB();
+    $matchArray = array();
+
+    $query = 'SELECT * FROM bracket_match
+              WHERE tournament_id = :tournament_id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':tournament_id', $ID);
+    $statement->execute();
+    $matches = $statement->fetchAll();
+    $statement->closeCursor();
+
+    foreach ($matches as $match) {
+        $matchObject = new BracketMatch($match['ID'],
+                $match['tournament_id'],
+                $match['bracket_id'],
+                $match['team_one_id'],
+                $match['team_two_id'],
+                $match['round'],
+                $match['team_one_wins'],
+                $match['team_two_wins'],
+                $match['winner_team_id'],
+                $match['match_number'],
+                $match['isActive']);
+        $matchArray[] = $matchObject;
+    }
+    return $matchArray;
+}
+
+
+
+
+
+
+
 
 function insert_message_by_chat_id($message){
     $db = Database::getDB();

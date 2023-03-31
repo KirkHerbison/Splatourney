@@ -7,72 +7,51 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     Author     : 16981925
 */
 
-
-.bracket{
-    display: flex;
-    width: 100%;
-    flex-direction: row;
-      align-items: center;
-  justify-content: space-evenly;
-}
-
-.round{
-    width: 15%;
-}
-
-
-/* The parts for each match group */
-
-.gameGroup{
-    display: flex;
-    height: 300px;
-
-}
-
-.groupDiv{
+.mapList{
   display: flex;
-  flex-direction: column;
-    justify-content: normal;
-
-  width: 50%;
-
+  max-height: 800px;
+  overflow-x: auto;
+  overflow-y: auto;
+  padding-right: 2em;
+  padding-left: 2em;
+  white-space: nowrap;
+  background-image: url(../images/assets/black_graf.jpg);
 }
 
-.gameTop{
-    padding-top: 20px;
-    height: 50%;
+.bracketContainer{
+
+    width: 100%;
+    margin: auto;
+    max-height: 800px;
+        overflow-x: auto;
+  overflow-y: auto;
+    white-space: nowrap;
+  background-image: url(../images/assets/black_graf.jpg);
 }
 
-.gameBottom{
-    margin-top: auto;
-    padding-bottom: 20px;
-    height: 50%;
-    align-content: end;
+
+
+/*scrollbar*/
+::-webkit-scrollbar {
+  width: 20px;
 }
 
-
-
-.teamDivTop, .teamDivBottom{
-    background-color: grey;
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  
+  border-radius: 10px;
+  background: rgb(161, 101, 204); 
 }
 
-.teamDivTop{
-    border-bottom: thin solid black;
-}
-
-.teamDivBottom{
-    border-top: thin solid black;
-}
-
-.gameFinal{
-    margin-bottom: 20px;
-}
-
-/* CONNECTION LINES */
-.connector{
-    background-color: lightgray;
-    min-height: 100%;
-    width: 50%
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(104, 0, 179); 
+  
 }
 
 

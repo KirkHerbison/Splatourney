@@ -1,6 +1,5 @@
 <?php
 require_once 'model/User.php';
-session_start();
 
 if (isset($_SESSION['userLogedin'])) {
     $userLogedin = $_SESSION['userLogedin'];
@@ -11,130 +10,39 @@ if (isset($_SESSION['userLogedin'])) {
 require_once 'view/header.php';
 ?>
 
+<div class="bracketContainer">
+
 <link rel="stylesheet" type="text/css" href="styles/single_elimination_bracket.css">
 
-<div class="bracket"> <!-- start bracket -->
+
+<script type="text/javascript" src="js/jquery-1.6.2.min.js"></script> <!-- for jquery bracket -->
+<script type="text/javascript" src="js/jquery.bracket.min.js"></script> <!-- for jquery bracket -->
+<link rel="stylesheet" type="text/css" href="styles/jquery.bracket.min.css" /> <!-- for jquery bracket -->
+
+
+<div id="minimal">
+  <h3>Minimal</h3>
+  <Div class="demo"></Div>
+  
+  <script type="text/javascript">
+$(function() {
+  var minimalData = <?php echo $bracketData; ?>;
+  $('#minimal .demo').bracket({
+    skipConsolationRound: true,
+    init: minimalData,
+    onMatchClick: function(data) {
+      console.log(data);
+    }
+  });
+
+});
+  </script>
+</div>
 
 
 
-    <div class="round"> <!-- start round -->
-        <div class="gameGroup"> <!-- start game group -->
+<!--  READ UP ON THIS PAGE, I NEED TO CHANGE TO A DIFFERENT BRACKET, THIS ALSO SUPPORTS DOUBLE ELIM slightly less appealing initially http://www.aropupu.fi/bracket/ -->
 
-            <div class="groupDiv"> <!-- start group div -->
-
-                <div class="gameTop">
-                    <div class="teamDivTop">
-                        <span class="team">Team 1</span>
-                    </div>
-                    <div class="teamDivBottom">
-                        <span  class="team">Team 2</span>
-                    </div>
-                </div>
-                <div class="gameBottom">
-                    <div class="teamDivTop">
-                        <span  class="team">Team 3</span>
-                    </div>
-                    <div class="teamDivBottom">
-                        <span  class="team">Team 4</span>
-                    </div>
-                </div>
-            </div>  <!-- end group div -->  
-            <div class="connector">
-                <div class="merger">&nbsp;</div> <!-- vertical line -->
-                <div class="line">&nbsp;</div> <!-- horizontal line -->
-            </div>
-
-        </div> <!-- end game group -->    
-
-        <div class="gameGroup"> <!-- start game group -->
-            <div class="groupDiv"> <!-- start group div -->
-
-                <div class="gameTop">
-                    <div class="teamDivTop">
-                        <span class="team">Team 5</span>
-                    </div>
-                    <div class="teamDivBottom">
-                        <span  class="team">Team 6</span>
-                    </div>
-                </div>
-                <div class="gameBottom">
-                    <div class="teamDivTop">
-                        <span  class="team">Team 7</span>
-                    </div>
-                    <div class="teamDivBottom">
-                        <span  class="team">Team 8</span>
-                    </div>
-                </div>
-            </div>
-            <div class="connector">
-                <div class="merger">&nbsp;</div> <!-- vertical line -->
-                <div class="line">&nbsp;</div> <!-- horizontal line -->
-            </div>
-        </div> <!-- end game group -->
-
-
-
-    </div> <!-- end round -->
-
-
-
-
-
-
-
-    <div class="round"> <!-- start round -->
-        <div class="gameGroup"> <!-- start game group -->
-            <div class="groupDiv"> <!-- start group div -->
-            <div class="gameTop">
-                <div class="teamDivTop">
-                    <span class="team">Team 1</span>
-                </div>
-                <div class="teamDivBottom">
-                    <span  class="team">Team 3</span>
-                </div>
-            </div>
-            <div class="gameBottom">
-                <div class="teamDivTop">
-                    <span  class="team">Team 5</span>
-                </div>
-                <div class="teamDivBottom">
-                    <span  class="team">Team 7</span>
-                </div>
-            </div>
-            </div>
-            <div class="connector">
-                <div class="merger">&nbsp;</div> <!-- vertical line -->
-                <div class="line">&nbsp;</div> <!-- horizontal line -->
-            </div>
-        </div> <!-- end game group -->
-
-    </div> <!-- end round -->
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <div class="round"> <!-- start round -->
-        <div class="gameFinal">
-            <div class="teamDivTop">
-                <span class="team">Team 1</span>
-            </div>
-            <div class="teamDivBottom">
-                <span class="team">Team 5</span>
-            </div>
-        </div>
-    </div> <!-- end game final -->
-</div> <!-- end round -->
-
-
-
-
-</div> <!-- end bracket -->
-
+</div>
 
 <?php require_once 'view/footer.php'; ?>

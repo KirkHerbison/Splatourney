@@ -81,26 +81,31 @@ else if ($controllerChoice == 'team_register_confirmation') {
         } else {
             
             if (isset($_FILES['image']) && !empty($_FILES['image']['name'])) { // start for image upload
-                $target_dir = "../images/";
-                $iamge_name = 'teamImage_' . uniqid() . '.' . pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
-                $target_file = $target_dir . $iamge_name;
-                $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+                $target_dir = "../images/"; // this is the initial file path to my images folder
+                
+                //this creates a unique identity for the image, something like teamImage_1236781236.php
+                //uniqueid() gets a random number bassed on current time
+                //.path info gets the file type (.jpg, .jpeg, .png [or invalid files])
+                $image_name = 'teamImage_' . uniqid() . '.' . pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION); 
+
+                $target_file = $target_dir . $image_name;// this combines the ../images/ with the image name on the end
+                $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION)); // gets file type for validation
                 
                 
-                if (in_array($imageFileType, array('jpg', 'jpeg', 'png'))) {
-                    if (move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
-                        $teamToCreate->setTeamImageLink($iamge_name);
-                    } else {
+                if (in_array($imageFileType, array('jpg', 'jpeg', 'png'))) { // verifys the file type is valid
+                    if (move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) { //attempts to put file into folder
+                        $teamToCreate->setTeamImageLink($image_name); //database call to put link into database
+                    } else { //file upload did not work
                         $imageValid = false;
                         $error_message = "Sorry, there was an error uploading your file.";
                     }
-                } else {
+                } else { // file type was invalid
                     $imageValid = false;
                     $error_message = "Sorry, only JPG, JPEG, & PNG files are allowed.";
                 }
             } //end for image upload
 
-            if ($imageValid == true) {
+            if ($imageValid == true) { 
                 $teamId = add_team($teamToCreate);
                 $team = get_team_by_id($teamId);
                 add_team_member($userLogedin, $team);

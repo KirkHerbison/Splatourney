@@ -102,4 +102,4 @@
 </div>
 
 <script src="js/update_score.js"></script>
-<?php require_once '../view/footer.php'; ?>
+<?php require_once '../view/footer.php'; die();?>

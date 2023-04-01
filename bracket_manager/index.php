@@ -42,96 +42,76 @@ if ($controllerChoice == 'bracket') {
     $tournament_id = filter_input(INPUT_POST, 'tournamentId');
     $tournament = get_tournament_by_id($tournament_id);
     $roundArray = array();
-    
-//    
-//if ($tournament->getTournamentTypeId() == 1) {
-//    $roundExists = true;
-//    $teamsData = [];
-//    $resultsData = [];
-//    
-//    $matches = get_matches_by_round_number(1, $tournament_id);
-//    
-//    
-//    //creates the teams list for the bracket
-//    foreach($matches as $match){
-//        $teamOne = get_team_by_id($match->getTeamOneId());
-//        $teamTwo = get_team_by_id($match->getTeamTwoId());
-//        
-//        $teamsData[] = [
-//            $teamOne->getTeamName(),
-//            $teamTwo->getTeamName(),
-//        ];
-//        
-//    }
-//    
-//    //creates the results for the bracket
-//    for ($roundNumber = 1; $roundExists == true; $roundNumber++) {
-//        if (check_round_exists_by_number($roundNumber, $tournament_id)) {
-//            $matches = get_matches_by_round_number($roundNumber, $tournament_id);
-//
-//            $roundData = [];
-//            
-//            
-//            foreach ($matches as $match) {
-//                $teamOne = get_team_by_id($match->getTeamOneId());
-//                $teamTwo = get_team_by_id($match->getTeamTwoId());
-//
-//                $roundData[] = [
-//                    $match->getTeamOneWins(),
-//                    $match->getTeamTwoWins()
-//                ];      
-//            }
-//            $resultsData [] = $roundData;
-//        } else {
-//            $roundExists = false;
-//        }
-//    }
-//
-//    $extraTestData[] = [1,2,3,4,5,6,7];
-//    
-//    
-//    // Combine teams and results into output array
-//    $dataForBracket= array(
-//        'teams' => $teamsData,
-//        'results' => $resultsData,
-//        'extraData' => $extraTestData
-//            
-//    );
-//
-//    // Convert output to JSON format
-//    $bracketData = json_encode($dataForBracket);
-//    require_once("../testBracket.php");
-//}
-//    
-    
-    
 
-    //single elimination
     if ($tournament->getTournamentTypeId() == 1) {
         $roundExists = true;
+        $teamsData = [];
+        $resultsData = [];
 
+        $matches = get_matches_by_round_number(1, $tournament_id);
+
+        //creates the teams list for the bracket
+        foreach ($matches as $match) {
+            $teamOne = get_team_by_id($match->getTeamOneId());
+            $teamTwo = get_team_by_id($match->getTeamTwoId());
+
+            $teamsData[] = [
+                $teamOne->getTeamName(),
+                $teamTwo->getTeamName(),
+            ];
+        }
+
+        //creates the results for the bracket
         for ($roundNumber = 1; $roundExists == true; $roundNumber++) {
             if (check_round_exists_by_number($roundNumber, $tournament_id)) {
                 $matches = get_matches_by_round_number($roundNumber, $tournament_id);
-                $round = new Round($roundNumber, $matches);
-                $roundArray[] = $round;
+
+                $roundData = [];
+
+                foreach ($matches as $match) {
+                    $teamOne = get_team_by_id($match->getTeamOneId());
+                    $teamTwo = get_team_by_id($match->getTeamTwoId());
+
+                    $roundData[] = [
+                        $match->getTeamOneWins(),
+                        $match->getTeamTwoWins()
+                    ];
+                }
+                $resultsData [] = $roundData;
             } else {
                 $roundExists = false;
             }
         }
-        require_once("single_elimination_bracket.php");
+
+        $extraTestData[] = [1, 2, 3, 4, 5, 6, 7];
+
+        // Combine teams and results into output array
+        $dataForBracket = array(
+            'teams' => $teamsData,
+            'results' => $resultsData,
+            'extraData' => $extraTestData
+        );
+
+        // Convert output to JSON format
+        $bracketData = json_encode($dataForBracket);
+        require_once("../testBracket.php");
     }
 }
 
 // Sends user to a match when the match is selected
 else if ($controllerChoice == 'match') {
+    $matchId = $_GET['matchId'];
+$tournamentId = $_GET['tournamentId'];
+    
 
-    $bracketMatch = get_match_by_id(filter_input(INPUT_POST, 'matchId'));
-    $chat = get_chat_by_match_id(filter_input(INPUT_POST, 'matchId'));
+    $bracketMatch = get_match_by_id(filter_input(INPUT_GET, 'matchId', FILTER_SANITIZE_NUMBER_INT));
+    $chat = get_chat_by_match_id(filter_input(INPUT_GET, 'matchId', FILTER_SANITIZE_NUMBER_INT));
     $messages = get_messages_by_chat_id($chat->getId());
     $games = get_match_games_by_id($bracketMatch->getBracketId());
-    $tournament = get_tournament_by_id(filter_input(INPUT_POST, 'tournamentId'));
+    $tournament = get_tournament_by_id(filter_input(INPUT_GET, 'tournamentId', FILTER_SANITIZE_NUMBER_INT));
+
     require_once("match.php");
+    
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

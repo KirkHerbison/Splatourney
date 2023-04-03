@@ -55,6 +55,11 @@
                     <a href="tournament_manager?controllerRequest=tournament_register">Create Tournament</a>
                 </li>
                 <?php }?>
+                <?php if ($userLogedin->getUserTypeId() === 2) { ?>
+                    <li>
+                        <a href="admin_manager?controllerRequest=admin">Admin</a>
+                    </li>
+                <?php }?>
             </ul>
         </nav>
         <main>

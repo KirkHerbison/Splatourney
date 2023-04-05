@@ -2,7 +2,7 @@
 header{
     display: flex;
     flex-direction: column;
-    background-image: linear-gradient(to bottom, rgb(161, 101, 204) 0%, rgb(104, 0, 179) 100%);
+    background-color: #A51EE1;
     padding: 1em;
     padding-left: 5px;
     margin-right: 0;
@@ -38,11 +38,12 @@ header{
     text-align: right;
 }
 header h1{
-    font-family: "Lucida Console";
+    font-family: "montserrat", sans-serif;
+    font-weight: 900;
+    font-style: normal;
     margin-top: 0;
     font-size: 280%;
     color: white;
-    text-shadow: 3px 3px #000000;
     margin-bottom: 0;
     margin-right: 0;
     padding-right: 0;

@@ -35,6 +35,8 @@ if ($controllerChoice == NULL) {
 // sends the user to the bracket type page
 if ($controllerChoice == 'admin') {
     $users = get_users();
+    $teams = get_teams();
+    $tournaments = get_tournaments();
     require_once("admin.php");
  
 }

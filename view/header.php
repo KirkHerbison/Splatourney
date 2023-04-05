@@ -11,6 +11,7 @@
         <link rel="stylesheet" type="text/css" href="styles/header_nav.css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="https://use.typekit.net/naj2zsa.css"> <!-- Used for Header font -->
       
     </head>
 

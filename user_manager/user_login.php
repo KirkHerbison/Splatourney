@@ -1,33 +1,35 @@
 <?php require_once '../view/header.php'; ?>
-<h1>Please Log in</h1>
-
-
-<form method='post' action="user_manager/index.php">
-    <input type="hidden" name="controllerRequest" value="validate_login"> 
-    <span style='color: red'><?php echo $error_message ?></span>
-    <br>
-    <div>
-        <p>Email:</p><input type='text' name='email' value="<?php if ($userLogedin->getEmailAddress() != '') {
-            echo $userLogedin->getEmailAddress();
-        } else {
-            echo 'admin@admin.com';
-        } ?>">
-    </div>
-    <br>
-    <div>
-        <p>Password:</p><input type='password' name='pass' value="<?php if ($userLogedin->getPassword() != '') {
-    echo $userLogedin->getPassword();
-} else {
-    echo 'password';
-} ?>">
-    </div>
-    <br>
-    <div>
-        <p></p><input type='submit' value='Login'>
-    </div>
-
-    <br>
-</form>
-
+<link rel="stylesheet" href="styles/login.css">
+<div class="center">
+    <form method='post' action="user_manager/index.php">
+        <input type="hidden" name="controllerRequest" value="validate_login"> 
+        <span style='color: red'><?php echo $error_message ?></span>
+        <br>
+        <div class="txt_field">
+            <input type='text' name='email' rquired value="<?php
+            if ($userLogedin->getEmailAddress() != '') {
+                echo $userLogedin->getEmailAddress();
+            } else {
+                echo 'admin@admin.com';
+            }
+            ?>">
+            <label>Email</label>
+        </div>
+        <br>
+        <div class="txt_field">
+            <input type='password' name='pass' rquired value="<?php
+            if ($userLogedin->getPassword() != '') {
+                echo $userLogedin->getPassword();
+            } else {
+                echo 'password';
+            }
+            ?>">
+            <label>Password:</label>
+        </div>
+        <br>
+        <input type='submit' value='Login'>
+        <br>
+    </form>
+</div>
 
 <?php require_once '../view/footer.php'; ?>

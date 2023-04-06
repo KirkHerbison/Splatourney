@@ -1,3 +1,4 @@
+</main>  
 <footer>
     <p class="copyright">
         <?php if($userLogedin ->getUsername() != ''){echo 'Logged in user: '.$userLogedin->getUsername();}?>
@@ -6,6 +7,5 @@
         &copy; <?php echo date("Y"); ?> Splatourney
     </p>
 </footer>
-</main>  
 </body>
 </html>

@@ -18,9 +18,7 @@
     <!-- the body section -->
     <body>
         <header>
-            <h1 id="header">Splatourney <a href="user_manager?controllerRequest=logout">
-            <?php if ($userLogedin->getEmailAddress() != '') {echo 'Logout';}?>
-            </a></h1>
+            <h1 id="header">Splatourney </h1>
         </header>
         <nav>
             <ul id="header_ul">
@@ -61,6 +59,14 @@
                         <a href="admin_manager?controllerRequest=admin">Admin</a>
                     </li>
                 <?php }?>
+                    
+                <?php if ($userLogedin->getEmailAddress() != '') { ?>
+                    <li style="float: right;">
+                        <a href="user_manager?controllerRequest=logout">Logout</a>
+                    </li>
+                <?php }?>
+
+            </a>
             </ul>
         </nav>
         <main>

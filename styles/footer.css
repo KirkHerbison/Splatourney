@@ -9,3 +9,9 @@ footer p{
     font-size: 85%;
     color: white;
 }
+footer{
+    margin-top: auto;
+    margin-right: 2em;
+    margin-bottom: 2em;
+    color: #FFC857;
+}

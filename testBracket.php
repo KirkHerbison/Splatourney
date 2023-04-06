@@ -20,33 +20,26 @@ require_once 'view/header.php';
     <link rel="stylesheet" type="text/css" href="styles/jquery.bracket.min.css" /> <!-- for jquery bracket -->
     <input type="hidden" id="tournament-id" value="<?php echo $tournament_id; ?> ">
 
-
-
-
-
     <div id="minimal">
         <h3>Minimal</h3>
         <Div class="demo"></Div>
 
+        
         <script type="text/javascript">
             $(function () {
                 var minimalData = <?php echo $bracketData; ?>;
+                
+                //jquery bracket 
                 $('#minimal .demo').bracket({
                     skipConsolationRound: true,
                     init: minimalData,
                     onMatchClick: function (data) {
                         const divs = document.querySelectorAll('.match'); // Get all divs with class "my-class"
-                        console.log(divs);
                         const tournamentId = document.getElementById('tournament-id').value;
-
                         const controllerRequest = 'match';
-
-
-
                         divs.forEach((div, index) => { // Loop through each div
 
                             const i = index + 1;
-
                             const id = `${i}`; // Create unique ID for each div
                             const dataValue = `${i}`; // Create unique data value for each div
 
@@ -64,7 +57,6 @@ require_once 'view/header.php';
                                 matchURL += '&tournamentId=';
                                 matchURL += tournamentId.toString();
 
-
                                 fetch('bracket_manager/index.php', {
                                     method: 'POST',
                                     body: formData
@@ -78,21 +70,6 @@ require_once 'view/header.php';
                         });
                     }
                 });
-
-
-                const divs = document.querySelectorAll('.match'); // Get all divs with class "my-class"
-                divs.forEach((div, index) => { // Loop through each div
-                    const i = index + 1;
-
-                    const id = `${i}`; // Create unique ID for each div
-                    const dataValue = `${i}`; // Create unique data value for each div
-
-                    div.setAttribute('id', id); // Set the unique ID for the div
-                    div.setAttribute('data-value', dataValue); // Set the unique data value for the div
-                });
-
-
-
             });
         </script>
     </div>

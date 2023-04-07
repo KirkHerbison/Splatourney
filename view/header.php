@@ -25,6 +25,7 @@
     <!-- the body section -->
     <body>
         <header>
+            <img style=" max-height: 80px; max-width: 80px" src="images/assets/Private_Battle.png" alt="logo" />
             <h1 id="header">Splatourney </h1>
         </header>
         <div id="nav-wrapper">

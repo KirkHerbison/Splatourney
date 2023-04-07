@@ -6,9 +6,12 @@
     $(function () {
         $("#tabs").tabs();
         console.log("tabs is loading");
+        $("#tabs").tabs({ active: <?php echo $tab;?> });
     });
 </script>
 <link rel="stylesheet" type="text/css" href="styles/table.css">
+
+
 
 
 <div id="tabs">
@@ -47,7 +50,7 @@
             <tbody>
                 <?php foreach ($users as $user) : ?>
                         <tr>
-                            <td><?php echo $user->getId(); ?></td>
+                            <td><p><?php echo $user->getId(); ?></p></td>
                             <td><p><?php
                                     if ($user->getDisplayName() == 1) {
                                         echo $user->getFirstName();
@@ -81,12 +84,10 @@
             </tbody>
         </table>
     </div>
+    
+    
+    
     <div id="tabs-2">
-
-        
-        
-        
-        
         <h1>Team List</h1>
         <form action="team_manager/index.php" method="POST">
             <input type="hidden" name="controllerRequest" value="team_search_by_name" /> 
@@ -105,6 +106,7 @@
         <table class="content-table">
             <thead>
             <tr>
+                <th>ID</th>
                 <th>Name</th>
                 <th>Team Captain</th>
                 <th></th>
@@ -113,25 +115,36 @@
             <tbody>
 <?php foreach ($teams as $team) : ?>
                 <tr>
-                    <td><?php echo $team->getTeamName(); ?></td>
-                    <td><?php echo $team->getTeamCaptainName(); ?></td>
+                    <td><p><?php echo $team->getId(); ?></p></td>
+                    <td><p><?php echo $team->getTeamName(); ?></p></td>
+                    <td><p><?php echo $team->getTeamCaptainName(); ?></p></td>
                     <td>
                         <form action="team_manager/index.php" method="POST">
                             <input type="hidden" name="controllerRequest" value="user_profile" /> 
-                            <input type="hidden" name="user_id" value="<?php echo $team->getId(); ?>">
-                            <input type="submit" value="View Details">
-                        </form>
-                        <form action="user_manager/index.php" method="POST">
-                            <input type="hidden" name="controllerRequest" value="team_delete" /> 
                             <input type="hidden" name="team_id" value="<?php echo $team->getId(); ?>">
-                            <input type="submit" value="Delete">
+                            <input class="button-top" type="submit" value="View Details">
                         </form>
+                        <?php if($team->getIsActive() == 1){ ?>
+                        <form action="admin_manager/index.php" method="POST">
+                            <input type="hidden" name="controllerRequest" value="team_deactivate" /> 
+                            <input type="hidden" name="team_id" value="<?php echo $team->getId(); ?>">
+                            <input type="submit" value="deactivate">
+                        </form>
+                        <?php }else{ ?>
+                        <form action="admin_manager/index.php" method="POST">
+                            <input type="hidden" name="controllerRequest" value="team_activate" /> 
+                            <input type="hidden" name="team_id" value="<?php echo $team->getId(); ?>">
+                            <input type="submit" value="Activate">
+                        </form>
+                        <?php } ?>
                     </td>
                 </tr>
 <?php endforeach; ?><tbody>
         </table>
-
     </div>
+    
+    
+    
     <div id="tabs-3" >
         <h1>Tournament List</h1>
         <form action="team_manager/index.php" method="POST">

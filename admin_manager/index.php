@@ -38,6 +38,8 @@ if ($userLogedin->getUserTypeId() == 2) {
         $users = get_users();
         $teams = get_teams();
         $tournaments = get_tournaments();
+        
+        $tab = '0';       
         require_once("admin.php");
     }
     
@@ -72,6 +74,8 @@ if ($userLogedin->getUserTypeId() == 2) {
         $users = get_users();
         $teams = get_teams();
         $tournaments = get_tournaments();
+        
+        $tab = '0';  
         require_once("admin.php");
     }
     else if($controllerChoice == 'user_activate'){
@@ -81,8 +85,40 @@ if ($userLogedin->getUserTypeId() == 2) {
         $users = get_users();
         $teams = get_teams();
         $tournaments = get_tournaments();
+        
+        $tab = '0';  
         require_once("admin.php");
     }
+    
+    
+        else if($controllerChoice == 'team_deactivate'){
+        $id = filter_input(INPUT_POST, 'team_id');
+        update_team_isActive($id, 0);
+        
+        $users = get_users();
+        $teams = get_teams();
+        $tournaments = get_tournaments();
+        
+        $tab = '1';  
+        require_once("admin.php");
+    }
+    else if($controllerChoice == 'team_activate'){
+        $id = filter_input(INPUT_POST, 'team_id');
+        update_team_isActive($id, 1);
+        
+        $users = get_users();
+        $teams = get_teams();
+        $tournaments = get_tournaments();
+        
+        $tab = '1';  
+        require_once("admin.php");
+    }
+    
+    
+    
+    
+    
+    
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 // Final else very helpful for debugging.x

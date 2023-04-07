@@ -20,7 +20,7 @@ function add_team($team) {
 function get_teams(){
     $db = Database::getDB();
     $teamArray = array();
-    $query = 'SELECT * FROM team t
+    $query = 'SELECT t.*, u.username AS captain_username FROM team t
               JOIN splatourney_user u ON u.ID = t.captain_user_id';
     $statement = $db->prepare($query);
     $statement->execute();
@@ -29,7 +29,7 @@ function get_teams(){
     foreach ($teams as $team) {
         $teamObject = new Team($team['ID'],
                 $team['captain_user_id'],
-                $team['username'],
+                $team['captain_username'],
                 $team['team_name'],
                 $team['team_image_link'],
                 $team['isActive']);
@@ -241,4 +241,16 @@ function get_team_members($team) {
         $userArray[] = $userObject;
     }
     return $userArray;
+}
+
+function update_team_isActive($id, $isActive){
+    $db = Database::getDB();
+    $query = 'UPDATE team
+                     SET isActive = :isActive
+                     WHERE id = :id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':id', $id);
+    $statement->bindValue(':isActive', $isActive);
+    $statement->execute();
+    $statement->closeCursor();
 }

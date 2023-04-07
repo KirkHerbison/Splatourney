@@ -1,5 +1,5 @@
 <?php require_once '../view/header.php'; ?>
-<h1>User List (May Remove In Future. Used to test user_info)</h1>
+<h1>Team List (May Remove In Future. Used to test user_info)</h1>
 <form action="team_manager/index.php" method="POST">
     <input type="hidden" name="controllerRequest" value="team_search_by_name" /> 
     <br>

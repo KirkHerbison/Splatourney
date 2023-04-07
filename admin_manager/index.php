@@ -30,43 +30,74 @@ if ($controllerChoice == NULL) {
         $controllerChoice = 'Not-Set (Null)';
     }
 }
-
+//checks to see if a user is an admin
+if ($userLogedin->getUserTypeId() == 2) {
 ////////////////////////////////////////////////////////////////////////////////
-// sends the user to the bracket type page
-if ($controllerChoice == 'admin') {
-    $users = get_users();
-    $teams = get_teams();
-    $tournaments = get_tournaments();
-    require_once("admin.php");
- 
-}
-
-// Sends user to a match when the match is selected
-else if ($controllerChoice == 'match') {
-    $matchId = $_GET['matchId'];
-$tournamentId = $_GET['tournamentId'];
+// sends user to admin homepage
+    if ($controllerChoice == 'admin') {
+        $users = get_users();
+        $teams = get_teams();
+        $tournaments = get_tournaments();
+        require_once("admin.php");
+    }
     
-
-    $bracketMatch = get_match_by_id(filter_input(INPUT_GET, 'matchId', FILTER_SANITIZE_NUMBER_INT));
-    $chat = get_chat_by_match_id(filter_input(INPUT_GET, 'matchId', FILTER_SANITIZE_NUMBER_INT));
-    $messages = get_messages_by_chat_id($chat->getId());
-    $games = get_match_games_by_id($bracketMatch->getBracketId());
-    $tournament = get_tournament_by_id(filter_input(INPUT_GET, 'tournamentId', FILTER_SANITIZE_NUMBER_INT));
-
-    require_once("match.php");
     
-}
+    
+////////////////////////////////////////////////////////////////////////////////
+// brings admin user to the user edit page (sends a non admin user to login)
+    else if ($controllerChoice == 'user_profile') {
+        $user = get_user_by_id(filter_input(INPUT_POST, 'user_id'));
+        require_once("user_profile_edit.php");
+    }
+    
+    else if($controllerChoice == 'user_update'){
+        
+        $id = filter_input(INPUT_POST, 'userId');
+        $switchFriendCode = filter_input(INPUT_POST, 'friendCode');
+        $switchUsername = filter_input(INPUT_POST, 'switchUsername');
+        $splashtag = filter_input(INPUT_POST, 'splashtag');
+        $discordUsername = filter_input(INPUT_POST, 'discordUsername');
+        update_user_by_admin($id, $switchFriendCode, $switchUsername, $splashtag, $discordUsername);
+        
+        
+        $users = get_users();
+        $teams = get_teams();
+        $tournaments = get_tournaments();
+        require_once("admin.php");
+    }
+    else if($controllerChoice == 'user_deactivate'){
+        $id = filter_input(INPUT_POST, 'user_id');
+        update_user_isActive($id, 0);
+        
+        $users = get_users();
+        $teams = get_teams();
+        $tournaments = get_tournaments();
+        require_once("admin.php");
+    }
+    else if($controllerChoice == 'user_activate'){
+        $id = filter_input(INPUT_POST, 'user_id');
+        update_user_isActive($id, 1);
+        
+        $users = get_users();
+        $teams = get_teams();
+        $tournaments = get_tournaments();
+        require_once("admin.php");
+    }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 // Final else very helpful for debugging.x
-else {
-    // Show this is an unhandled $controllerChoice
-    // Show generic else page
-    require_once '../view/header.php';
-    echo "<h1>Not yet implimented... </h1>";
-    echo "<h2> controllerChoice:  $controllerChoice</h2>";
-    echo "<h3> File:  team_manager/index.php </h3>";
-    require_once '../view/footer.php';
+    else {
+        // Show this is an unhandled $controllerChoice
+        // Show generic else page
+        require_once '../view/header.php';
+        echo "<h1>Not yet implimented... </h1>";
+        echo "<h2> controllerChoice:  $controllerChoice</h2>";
+        echo "<h3> File:  team_manager/index.php </h3>";
+        require_once '../view/footer.php';
+    }
+//redirects a non admin user to login
+} else {
+    require_once('../user_manager/user_login.php');
 }
 
 

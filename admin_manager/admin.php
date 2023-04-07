@@ -48,7 +48,6 @@
             </thead>
             <tbody>
                 <?php foreach ($users as $user) : ?>
-                    <?php if ($user->getIsActive() == 1) { ?>
                         <tr>
                             <td><?php echo $user->getId(); ?></td>
                             <td><p><?php
@@ -65,14 +64,21 @@
                                     <input type="hidden" name="user_id" value="<?php echo $user->getId(); ?>">
                                     <input class="button-top" type="submit" value="View Profile">
                                 </form>
-                                <form action="user_manager/index.php" method="POST">
-                                    <input type="hidden" name="controllerRequest" value="user_delete" /> 
+                                <?php if($user->getIsActive() == 1){ ?>
+                                <form action="admin_manager/index.php" method="POST">
+                                    <input type="hidden" name="controllerRequest" value="user_deactivate" /> 
                                     <input type="hidden" name="user_id" value="<?php echo $user->getId(); ?>">
-                                    <input type="submit" value="Delete">
+                                    <input type="submit" value="deactivate">
                                 </form>
+                                <?php }else{ ?>
+                                <form action="admin_manager/index.php" method="POST">
+                                    <input type="hidden" name="controllerRequest" value="user_activate" /> 
+                                    <input type="hidden" name="user_id" value="<?php echo $user->getId(); ?>">
+                                    <input type="submit" value="Activate">
+                                </form>
+                                <?php } ?>
                             </td>
                         </tr>
-    <?php } ?>
 <?php endforeach; ?>
             </tbody>
         </table>

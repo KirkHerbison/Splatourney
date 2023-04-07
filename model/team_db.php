@@ -94,12 +94,12 @@ function get_teams_by_user_id($id){
     $teams = $statement->fetchAll();
     $statement->closeCursor();
     foreach ($teams as $team) {
-        $teamObject = new Team($team['ID'],
-                $team['captain_user_id'],
-                $team['team_name'],
+        $teamObject = new Team($team[0],
+                $team[$id],
                 $team['username'],
+                $team['team_name'],
                 $team['team_image_link'],
-                $team['isActive']);
+                $team[4]);
         $teamArray[] = $teamObject;
     }
     return $teamArray;
@@ -166,7 +166,7 @@ function remove_team($id){
                      SET isActive = 0
                      WHERE id = :id';
     $statement = $db->prepare($query);
-    $statement->bindValue('id', $id);
+    $statement->bindValue(':id', $id);
     $statement->execute();
     $statement->closeCursor();
 }
@@ -177,7 +177,7 @@ function activate_team($id){
                      SET isActive = 1
                      WHERE id = :id';
     $statement = $db->prepare($query);
-    $statement->bindValue('id', $id);
+    $statement->bindValue(':id', $id);
     $statement->execute();
     $statement->closeCursor();
 }

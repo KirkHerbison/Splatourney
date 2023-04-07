@@ -245,25 +245,29 @@ function add_user($user) {
     $statement->closeCursor();
 }
 
-function update_user($user) {
+function update_user_by_admin($id, $switchFriendCode, $switchUsername, $splashtag, $discordUsername){
     $db = Database::getDB();
-    $query = 'UPDATE wluser
-                     SET wlUserRoleID = :wlUserRoleID, firstName = :firstName,lastName = :lastName,email = :email,password = :password,
-                     address = :address, city = :city,st = :state,zip = :zip, phone = :phone, isActive = :isActive
+    $query = 'UPDATE splatourney_user
+                     SET switch_friend_code = :switch_friend_code, switch_username = :switch_username,splashtag = :splashtag,discord_username = :discord_username
                      WHERE id = :id';
     $statement = $db->prepare($query);
-    $statement->bindValue(':id', $user->getId());
-    $statement->bindValue(':wlUserRoleID', $user->getRoleId());
-    $statement->bindValue(':firstName', $user->getFirstName());
-    $statement->bindValue(':lastName', $user->getLastName());
-    $statement->bindValue(':email', $user->getEmail());
-    $statement->bindValue(':password', $user->getPassword());
-    $statement->bindValue(':address', $user->getAddress());
-    $statement->bindValue(':city', $user->getCity());
-    $statement->bindValue(':state', $user->getState());
-    $statement->bindValue(':zip', $user->getZip());
-    $statement->bindValue(':phone', $user->getPhone());
-    $statement->bindValue(':isActive', $user->getIsActive());
+    $statement->bindValue(':id', $id);
+    $statement->bindValue(':switch_friend_code', $switchFriendCode);
+    $statement->bindValue(':switch_username', $switchUsername);
+    $statement->bindValue(':splashtag', $splashtag);
+    $statement->bindValue(':discord_username', $discordUsername);
+    $statement->execute();
+    $statement->closeCursor();
+}
+
+function update_user_isActive($id, $isActive){
+    $db = Database::getDB();
+    $query = 'UPDATE splatourney_user
+                     SET isActive = :isActive
+                     WHERE id = :id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':id', $id);
+    $statement->bindValue(':isActive', $isActive);
     $statement->execute();
     $statement->closeCursor();
 }

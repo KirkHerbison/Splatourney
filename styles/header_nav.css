@@ -9,12 +9,6 @@ header{
     padding-right: 0;
     padding-bottom: 0;
 }
-#headerTop{
-
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 10px;
-}
 #darkLight{
     display: flex;
     flex-direction: row;
@@ -62,7 +56,7 @@ header h2{
     padding-right: 0;
 }
 /* the styles for the navigation menu */
-#mobile_menu{
+.slicknav_menu{
     display: none;
 }
 #nav_menu{
@@ -105,25 +99,30 @@ header h2{
 }
 
 @media only screen and (max-width: 767px){
-    #nav_menu{
+    #header_ul{
         display: none;
     }
-    #mobile_menu{
+    .slicknav_menu{
         display:block;
     }
-    #mobile_menu ul{
-        background-color: indigo;
+    .slicknav_menu ul{
+        background-color: #333;
     }
-    #mobile_menu a{
-        background-color: indigo;
+    .slicknav_menu ul li{
+                width:50%;
+                
     }
-    #mobile_menu ul li a:hover{
+    .slicknav_menu a{
+        text-align: left;
+        background-color: #333;
+    }
+    .slicknav_menu ul li a:hover{
         color: white;
         background-color: rgb(104, 0, 179);
     }
     .slicknav_menu{
         padding: 3px !important;
-		background-color: indigo !important;
+		background-color: #333 !important;
 	}
     header h1{
 		font-size: 200%;

@@ -11,15 +11,23 @@
         <link rel="stylesheet" type="text/css" href="styles/header_nav.css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
         <link rel="stylesheet" href="https://use.typekit.net/naj2zsa.css"> <!-- Used for Header font -->
+        <link rel="stylesheet" href="styles/slicknav.css" />
+        <script src="js/jquery.slicknav.min.js"></script>
       
     </head>
+    
+
 
     <!-- the body section -->
     <body>
         <header>
             <h1 id="header">Splatourney </h1>
         </header>
+        <div id="nav-wrapper">
         <nav>
             <ul id="header_ul">
                 <li>
@@ -68,7 +76,17 @@
 
             </a>
             </ul>
+
         </nav>
+        </div>
+        <script>
+            $(function(){
+                    $('#header_ul').slicknav({
+                                label:'',
+                                prependTo:'#nav-wrapper'
+                    });
+            });
+        </script>
         <main>
 
 

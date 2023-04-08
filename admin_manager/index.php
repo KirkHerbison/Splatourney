@@ -47,7 +47,7 @@ if ($userLogedin->getUserTypeId() == 2) {
     
 ////////////////////////////////////////////////////////////////////////////////
 // brings admin user to the user edit page (sends a non admin user to login)
-    else if ($controllerChoice == 'user_profile') {
+    else if ($controllerChoice == 'user_profile') { //start user
         $user = get_user_by_id(filter_input(INPUT_POST, 'user_id'));
         require_once("user_profile_edit.php");
     }
@@ -65,8 +65,11 @@ if ($userLogedin->getUserTypeId() == 2) {
         $users = get_users();
         $teams = get_teams();
         $tournaments = get_tournaments();
+        
+        $tab = '0';  
         require_once("admin.php");
     }
+    
     else if($controllerChoice == 'user_deactivate'){
         $id = filter_input(INPUT_POST, 'user_id');
         update_user_isActive($id, 0);
@@ -88,10 +91,34 @@ if ($userLogedin->getUserTypeId() == 2) {
         
         $tab = '0';  
         require_once("admin.php");
+    } //end user
+    
+    else if ($controllerChoice == 'team_details') { //start team 
+        $team = get_team_by_id(filter_input(INPUT_POST, 'team_id'));
+        $teamMembers = get_team_members($team);
+        require_once("team_details_edit.php");
     }
     
+    else if($controllerChoice == 'team_update'){
+        
+        $id = filter_input(INPUT_POST, 'teamId');
+        $teamName = filter_input(INPUT_POST, 'teamName');
+        $teamImageLink = filter_input(INPUT_POST, 'teamImageLink');
+        if(filter_input(INPUT_POST, 'removeTeamImage') === 'on'){
+            $teamImageLink = '';
+        }
+        
+        update_team_by_admin($id, $teamName, $teamImageLink);
+              
+        $users = get_users();
+        $teams = get_teams();
+        $tournaments = get_tournaments();
+        
+        $tab = '1';  
+        require_once("admin.php");
+    }
     
-        else if($controllerChoice == 'team_deactivate'){
+    else if($controllerChoice == 'team_deactivate'){
         $id = filter_input(INPUT_POST, 'team_id');
         update_team_isActive($id, 0);
         
@@ -112,10 +139,30 @@ if ($userLogedin->getUserTypeId() == 2) {
         
         $tab = '1';  
         require_once("admin.php");
+    } //end team
+    
+    else if($controllerChoice == 'tournament_deactivate'){ //start tournament
+        $id = filter_input(INPUT_POST, 'tournament_id');
+        update_tournament_isActive($id, 0);
+        
+        $users = get_users();
+        $teams = get_teams();
+        $tournaments = get_tournaments();
+        
+        $tab = '2';  
+        require_once("admin.php");
     }
-    
-    
-    
+    else if($controllerChoice == 'tournament_activate'){
+        $id = filter_input(INPUT_POST, 'tournament_id');
+        update_tournament_isActive($id, 1);
+        
+        $users = get_users();
+        $teams = get_teams();
+        $tournaments = get_tournaments();
+        
+        $tab = '2';  
+        require_once("admin.php");
+    } //end tournament
     
     
     

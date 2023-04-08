@@ -119,8 +119,8 @@
                     <td><p><?php echo $team->getTeamName(); ?></p></td>
                     <td><p><?php echo $team->getTeamCaptainName(); ?></p></td>
                     <td>
-                        <form action="team_manager/index.php" method="POST">
-                            <input type="hidden" name="controllerRequest" value="user_profile" /> 
+                        <form action="admin_manager/index.php" method="POST">
+                            <input type="hidden" name="controllerRequest" value="team_details" /> 
                             <input type="hidden" name="team_id" value="<?php echo $team->getId(); ?>">
                             <input class="button-top" type="submit" value="View Details">
                         </form>
@@ -164,41 +164,41 @@
         <table class="content-table">
             <thead>
             <tr>
-                <th>Name</th>
+                <th>ID</th>
+                <th>Tournament Name</th>
                 <th>date</th>
-                <th>detail</th>
-                <th>edit</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
 
 <?php foreach ($tournaments as $tournament) : ?>
                 <tr>
-                    <td><?php echo $tournament->getTournamentName(); ?></td>
-                    <td><?php echo $tournament->getTournamentDate(); ?></td>
+                    <td><p><?php echo $tournament->getId(); ?></p></td>
+                    <td><p><?php echo $tournament->getTournamentName(); ?></p></td>
+                    <td><p><?php echo $tournament->getTournamentDate(); ?></p></td>
+                    <?php if ($tournament->getTournamentOwnerId() == $userLogedin->getId()) { ?>
                     <td>
-                        <form action="bracket_manager/index.php" method="POST">
-                            <input type="hidden" name="controllerRequest" value="bracket" />
-                            <input type="hidden" name="tournamentId" value="<?php echo $tournament->getId(); ?>">
-                            <input type="submit" value="Bracket">
-                        </form>
-                    </td>
-    <?php if ($tournament->getTournamentOwnerId() == $userLogedin->getId()) { ?>
-                        <td>
-                            <form action="team_manager/index.php" method="POST">
-                                <input type="hidden" name="controllerRequest" value="tournament_edit" /> 
-                                <input type="hidden" name="tournamentId" value="<?php echo $tournament->getId(); ?>">
-                                <input type="submit" value="Edit">
-                            </form>
-                                                    <form action="user_manager/index.php" method="POST">
-                            <input type="hidden" name="controllerRequest" value="tournmanet_delete" /> 
+                        <form action="admin_manager/index.php" method="POST">
+                            <input type="hidden" name="controllerRequest" value="tournament_details" /> 
                             <input type="hidden" name="tournament_id" value="<?php echo $tournament->getId(); ?>">
-                            <input type="submit" value="Delete">
+                            <input class="button-top" type="submit" value="View Details">
                         </form>
-                            
-                        </td>
-                        
-                <?php } ?>
+                        <?php if($tournament->getIsActive() == 1){ ?>
+                        <form action="admin_manager/index.php" method="POST">
+                            <input type="hidden" name="controllerRequest" value="tournament_deactivate" /> 
+                            <input type="hidden" name="tournament_id" value="<?php echo $tournament->getId(); ?>">
+                            <input type="submit" value="deactivate">
+                        </form>
+                        <?php }else{ ?>
+                        <form action="admin_manager/index.php" method="POST">
+                            <input type="hidden" name="controllerRequest" value="tournament_activate" /> 
+                            <input type="hidden" name="tournament_id" value="<?php echo $tournament->getId(); ?>">
+                            <input type="submit" value="Activate">
+                        </form>
+                        <?php } ?>
+                    </td>                      
+                    <?php } ?>
                 </tr>
 <?php endforeach; ?>
                                 

@@ -183,3 +183,15 @@ function get_tournaments(){
     }
     return $tournamentArray;
 }
+
+function update_tournament_isActive($id, $isActive){
+    $db = Database::getDB();
+    $query = 'UPDATE tournament
+                     SET isActive = :isActive
+                     WHERE id = :id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':id', $id);
+    $statement->bindValue(':isActive', $isActive);
+    $statement->execute();
+    $statement->closeCursor();
+}

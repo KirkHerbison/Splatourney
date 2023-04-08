@@ -63,23 +63,24 @@ function search_teams($name) {
 
 function get_team_by_id($id){
     $db = Database::getDB();
-    $query = 'SELECT * FROM team t
-                JOIN splatourney_user u ON u.ID = t.captain_user_id
-                WHERE t.id = :id';
+    $query = 'SELECT t.ID, t.captain_user_id, u.username, t.team_name, t.team_image_link, t.isActive
+              FROM team t
+              JOIN splatourney_user u ON t.captain_user_id = u.ID
+              WHERE t.id = :id';
     $statement = $db->prepare($query);
     $statement->bindValue(':id', $id);
     $statement->execute();
     $selectedTeam = $statement->fetch();
     $statement->closeCursor();
-        $team = new Team($selectedTeam['ID'],
-                $selectedTeam['captain_user_id'],
-                $selectedTeam['username'],
-                
-                $selectedTeam['team_name'],
-                $selectedTeam['team_image_link'],
-                $selectedTeam['isActive']);
+    $team = new Team($selectedTeam['ID'],
+                     $selectedTeam['captain_user_id'],
+                     $selectedTeam['username'],
+                     $selectedTeam['team_name'],
+                     $selectedTeam['team_image_link'],
+                     $selectedTeam['isActive']);
     return $team;
 }
+
 
 function get_teams_by_user_id($id){
     $db = Database::getDB();
@@ -241,6 +242,19 @@ function get_team_members($team) {
         $userArray[] = $userObject;
     }
     return $userArray;
+}
+
+function update_team_by_admin($id, $teamName, $teamImageLink){
+    $db = Database::getDB();
+    $query = 'UPDATE team
+                     SET team_name = :team_name, team_image_link = :team_image_link
+                     WHERE id = :id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':id', $id);
+    $statement->bindValue(':team_name', $teamName);
+    $statement->bindValue(':team_image_link', $teamImageLink);
+    $statement->execute();
+    $statement->closeCursor();
 }
 
 function update_team_isActive($id, $isActive){

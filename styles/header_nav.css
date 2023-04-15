@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&family=Poppins:wght@400;500;600&display=swap');
 /* header style */
 header{
     display: flex;
@@ -9,6 +10,11 @@ header{
     padding-right: 0;
     padding-bottom: 0;
 }
+
+a{
+    padding: 14px 20px;
+}
+
 #darkLight{
     display: flex;
     flex-direction: row;

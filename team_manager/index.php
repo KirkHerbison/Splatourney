@@ -81,7 +81,7 @@ else if ($controllerChoice == 'team_register_confirmation') {
         } else {
             
             if (isset($_FILES['image']) && !empty($_FILES['image']['name'])) { // start for image upload
-                $target_dir = "../images/"; // this is the initial file path to my images folder
+                $target_dir = "../images/team_images/"; // this is the initial file path to my images folder
                 
                 //this creates a unique identity for the image, something like teamImage_1236781236.php
                 //uniqueid() gets a random number bassed on current time

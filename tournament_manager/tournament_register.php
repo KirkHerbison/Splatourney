@@ -20,7 +20,7 @@
     </div>
     <br>
     <div>
-        <p>Tournament Banner: </p>
+        <p>Tournament Banner: 1290 x 600</p>
         <input type="file" name="tournamentBanner">
     </div>
     <br>

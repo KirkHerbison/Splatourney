@@ -182,6 +182,12 @@ function get_tournaments() {
     return $tournamentArray;
 }
 
+
+
+
+
+
+
 function search_tournaments($name) {
     $db = Database::getDB();
     $tournamentArray = array();

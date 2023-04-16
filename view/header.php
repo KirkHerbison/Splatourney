@@ -41,34 +41,30 @@
                     <a href="user_manager?controllerRequest=login_user">Login</a>
                 </li>
                 <li>
+                    <a href="tournament_manager?controllerRequest=tournament_list">Tournament List</a>
+                </li>          
+                <li>
                     <a href="user_manager?controllerRequest=list_users">User List</a>
                 </li>
                 <li>
                     <a href="team_manager?controllerRequest=team_list">Team List</a>
-                </li>  
-                <li>
-                    <a href="tournament_manager?controllerRequest=map_list">Map List</a>
-                </li>
-                <li>
-                    <a href="tournament_manager?controllerRequest=tournament_list">Tournament List</a>
-                </li>
-                <?php if ($userLogedin->getID() != null) { ?>
-                <li>
-                    <a href="team_manager?controllerRequest=create_team">Create Team</a>
-                </li>
-                <li>
-                    <a href="team_manager?controllerRequest=my_team_list">My Teams</a>
-                </li>
-                <li>
-                    <a href="tournament_manager?controllerRequest=tournament_register">Create Tournament</a>
-                </li>
+                </li>    
+                <?php if ($userLogedin->getID() != null) { ?>                
+                    <li>
+                        <a href="team_manager?controllerRequest=my_team_list">My Teams</a>
+                    </li>
+                    <li>
+                        <a href="team_manager?controllerRequest=create_team">Create Team</a>
+                    </li>
+                    <li>
+                        <a href="tournament_manager?controllerRequest=tournament_register">Create Tournament</a>
+                    </li>
                 <?php }?>
                 <?php if ($userLogedin->getUserTypeId() === 2) { ?>
                     <li>
                         <a href="admin_manager?controllerRequest=admin">Admin</a>
                     </li>
-                <?php }?>
-                    
+                <?php }?>                    
                 <?php if ($userLogedin->getEmailAddress() != '') { ?>
                     <li style="float: right;">
                         <a href="user_manager?controllerRequest=logout">Logout</a>

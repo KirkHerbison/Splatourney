@@ -1,42 +1,49 @@
 <?php require_once '../view/header.php'; ?>
-<h1>User List (May Remove In Future. Used to test user_info)</h1>
-<form action="user_manager/index.php" method="POST">
+
+<link rel="stylesheet" type="text/css" href="styles/user_list.css">
+<form class='search-form' action="user_manager/index.php" method="POST">
     <input type="hidden" name="controllerRequest" value="username_search" /> 
-    <br>
-    <div>
-        <p>Search by last username:</p>
-        <input type="text" name="username_search">
-    </div>
-    <br>
-    <div>
-        <p></p><input type="submit" value="Search">
+    <label>Search by Username:</label>
+    <input class="user-username-input" type="text" name="username_search">
+    <div class="search-button">
+        <input  type="submit" value="Search">
     </div>
     <br>
 </form>
 
-<table>
-    <tr>
-        <th>ID</th>
-        <th>Full Name</th>
-        <th>Username</th>
-        <th>View User Info</th>
-    </tr>
+<div class="user-container">
     <?php foreach ($users as $user) : ?>
-        <?php if ($user->getIsActive() == 1) { ?>
-        <tr>
-            <td><?php echo $user->getId(); ?></td>
-            <td><?php if($user->getDisplayName() == 1){echo $user->getFirstName(); ?><br><?php echo $user->getLastName();} ?></td>
-            <td><?php echo $user->getUsername(); ?></td>
-            <td>
-                <form action="user_manager/index.php" method="POST">
-                    <input type="hidden" name="controllerRequest" value="user_profile" /> 
-                    <input type="hidden" name="user_id" value="<?php echo $user->getId(); ?>">
-                    <input type="submit" value="View Profile">
-                </form>
-            </td>
-        </tr>
-        <?php }?>
-<?php endforeach; ?>
-</table>
+        <div class="user-tag" id="<?php echo $user->getId(); ?>">
+            <div class="user-details">
+
+
+                <div class="username">
+                    <span><?php echo $user->getUsername(); ?></span>
+                </div>
+                <div class="user-info">
+                    <span id="user-switch-username"><?php echo $user->getSwitchUsername(); ?></span>
+                    <span class="user-switch-friendcode"><?php echo $user->getSwitchFriendCode(); ?></span>               
+                </div>
+                <div class="button-group">
+                    <form action="user_manager/index.php" method="POST">
+                        <input type="hidden" name="controllerRequest" value="user_profile" />
+                        <input type="hidden" name="userId" value="<?php echo $user->getId(); ?>">
+                        <input type="submit" value="Profile">
+                    </form>
+                    <form action="team_manager/index.php" method="POST">
+                        <input type="hidden" name="controllerRequest" value="user_team_list" /> 
+                        <input type="hidden" name="userId" value="<?php echo $user->getId(); ?>">
+                        <input class="button-teams" type="submit" value="Teams">
+                    </form>
+                    <form action="user_manager/index.php" method="POST">
+                        <input type="hidden" name="controllerRequest" value="user_results" /> 
+                        <input type="hidden" name="userId" value="<?php echo $user->getId(); ?>">
+                        <input type="submit" value="Results">
+                    </form>
+                </div>   
+            </div>
+        </div>             
+    <?php endforeach; ?>
+</div>
 
 <?php require_once '../view/footer.php'; ?>

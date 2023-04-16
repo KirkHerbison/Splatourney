@@ -1,37 +1,41 @@
 <?php require_once '../view/header.php'; ?>
-<h1>Team List (May Remove In Future. Used to test user_info)</h1>
-<form action="team_manager/index.php" method="POST">
+
+<link rel="stylesheet" type="text/css" href="styles/team_list.css">
+<form class='search-form' action="team_manager/index.php" method="POST">
     <input type="hidden" name="controllerRequest" value="team_search_by_name" /> 
-    <br>
-    <div>
-        <p>Search by team name:</p>
-        <input type="text" name="team_search">
-    </div>
-    <br>
-    <div>
-        <p></p><input type="submit" value="Search">
-    </div>
+        <label>Search by team name:</label>
+        <input class="team-name-input" type="text" name="team_search">
+        <div class="search-button">
+            <input  type="submit" value="Search">
+        </div>
     <br>
 </form>
 
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Team Captain</th>
-    </tr>
+<div class="team-container">
     <?php foreach ($teams as $team) : ?>
-        <tr>
-            <td><?php echo $team->getTeamName(); ?></td>
-            <td><?php echo $team->getTeamCaptainName(); ?></td>
-            <td>
+    <div class="team-tag" id="<?php echo $team->getId();?>">
+        <div class="team-details">
+            <img src="<?php echo $team->getTeamImageLink(); ?>" alt="<?php echo $team->getTeamName(); ?> Image"/>
+            
+            <div class="team-info">
+                <span class="team-name"><?php echo $team->getTeamName(); ?></span>
+                <span class="team-captain">Captain: <?php echo $team->getTeamCaptainName(); ?></span>
+            </div>
+            <div class="button-group">
                 <form action="team_manager/index.php" method="POST">
-                    <input type="hidden" name="controllerRequest" value="user_profile" /> 
-                    <input type="hidden" name="user_id" value="<?php echo $team->getId(); ?>">
-                    <input type="submit" value="View Details">
+                    <input type="hidden" name="controllerRequest" value="team_profile" />
+                    <input type="hidden" name="teamId" value="<?php echo $team->getId(); ?>">
+                    <input type="submit" value="Details">
                 </form>
-            </td>
-        </tr>
+                <form action="team_manager/index.php" method="POST">
+                    <input type="hidden" name="controllerRequest" value="team_results" /> 
+                    <input type="hidden" name="teamId" value="<?php echo $team->getId(); ?>">
+                    <input class="button-regiser" type="submit" value="Results">
+                </form>
+            </div>    
+            </div>
+        </div>             
     <?php endforeach; ?>
-</table>
+</div>
 
 <?php require_once '../view/footer.php'; ?>

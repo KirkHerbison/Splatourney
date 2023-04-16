@@ -43,6 +43,14 @@ else if ($controllerChoice == 'tournament_list') {
     require_once("tournament_list.php");
 }
 
+// The tournmanet list search by tournaments
+else if ($controllerChoice == 'tournament_search_by_name') {
+    $tournaments = search_tournaments(filter_input(INPUT_POST, 'tournament_search'));
+    include("tournament_list.php");
+    
+}
+
+
 ////////////////////////////////////////////////////////////////////////////////
 else if ($controllerChoice == 'map_list') {
     $maps = get_maps();

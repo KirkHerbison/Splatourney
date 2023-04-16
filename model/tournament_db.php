@@ -26,7 +26,7 @@ function get_tournament_types() {
     return $tournamentTypeArray;
 }
 
-function get_maps(){
+function get_maps() {
     $db = Database::getDB();
     $mapArray = array();
 
@@ -47,7 +47,7 @@ function get_maps(){
     return $mapArray;
 }
 
-function get_map_by_id($id){
+function get_map_by_id($id) {
     $db = Database::getDB();
 
     $query = 'SELECT * FROM map
@@ -58,13 +58,13 @@ function get_map_by_id($id){
     $map = $statement->fetch();
     $statement->closeCursor();
 
-    $mapObject= new Map($map['ID'],
-                $map['description'],
-                $map['image_link']);
+    $mapObject = new Map($map['ID'],
+            $map['description'],
+            $map['image_link']);
     return $mapObject;
 }
 
-function get_mode_by_id($id){
+function get_mode_by_id($id) {
     $db = Database::getDB();
 
     $query = 'SELECT * FROM mode
@@ -75,13 +75,11 @@ function get_mode_by_id($id){
     $mode = $statement->fetch();
     $statement->closeCursor();
 
-    $modeObject= new Map($mode['ID'],
-                $mode['description'],
-                $mode['image_link']);
+    $modeObject = new Map($mode['ID'],
+            $mode['description'],
+            $mode['image_link']);
     return $modeObject;
 }
-
-
 
 function get_tournament_by_id($id) {
     $db = Database::getDB();
@@ -94,18 +92,18 @@ function get_tournament_by_id($id) {
     $tournament = $statement->fetch();
     $statement->closeCursor();
     $tournamentObject = new Tournament($tournament['ID'],
-                $tournament['tournament_owner_id'],
-                $tournament['tournament_organizer_name'],
-                $tournament['tournament_type_id'],
-                $tournament['tournament_banner_link'],
-                $tournament['tournament_name'],
-                $tournament['tournament_date'],
-                $tournament['tournament_registration_deadline'],
-                $tournament['tournament_about'],
-                $tournament['tournament_prizes'],
-                $tournament['tournament_contact'],
-                $tournament['tournament_rules'],
-                $tournament['isActive']);
+            $tournament['tournament_owner_id'],
+            $tournament['tournament_organizer_name'],
+            $tournament['tournament_type_id'],
+            $tournament['tournament_banner_link'],
+            $tournament['tournament_name'],
+            $tournament['tournament_date'],
+            $tournament['tournament_registration_deadline'],
+            $tournament['tournament_about'],
+            $tournament['tournament_prizes'],
+            $tournament['tournament_contact'],
+            $tournament['tournament_rules'],
+            $tournament['isActive']);
     return $tournamentObject;
 }
 
@@ -157,7 +155,7 @@ function edit_tournament($tournament) {
     return $db->lastInsertId();
 }
 
-function get_tournaments(){
+function get_tournaments() {
     $db = Database::getDB();
     $tournamentArray = array();
     $query = 'SELECT * FROM tournament';
@@ -184,7 +182,36 @@ function get_tournaments(){
     return $tournamentArray;
 }
 
-function update_tournament_isActive($id, $isActive){
+function search_tournaments($name) {
+    $db = Database::getDB();
+    $tournamentArray = array();
+    $query = 'SELECT * FROM tournament
+                WHERE tournament_name LIKE "%":tournament_name"%"';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':tournament_name', $name);
+    $statement->execute();
+    $tournaments = $statement->fetchAll();
+    $statement->closeCursor();
+    foreach ($tournaments as $tournament) {
+        $tournamentObject = new Tournament($tournament['ID'],
+                $tournament['tournament_owner_id'],
+                $tournament['tournament_organizer_name'],
+                $tournament['tournament_type_id'],
+                $tournament['tournament_banner_link'],
+                $tournament['tournament_name'],
+                $tournament['tournament_date'],
+                $tournament['tournament_registration_deadline'],
+                $tournament['tournament_about'],
+                $tournament['tournament_prizes'],
+                $tournament['tournament_contact'],
+                $tournament['tournament_rules'],
+                $tournament['isActive']);
+        $tournamentArray[] = $tournamentObject;
+    }
+    return $tournamentArray;
+}
+
+function update_tournament_isActive($id, $isActive) {
     $db = Database::getDB();
     $query = 'UPDATE tournament
                      SET isActive = :isActive

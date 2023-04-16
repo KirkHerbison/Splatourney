@@ -6,7 +6,7 @@ function get_users() {
     $db = Database::getDB();
     $userArray = array();
 
-    $query = 'SELECT * FROM splatourney_user' ;
+    $query = 'SELECT * FROM splatourney_user';
     $statement = $db->prepare($query);
     $statement->execute();
     $users = $statement->fetchAll();
@@ -43,7 +43,7 @@ function search_users($username) {
     $users = $statement->fetchAll();
     $statement->closeCursor();
     foreach ($users as $user) {
-        $userObject =  new User($user['ID'],
+        $userObject = new User($user['ID'],
                 $user['user_type_id'],
                 $user['email_address'],
                 $user['username'],
@@ -103,19 +103,19 @@ function get_user_by_id($ID) {
     $user = $statement->fetch();
     $statement->closeCursor();
     $userObject = new User($user['ID'],
-                $user['user_type_id'],
-                $user['email_address'],
-                $user['username'],
-                $user['password'],
-                $user['first_name'],
-                $user['last_name'],
-                $user['switch_friend_code'],
-                $user['switch_username'],
-                $user['splashtag'],
-                $user['discord_username'],
-                $user['discord_client_secret'],
-                $user['isActive'],
-                $user['display_name']);
+            $user['user_type_id'],
+            $user['email_address'],
+            $user['username'],
+            $user['password'],
+            $user['first_name'],
+            $user['last_name'],
+            $user['switch_friend_code'],
+            $user['switch_username'],
+            $user['splashtag'],
+            $user['discord_username'],
+            $user['discord_client_secret'],
+            $user['isActive'],
+            $user['display_name']);
     return $userObject;
 }
 
@@ -129,19 +129,19 @@ function get_user_by_username($username) {
     $user = $statement->fetch();
     $statement->closeCursor();
     $userObject = new User($user['ID'],
-                $user['user_type_id'],
-                $user['email_address'],
-                $user['username'],
-                $user['password'],
-                $user['first_name'],
-                $user['last_name'],
-                $user['switch_friend_code'],
-                $user['switch_username'],
-                $user['splashtag'],
-                $user['discord_username'],
-                $user['discord_client_secret'],
-                $user['isActive'],
-                $user['display_name']);
+            $user['user_type_id'],
+            $user['email_address'],
+            $user['username'],
+            $user['password'],
+            $user['first_name'],
+            $user['last_name'],
+            $user['switch_friend_code'],
+            $user['switch_username'],
+            $user['splashtag'],
+            $user['discord_username'],
+            $user['discord_client_secret'],
+            $user['isActive'],
+            $user['display_name']);
     return $userObject;
 }
 
@@ -183,7 +183,6 @@ function check_discord_username($discord_username) {
 
     return $user;
 }
-
 
 function check_splashtag($splashtag) {
     $db = Database::getDB();
@@ -245,7 +244,7 @@ function add_user($user) {
     $statement->closeCursor();
 }
 
-function update_user_by_admin($id, $switchFriendCode, $switchUsername, $splashtag, $discordUsername){
+function update_user_by_admin($id, $switchFriendCode, $switchUsername, $splashtag, $discordUsername) {
     $db = Database::getDB();
     $query = 'UPDATE splatourney_user
                      SET switch_friend_code = :switch_friend_code, switch_username = :switch_username,splashtag = :splashtag,discord_username = :discord_username
@@ -260,7 +259,7 @@ function update_user_by_admin($id, $switchFriendCode, $switchUsername, $splashta
     $statement->closeCursor();
 }
 
-function update_user_isActive($id, $isActive){
+function update_user_isActive($id, $isActive) {
     $db = Database::getDB();
     $query = 'UPDATE splatourney_user
                      SET isActive = :isActive

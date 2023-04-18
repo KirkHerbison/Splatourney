@@ -42,9 +42,16 @@ if ($controllerChoice == 'create_team') {
     }
 }
 
-// In the header when the user team list
+// In the header when the user clicks team list
 else if ($controllerChoice == 'team_list') {
     $teams = get_teams();
+    require_once("team_list.php");
+}
+
+// team list for a different user
+else if ($controllerChoice == 'user_team_list') {
+    $userId = filter_input(INPUT_POST, 'userId');
+    $teams = get_teams_by_user_id($userId);
     require_once("team_list.php");
 }
 

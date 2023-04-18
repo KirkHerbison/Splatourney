@@ -27,7 +27,7 @@
                 <div class="button-group">
                     <form action="user_manager/index.php" method="POST">
                         <input type="hidden" name="controllerRequest" value="user_profile" />
-                        <input type="hidden" name="userId" value="<?php echo $user->getId(); ?>">
+                        <input type="hidden" name="user_id" value="<?php echo $user->getId(); ?>">
                         <input type="submit" value="Profile">
                     </form>
                     <form action="team_manager/index.php" method="POST">
@@ -37,7 +37,7 @@
                     </form>
                     <form action="user_manager/index.php" method="POST">
                         <input type="hidden" name="controllerRequest" value="user_results" /> 
-                        <input type="hidden" name="userId" value="<?php echo $user->getId(); ?>">
+                        <input type="hidden" name="user_id" value="<?php echo $user->getId(); ?>">
                         <input type="submit" value="Results">
                     </form>
                 </div>   

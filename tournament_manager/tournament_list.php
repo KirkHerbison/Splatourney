@@ -1,6 +1,8 @@
 <?php require_once '../view/header.php'; ?>
 
 <link rel="stylesheet" type="text/css" href="styles/tournament_list.css">
+
+
 <form class='search-form' action="tournament_manager/index.php" method="POST">
     <input type="hidden" name="controllerRequest" value="tournament_search_by_name" /> 
     <label>Search by tournament name:</label>

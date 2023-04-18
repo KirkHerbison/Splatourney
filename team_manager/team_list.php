@@ -1,6 +1,9 @@
 <?php require_once '../view/header.php'; ?>
+<?php require_once '../model/User.php'; ?>
+<?php require_once '../model/user_db.php'; ?>
 
 <link rel="stylesheet" type="text/css" href="styles/team_list.css">
+<?php if(!isset($userId)){ ?>
 <form class='search-form' action="team_manager/index.php" method="POST">
     <input type="hidden" name="controllerRequest" value="team_search_by_name" /> 
         <label>Search by team name:</label>
@@ -10,6 +13,11 @@
         </div>
     <br>
 </form>
+<?php } else{ ?>
+
+<h1><?php echo get_user_by_id($userId)->getUsername(); ?>'s Teams</h1>
+<br>
+<?php } ?>
 
 <div class="team-container">
     <?php foreach ($teams as $team) : ?>

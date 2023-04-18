@@ -1,6 +1,7 @@
 <?php
 
 require_once('../model/User.php');
+require_once ('../model/Result.php');
 
 function get_users() {
     $db = Database::getDB();
@@ -29,6 +30,28 @@ function get_users() {
         $userArray[] = $userObject;
     }
     return $userArray;
+}
+
+function get_user_results($id) {
+    $db = Database::getDB();
+    $resultArray = array();
+
+    $query = 'SELECT tr.tournament_id, tr.team_id, tr.result FROM tournament_result tr'
+            . ' JOIN team t ON t.ID = tr.team_id'
+            . ' JOIN team_member_list tm ON t.ID = tm.team_id'
+            . ' WHERE user_id = :user_id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':user_id', $id);
+    $statement->execute();
+    $results = $statement->fetchAll();
+    $statement->closeCursor();
+    foreach ($results as $result) {
+        $resultObject = new Result($result['team_id'],
+                $result['tournament_id'],
+                $result['result']);
+        $resultArray[] = $resultObject;
+    }
+    return $resultArray;
 }
 
 function search_users($username) {

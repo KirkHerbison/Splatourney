@@ -3,6 +3,10 @@
 require_once '../model/User.php';
 require_once('../model/database.php');
 require_once('../model/user_db.php');
+require_once ('../model/Result.php');
+require_once ('../model/Tournament.php');
+require_once ('../model/tournament_db.php');
+require_once ('../model/team_db.php');
 session_start();
 
 
@@ -95,6 +99,14 @@ elseif ($controllerChoice == 'user_profile') {
 else if ($controllerChoice == 'list_users') {
     $users = get_users();
     include("user_list.php");
+}
+
+//lists users results
+else if ($controllerChoice == 'user_results') {
+    $ID = filter_input(INPUT_POST, 'user_id');
+    $user = get_user_by_id($ID);
+    $results = get_user_results($ID);
+    include("user_results.php");
 }
 
 //Finds users bassed on a last name search and sends a list back to the list page

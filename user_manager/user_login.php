@@ -1,23 +1,22 @@
 <?php require_once '../view/header.php'; ?>
 <link rel="stylesheet" href="styles/login.css">
 <div class="center">
-    <form method='post' action="user_manager/index.php">
-        <input type="hidden" name="controllerRequest" value="validate_login"> 
+    <div class='div_form'>
         <span style='color: red'><?php echo $error_message ?></span>
         <br>
         <div class="txt_field">
-            <input type='text' name='email' rquired value="<?php
+            <input type='email' id='email' name='email' rquired value="<?php
             if ($userLogedin->getEmailAddress() != '') {
                 echo $userLogedin->getEmailAddress();
             } else {
                 echo 'admin@admin.com';
             }
             ?>">
-            <label>Email</label>
+            <label>Email:</label>
         </div>
         <br>
         <div class="txt_field">
-            <input type='password' name='pass' rquired value="<?php
+            <input type='password' id="pass" name='pass' rquired value="<?php
             if ($userLogedin->getPassword() != '') {
                 echo $userLogedin->getPassword();
             } else {
@@ -27,9 +26,11 @@
             <label>Password:</label>
         </div>
         <br>
-        <input type='submit' value='Login'>
+        <button id="loginButton">Login</button>
         <br>
-    </form>
+    </div>
 </div>
+
+<script src="js/login.js"></script>
 
 <?php require_once '../view/footer.php'; ?>

@@ -32,6 +32,10 @@ require_once 'view/header.php';
                 //jquery bracket 
                 $('#minimal .demo').bracket({
                     skipConsolationRound: true,
+                    teamWidth: 150,
+                    scoreWidth: 40,
+                    matchMargin: 41,
+                    roundMargin: 55,
                     init: minimalData,
                     onMatchClick: function (data) {
                         const divs = document.querySelectorAll('.match'); // Get all divs with class "my-class"

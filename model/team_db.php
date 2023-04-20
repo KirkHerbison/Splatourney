@@ -88,17 +88,17 @@ function get_teams_by_user_id($id){
     $teamArray = array();
 
     $query = 'SELECT * FROM team t
-                JOIN splatourney_user u ON u.ID = t.captain_user_id
-                WHERE captain_user_id = :captain_user_id';
+                JOIN team_member_list ml ON t.ID = ml.team_id
+                WHERE user_id = :user_id';
     $statement = $db->prepare($query);
-    $statement->bindValue(':captain_user_id', $id);
+    $statement->bindValue(':user_id', $id);
     $statement->execute();
     $teams = $statement->fetchAll();
     $statement->closeCursor();
     foreach ($teams as $team) {
         $teamObject = new Team($team[0],
-                $team[$id],
-                $team['username'],
+                $team['captain_user_id'],
+                get_team_by_id($id)->getTeamCaptainName(),
                 $team['team_name'],
                 $team['team_image_link'],
                 $team[4]);

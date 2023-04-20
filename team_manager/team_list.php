@@ -9,7 +9,7 @@
         <label>Search by team name:</label>
         <input class="team-name-input" type="text" name="team_search">
         <div class="search-button">
-            <input  type="submit" value="Search">
+            <input type="submit" value="Search">
         </div>
     <br>
 </form>
@@ -32,7 +32,7 @@
             <div class="button-group">
                 <form action="team_manager/index.php" method="POST">
                     <input type="hidden" name="controllerRequest" value="team_profile" />
-                    <input type="hidden" name="teamId" value="<?php echo $team->getId(); ?>">
+                    <input type="hidden" name="team_id" value="<?php echo $team->getId(); ?>">
                     <input type="submit" value="Details">
                 </form>
                 <form action="team_manager/index.php" method="POST">

@@ -72,6 +72,13 @@ else if ($controllerChoice == 'team_results') {
 }
 
 
+//to team details from team list
+else if ($controllerChoice == 'team_profile') {
+    $team = get_team_by_id(filter_input(INPUT_POST, 'team_id'));
+    $teamMembers = get_team_members($team);
+    require_once 'team_edit.php';
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 
 // Creates a team when the user hits the create team button on in team_register.php

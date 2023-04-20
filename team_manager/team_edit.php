@@ -1,45 +1,80 @@
 <?php require_once '../view/header.php'; ?> 
+<link rel="stylesheet" type="text/css" href="styles/table.css">
+<link rel="stylesheet" type="text/css" href="styles/team_details.css">
+    <div class="divider">    
+        <span class="team-name"><?php echo $team->getTeamName(); ?></span>
+    </div>
+<div class="team-display">
+    <img src="<?php echo $team->getTeamImageLink(); ?>" alt="<?php echo $team->getTeamName(); ?> Image"/>
+    <?php if(isset($userLogedin) && $userLogedin->getId() == $team->getCaptainUserId()){ ?>
+        <form class='edit-form' action="team_manager/index.php" method="POST">
+            <input type="hidden" name="controllerRequest" value="edit_team_details" /> 
+            <input type="hidden" name="team_id" value="<?php echo $team->getId(); ?>" /> 
+                <div class="edit-button">
+                    <input class="center-button"   type="submit" value="Edit Name Or Image">
+                </div>
+        </form>
+    <?php } ?>
+</div>
 
-<h1>Edit Team</h1>
-<span style='color: red'><?php echo $error_message ?></span>
-    <br>
-    <p>Member List: </p>
-    <table>
-        <tr>
-            <th>Switch Username</th>
-            <th>Splashtag</th>
-            <th>Switch Friend Code</th>
-        </tr>
-        <?php foreach ($teamMembers as $user) : ?>
+<br>
+    <h2>Member List: </h2>
+    <table class="content-table">
+        <thead>
             <tr>
-                <td><?php echo $user->getUsername(); ?></td>
-                <td><?php echo $user->getSplashtag(); ?></td>
-                <td><?php echo $user->getSwitchFriendCode(); ?></td>
-                <td>
-                    <?php if ($user->getId() != $team->getCaptainUserId()) { ?>
-                    <form action="team_manager/index.php" method="POST">
-                        <input type="hidden" name="team_id" value="<?php echo $team->getId(); ?>" /> 
-                        <input type="hidden" name="controllerRequest" value="delete_team_member" /> 
-                        <input type="hidden" name="user_id" value="<?php echo $user->getId(); ?>">
-                        <input type="submit" value="Delete">
-                    </form>
-                    <?php } else {?>
-                        Team Captain
-                    <?php }?>
-                </td>
+                <th>Switch Username</th>
+                <th>Splashtag</th>
+                <th>Switch Friend Code</th>
+                <th></th>
             </tr>
-        <?php endforeach; ?>
+        </thead>
+        <tbody>
+            <?php foreach ($teamMembers as $user) : ?>
+                <tr>
+                    <td><?php echo $user->getUsername(); ?></td>
+                    <td><?php echo $user->getSplashtag(); ?></td>
+                    <td><?php echo $user->getSwitchFriendCode(); ?></td>
+                    <td>
+                        <?php if ($user->getId() != $team->getCaptainUserId()) { ?>
+                            <?php if(isset($userLogedin) && $userLogedin->getId() == $team->getCaptainUserId()){ ?>
+                                <form action="team_manager/index.php" method="POST">
+                                    <input type="hidden" name="team_id" value="<?php echo $team->getId(); ?>" /> 
+                                    <input type="hidden" name="controllerRequest" value="delete_team_member" /> 
+                                    <input type="hidden" name="user_id" value="<?php echo $user->getId(); ?>">
+                                    <input type="submit" value="Delete">
+                                </form>
+                            <?php }?>
+                            <?php if(isset($userLogedin) && $user->getId() == $userLogedin->getId() ){ ?>
+                                <form action="team_manager/index.php" method="POST">
+                                    <input type="hidden" name="team_id" value="<?php echo $team->getId(); ?>" /> 
+                                    <input type="hidden" name="controllerRequest" value="delete_team_member" /> 
+                                    <input type="hidden" name="user_id" value="<?php echo $user->getId(); ?>">
+                                    <input type="submit" value="Delete">
+                                </form>
+                            <?php }?>
+                        
+                        <?php } else {?>
+                            Team Captain
+                        <?php }?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
     </table>
     <br>
-    <div>
-        <p>Add Member By Username: </p>
-        <form action="team_manager/index.php" method="POST">
-            <input type="hidden" name="team_id" value="<?php echo $team->getId(); ?>"/> 
+<h3 class="error_message"><?php echo $error_message ?></h3>
+    <?php if(isset($userLogedin) && $userLogedin->getId() == $team->getCaptainUserId()){ ?>
+        <form class='search-form' action="team_manager/index.php" method="POST">
             <input type="hidden" name="controllerRequest" value="add_team_member" /> 
-            <input type="text" name="new_member_username">
-            <input type="submit" value="Add">
+            <input type="hidden" name="team_id" value="<?php echo $team->getId(); ?>" /> 
+                <label>Add Member By Username:</label>
+                <input class="team-name-input" type="text" name="new_member_username">
+                <div class="search-button">
+                    <input  type="submit" value="Add">
+                </div>
+            <br>
         </form>
-    </div>
-    <br>
+    <?php } ?>
+
 
 <?php require_once '../view/footer.php'; ?>

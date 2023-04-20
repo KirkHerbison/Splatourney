@@ -2,6 +2,7 @@
 
 require_once('../model/User.php');
 require_once('../model/Team.php');
+require_once('../model/Result.php');
 
 function add_team($team) {
     $db = Database::getDB();
@@ -267,4 +268,25 @@ function update_team_isActive($id, $isActive){
     $statement->bindValue(':isActive', $isActive);
     $statement->execute();
     $statement->closeCursor();
+}
+
+function get_team_results($id) {
+    $db = Database::getDB();
+    $resultArray = array();
+
+    $query = 'SELECT tr.tournament_id, tr.team_id, tr.result FROM tournament_result tr'
+            . ' JOIN team t ON t.ID = tr.team_id'
+            . ' WHERE team_id = :team_id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':team_id', $id);
+    $statement->execute();
+    $results = $statement->fetchAll();
+    $statement->closeCursor();
+    foreach ($results as $result) {
+        $resultObject = new Result($result['team_id'],
+                $result['tournament_id'],
+                $result['result']);
+        $resultArray[] = $resultObject;
+    }
+    return $resultArray;
 }

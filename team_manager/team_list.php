@@ -37,7 +37,7 @@
                 </form>
                 <form action="team_manager/index.php" method="POST">
                     <input type="hidden" name="controllerRequest" value="team_results" /> 
-                    <input type="hidden" name="teamId" value="<?php echo $team->getId(); ?>">
+                    <input type="hidden" name="team_id" value="<?php echo $team->getId(); ?>">
                     <input class="button-regiser" type="submit" value="Results">
                 </form>
             </div>    

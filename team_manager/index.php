@@ -2,9 +2,11 @@
 
 require_once '../model/User.php';
 require_once '../model/Team.php';
+
 require_once('../model/database.php');
 require_once('../model/user_db.php');
 require_once('../model/team_db.php');
+require_once('../model/tournament_db.php');
 session_start();
 
 
@@ -59,6 +61,14 @@ else if ($controllerChoice == 'user_team_list') {
 else if ($controllerChoice == 'my_team_list') {
     $teams = get_teams_by_user_id($userLogedin->getId());
     require_once("user_team_list.php");
+}
+
+//lists team results
+else if ($controllerChoice == 'team_results') {
+    $ID = filter_input(INPUT_POST, 'team_id');
+    $team = get_team_by_id($ID);
+    $results = get_team_results($ID);
+    include("team_results.php");
 }
 
 
@@ -189,6 +199,8 @@ else if ($controllerChoice == 'activate_team') {
     $teams = get_teams_by_user_id($userLogedin->getId());
     require_once("user_team_list.php");
 }
+
+
 
 
 ////////////////////////////////////////////////////////////////////////////////

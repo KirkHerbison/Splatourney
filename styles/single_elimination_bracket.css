@@ -6,8 +6,16 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     Created on : Mar 29, 2023, 11:37:06 AM
     Author     : 16981925
 */
+main{
+    background-color: #1f2041;
+    border: none;
+}
 
-
+h3{
+    color: #FFC857;
+    padding-left: .5em;
+    font-size: 150%;
+}
 
 .mapList{
   display: flex;
@@ -21,21 +29,37 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 }
 
 .bracketContainer{
-
-    width: 100%;
-    margin: auto;
-    max-height: 800px;
-        overflow-x: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 1000px;
+  height: 800px;
+  background-color: #ccc;
+  z-index: 9999;
+  overflow-x: auto;
   overflow-y: auto;
-    white-space: nowrap;
+  white-space: nowrap;
   background-image: url(../images/assets/black_graf.jpg);
+  padding-right: 20px;
+  padding-bottom: 20px;
 }
 
-
+.resize-handle-bottom-right {
+  position: fixed;
+  bottom: 0; /* adjust as needed to leave space for the scrollbar */
+  right: 0; /* adjust as needed to leave space for the scrollbar */
+  width: 16px;
+  height: 16px;
+  background-color: #FFC857;
+  cursor: se-resize;
+  z-index: 9999;
+}
 
 /*scrollbar*/
 ::-webkit-scrollbar {
-  width: 20px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {

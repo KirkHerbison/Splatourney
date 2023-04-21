@@ -83,20 +83,28 @@ main{
 
 #tabs-1{
     padding: 0;
+    display:none;
 }
 
 #tabs-2{
     padding: 0;
+    display:none;
 }
 
 #tabs-3{
     padding: 0;
+    display:none;
 }
 
-.ui-tabs-nav{
+#tabs ul{
     background: none;
     border: none;
+    display: none;
+    padding-left: 0;
 }
+
+
+
 .ui-tabs-tab{
     color: #black;
     border: none;

@@ -119,7 +119,7 @@ if ($userLogedin->getUserTypeId() == 2) {
         require_once("admin.php");
     } //end user
     
-    else if ($controllerChoice == 'team_details') { //start team 
+    else if ($controllerChoice == 'team_details') {
         $team = get_team_by_id(filter_input(INPUT_POST, 'team_id'));
         $teamMembers = get_team_members($team);
         require_once("team_details_edit.php");

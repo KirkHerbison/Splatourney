@@ -1,11 +1,17 @@
 
 <?php require_once '../view/header.php'; ?> 
 
+<link rel="stylesheet" type="text/css" href="styles/table.css">
+<link rel="stylesheet" type="text/css" href="styles/admin.css">
+
 <script src="js/hrefLinks.js"></script>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function() {  
+        $("#tabs").tabs();
+        $("#tabs").tabs({ active: <?php echo $tab;?> });         
         var activeTab = <?php echo $tab;?>; // replace with your variable that holds the ID of the active tab
         console.log(activeTab);
+        $(".ui-tabs-nav").show();
         if (activeTab === 0) {
             $("#user-search-div").show();
             $("#team-search-div").hide();
@@ -18,20 +24,10 @@
             $("#user-search-div").hide();
             $("#team-search-div").hide();
             $("#tournament-search-div").show();
-      }
+        }
+
     });
 </script>
-<script>
-    $(function () {
-        $("#tabs").tabs();
-        $("#tabs").tabs({ active: <?php echo $tab;?> });
-        
-    });
-</script>
-<link rel="stylesheet" type="text/css" href="styles/table.css">
-<link rel="stylesheet" type="text/css" href="styles/admin.css">
-
-
 
 <div id="user-search-div">
           
@@ -212,33 +208,6 @@
         </table>
     </div>
 </div>
-
-
-
-<script>
-$(function() {
-  $("#tabs").tabs({
-    activate: function(event, ui) {
-        
-      var activeTab = ui.newPanel.attr("id");
-      console.log(activeTab);
-      if (activeTab === "tabs-1") {
-        $("#user-search-div").show();
-        $("#team-search-div").hide();
-        $("#tournament-search-div").hide();
-      } else if (activeTab === "tabs-2") {
-        $("#user-search-div").hide();
-        $("#team-search-div").show();
-        $("#tournament-search-div").hide();
-      } else if (activeTab === "tabs-3") {
-        $("#user-search-div").hide();
-        $("#team-search-div").hide();
-        $("#tournament-search-div").show();
-      }
-    }
-  });
-});
-</script>
 
 <?php require_once '../view/footer.php'; ?>
 

@@ -1,6 +1,6 @@
 <?php require_once '../view/header.php'; ?>
-
 <link rel="stylesheet" type="text/css" href="styles/user_list.css">
+
 <form class='search-form' action="user_manager/index.php" method="POST">
     <input type="hidden" name="controllerRequest" value="username_search" /> 
     <label>Search by Username:</label>
@@ -10,13 +10,10 @@
     </div>
     <br>
 </form>
-
 <div class="user-container">
     <?php foreach ($users as $user) : ?>
         <div class="user-tag" id="<?php echo $user->getId(); ?>">
             <div class="user-details">
-
-
                 <div class="username">
                     <span><?php echo $user->getUsername(); ?></span>
                 </div>

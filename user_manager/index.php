@@ -1,5 +1,4 @@
 <?php
-
 require_once '../model/User.php';
 require_once('../model/database.php');
 require_once('../model/user_db.php');
@@ -46,6 +45,13 @@ if ($controllerChoice == 'login_user') {
 // sends the user to the registration page if register is selected in the header
 else if ($controllerChoice == 'user_register') {
     $error_message = "";
+    $user_id = -1;
+    require_once("user_register.php");
+}
+
+// sends the user to the registration page if register is selected in the header
+else if ($controllerChoice == 'user_edit') {
+    $error_message = "";
     require_once("user_register.php");
 }
 
@@ -57,7 +63,6 @@ else if ($controllerChoice == 'logout') {
     $_SESSION = array();
     include("user_login.php");
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -109,13 +114,11 @@ else if ($controllerChoice == 'user_results') {
     include("user_results.php");
 }
 
-//Finds users bassed on a last name search and sends a list back to the list page
-//If a non admin attempts they will be sent to user_login
+//Finds users bassed on a last name search and sends the new list to the admin page
 else if ($controllerChoice == 'username_search') {
     $users = search_users(filter_input(INPUT_POST, 'username_search'));
     include("user_list.php");
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -152,6 +155,11 @@ elseif ($controllerChoice == 'user_save') {
 //Does logic to test, sends back to register and displays
 //error if form will not validate
 elseif ($controllerChoice == 'user_register_confirmation') {
+    
+    $dislpay = filter_input(INPUT_POST, 'showName');
+    if(filter_input(INPUT_POST, 'showName') == 'on'){
+        $displayName = 1;
+    }
 
     $user = new User(
             -1,
@@ -167,7 +175,7 @@ elseif ($controllerChoice == 'user_register_confirmation') {
             filter_input(INPUT_POST, 'discordUsername'),
             null,
             true,
-            filter_input(INPUT_POST, 'showName')
+            $dislpay
     );
 
     if ($user->getFirstName() == null || $user->getLastName() == null || $user->getEmailAddress() == null || $user->getPassword() == null || $user->getUsername() == null) {
@@ -190,10 +198,63 @@ elseif ($controllerChoice == 'user_register_confirmation') {
         require_once("user_register.php");
     } else {
         add_user($user);
-        require_once("user_register_confirmation.php");
+        require_once("login.php");
     }
 }
 
+//Sends user to a confirmation page if the form validates
+//Does logic to test, sends back to register and displays
+//error if form will not validate
+elseif ($controllerChoice == 'user_save_confirmation') {
+
+    $displayName = 0;
+    if(filter_input(INPUT_POST, 'showName') == 'on'){
+        $displayName = 1;
+    }
+
+    $user = new User(
+            $userLogedin->getId(),
+            $userLogedin->getUserTypeId(),
+            filter_input(INPUT_POST, 'emailAddress'),
+            filter_input(INPUT_POST, 'username'),
+            filter_input(INPUT_POST, 'password'),
+            filter_input(INPUT_POST, 'firstName'),
+            filter_input(INPUT_POST, 'lastName'),
+            preg_replace("/[^0-9]/", "",filter_input(INPUT_POST, 'friendCode')),
+            filter_input(INPUT_POST, 'switchUsername'),
+            filter_input(INPUT_POST, 'splashtag'),
+            filter_input(INPUT_POST, 'discordUsername'),
+            null,
+            true,
+            $displayName
+    );
+
+    if ($user->getFirstName() == null || $user->getLastName() == null || $user->getEmailAddress() == null || $user->getPassword() == null || $user->getUsername() == null) {
+        $error_message = "Invalid registration, please fill out first name, last name, email, username, and password";
+        require_once("user_register.php");
+    } elseIf ($userLogedin->getEmailAddress() != $user->getEmailAddress() && check_user_email($user->getEmailAddress())) {
+        $error_message = "Invalid registration, this email is already in use";
+        require_once("user_register.php");
+    } elseIf ($userLogedin->getDiscordUsername() != $user->getDiscordUsername() && check_discord_username($user->getDiscordUsername())) {
+        $error_message = "Invalid registration, this discord username is already in use";
+        require_once("user_register.php");
+    } elseIf ($userLogedin->getSplashtag() != $user->getSplashtag() && check_splashtag($user->getSplashtag())) {
+        $error_message = "Invalid registration, this splashtag is already in use";
+        require_once("user_register.php");
+    } elseIf ($userLogedin->getSwitchFriendCode() != $user->getSwitchFriendCode() && check_switch_friend_code($user->getSwitchFriendCode())) {
+        $error_message = "Invalid registration, this friend code is already in use";
+        require_once("user_register.php");
+    } elseIf ($userLogedin->getUsername() != $user->getUsername() && check_username($user->getUsername())) {
+        $error_message = "Invalid registration, this username is already in use";
+        require_once("user_register.php");
+    } else {
+        update_user($user);
+        $confirmation_message = "Your changes have been saved";
+        $_SESSION['userLogedin'] = $user;
+        $userLogedin = $_SESSION['userLogedin'];
+        require_once("user_register.php");
+    }
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 

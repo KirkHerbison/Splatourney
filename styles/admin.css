@@ -1,0 +1,141 @@
+body{
+          margin: 0;
+  padding: 0;
+      display: flex;
+    flex-direction: column
+}
+main{
+  border:none;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  background: #1F2041;
+}
+
+.search-form{
+    display:  flex;
+    flex-direction: row;
+    width: 100%;
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+.search-form label{
+    width: auto;
+    color: white;
+    font-size: 1.8em;
+}
+.search-form .search-button{
+    width: auto;
+    margin: 0;
+}
+
+.user-search-div{
+    width: 100%;
+}
+
+.team-search-div{
+    width: 100%;
+}
+
+.tournament-search-div{
+    width: 100%;
+}
+
+.team-name-input{
+    height: 45px;
+    width: 25%;
+    outline: none;
+    font-size: 16px;
+    border-radius: 5px;
+    padding-left: 15px;
+    border: 1px solid #ccc;
+    border-bottom-width: 2px;
+    transition: all 0.3s ease;
+    margin-right: 2em;
+}
+
+.search-button input{
+    width: 200px;
+    height: 50px;
+    border: 1px solid;
+    background: #FFC857;
+    border-radius: 25px;
+    font-size: 18px;
+    color: #1F2041;
+    font-weight: 700;
+    cursor: pointer;
+    outline: none;
+}
+.search-button input:hover{
+    border-color: #FFC857;
+    transition: .5s;
+}
+
+/*==============================================*/
+
+#tabs{
+    width: 100%; 
+    background-color: #1F2041;
+    border:none;
+    padding:0;
+}
+
+#tabs-1{
+    padding: 0;
+}
+
+#tabs-2{
+    padding: 0;
+}
+
+#tabs-3{
+    padding: 0;
+}
+
+.ui-tabs-nav{
+    background: none;
+    border: none;
+}
+.ui-tabs-tab{
+    color: #black;
+    border: none;
+        
+}
+
+.ui-tabs .ui-tabs-nav li.ui-tabs-active a {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  background-color: #A51EE1;
+  color: white;
+  border: none;
+}
+
+.ui-tabs .ui-tabs-nav li:not(.ui-tabs-active) a:hover  {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  background-color: #FFC857;
+  color: black;
+  border: none;
+}
+
+.ui-tabs .ui-tabs-nav li:not(.ui-tabs-active) a {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  background-color: white;
+  color: black;
+  border: none;
+}
+
+#user-search-div,
+#team-search-div,
+#tournament-search-div {
+  display: none;
+}
+
+.ui-tabs .ui-tabs-nav li {
+    border: none;
+      border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+
+}

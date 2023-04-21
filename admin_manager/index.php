@@ -43,7 +43,33 @@ if ($userLogedin->getUserTypeId() == 2) {
         require_once("admin.php");
     }
     
+
+    else if ($controllerChoice == 'username_search') {
+        $users = search_users(filter_input(INPUT_POST, 'username_search'));
+        $teams = get_teams();
+        $tournaments = get_tournaments();
+
+        $tab = '0';   
+        require_once("admin.php");
+    }
     
+    else if ($controllerChoice == 'team_search_by_name') {
+        $users = get_users();
+        $teams = search_teams(filter_input(INPUT_POST, 'team_search'));
+        $tournaments = get_tournaments();
+
+        $tab = '1';   
+        require_once("admin.php");
+    }
+    
+    else if ($controllerChoice == 'tournament_search_by_name') {
+        $users = get_users();
+        $teams = get_teams();
+        $tournaments = search_tournaments(filter_input(INPUT_POST, 'tournament_search'));
+
+        $tab = '2';   
+        require_once("admin.php");
+    }
     
 ////////////////////////////////////////////////////////////////////////////////
 // brings admin user to the user edit page (sends a non admin user to login)

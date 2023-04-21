@@ -267,6 +267,30 @@ function add_user($user) {
     $statement->closeCursor();
 }
 
+function update_user($user) {
+    $db = Database::getDB();
+    $query = 'UPDATE splatourney_user '
+            . 'SET email_address = :email_address, username = :username, '
+            . 'password = :password, first_name = :first_name, last_name = :last_name, switch_friend_code = :switch_friend_code, '
+            . 'switch_username = :switch_username, splashtag = :splashtag, discord_username = :discord_username, discord_client_secret = :discord_client_secret,display_name = :display_name '
+            . 'WHERE id = :id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':id', $user->getId());
+    $statement->bindValue(':email_address', $user->getEmailAddress());
+    $statement->bindValue(':username', $user->getUsername());
+    $statement->bindValue(':password', $user->getPassword());
+    $statement->bindValue(':first_name', $user->getFirstName());
+    $statement->bindValue(':last_name', $user->getLastName());
+    $statement->bindValue(':switch_friend_code', $user->getSwitchFriendCode());
+    $statement->bindValue(':switch_username', $user->getSwitchUsername());
+    $statement->bindValue(':splashtag', $user->getSplashtag());
+    $statement->bindValue(':discord_username', $user->getDiscordUsername());
+    $statement->bindValue(':discord_client_secret', $user->getDiscordClientSecret());
+    $statement->bindValue(':display_name', $user->getDisplayName());
+    $statement->execute();
+    $statement->closeCursor();
+}
+
 function update_user_by_admin($id, $switchFriendCode, $switchUsername, $splashtag, $discordUsername) {
     $db = Database::getDB();
     $query = 'UPDATE splatourney_user

@@ -3,16 +3,69 @@
 
 <script src="js/hrefLinks.js"></script>
 <script>
+    $(document).ready(function() {
+        var activeTab = <?php echo $tab;?>; // replace with your variable that holds the ID of the active tab
+        console.log(activeTab);
+        if (activeTab === 0) {
+            $("#user-search-div").show();
+            $("#team-search-div").hide();
+            $("#tournament-search-div").hide();
+        } else if (activeTab === 1) {
+            $("#user-search-div").hide();
+            $("#team-search-div").show();
+            $("#tournament-search-div").hide();
+        } else if (activeTab === 2) {
+            $("#user-search-div").hide();
+            $("#team-search-div").hide();
+            $("#tournament-search-div").show();
+      }
+    });
+</script>
+<script>
     $(function () {
         $("#tabs").tabs();
-        console.log("tabs is loading");
         $("#tabs").tabs({ active: <?php echo $tab;?> });
+        
     });
 </script>
 <link rel="stylesheet" type="text/css" href="styles/table.css">
+<link rel="stylesheet" type="text/css" href="styles/admin.css">
 
 
 
+<div id="user-search-div">
+          
+        <form class='search-form' action="admin_manager/index.php" method="POST">
+            <input type="hidden" name="controllerRequest" value="username_search" /> 
+            <label>Search by username:</label>
+            <input  class="team-name-input" type="text" name="username_search">
+            <div class="search-button">
+                <input type="submit" value="Search">
+            </div>
+        </form>
+</div>
+<div id="team-search-div">
+          <form class='search-form' action="admin_manager/index.php" method="POST">
+            <input type="hidden" name="controllerRequest" value="team_search_by_name" /> 
+            <label>Search by team name:</label>
+            <input class="team-name-input" type="text" name="team_search">
+            <div class="search-button">
+                <input type="submit" value="Search">
+            </div>
+            <br>
+        </form>
+</div>
+<div id="tournament-search-div">
+         <form class='search-form' action="admin_manager/index.php" method="POST">
+            <input type="hidden" name="controllerRequest" value="tournament_search_by_name" /> 
+            <label>Search by tournament name:</label>
+            <input class="team-name-input" type="text" name="tournament_search">
+            <div class="search-button">
+                <input type="submit" value="Search">
+            </div>
+            <br>
+        </form>
+</div>
 
 <div id="tabs">
     <ul>
@@ -23,21 +76,6 @@
 
 
     <div id="tabs-1">
-        <h1>User List</h1>
-        <form action="user_manager/index.php" method="POST">
-            <input type="hidden" name="controllerRequest" value="username_search" /> 
-            <br>
-            <div class="textbox-group">
-                <label>Search by last username:</label>
-                <input type="text" name="username_search">
-            </div>
-            <br>
-            <div class="search-button">
-                <input type="submit" value="Search">
-            </div>
-            <br>
-        </form>
-
         <table class="content-table">
             <thead>
                 <tr>
@@ -80,29 +118,12 @@
                                 <?php } ?>
                             </td>
                         </tr>
-<?php endforeach; ?>
+                    <?php endforeach; ?>
             </tbody>
         </table>
     </div>
     
-    
-    
     <div id="tabs-2">
-        <h1>Team List</h1>
-        <form action="team_manager/index.php" method="POST">
-            <input type="hidden" name="controllerRequest" value="team_search_by_name" /> 
-            <br>
-            <div class="textbox-group">
-                <label>Search by team name:</label>
-                <input type="text" name="team_search">
-            </div>
-            <br>
-            <div class="search-button">
-                <input type="submit" value="Search">
-            </div>
-            <br>
-        </form>
-
         <table class="content-table">
             <thead>
             <tr>
@@ -146,21 +167,6 @@
     
     
     <div id="tabs-3" >
-        <h1>Tournament List</h1>
-        <form action="team_manager/index.php" method="POST">
-            <input type="hidden" name="controllerRequest" value="tournament_search_by_name" /> 
-            <br>
-            <div class="textbox-group">
-                <label>Search by tournament name:</label>
-                <input type="text" name="tournament_search">
-            </div>
-            <br>
-            <div class="search-button">
-                <input type="submit" value="Search">
-            </div>
-            <br>
-        </form>
-
         <table class="content-table">
             <thead>
             <tr>
@@ -206,6 +212,33 @@
         </table>
     </div>
 </div>
+
+
+
+<script>
+$(function() {
+  $("#tabs").tabs({
+    activate: function(event, ui) {
+        
+      var activeTab = ui.newPanel.attr("id");
+      console.log(activeTab);
+      if (activeTab === "tabs-1") {
+        $("#user-search-div").show();
+        $("#team-search-div").hide();
+        $("#tournament-search-div").hide();
+      } else if (activeTab === "tabs-2") {
+        $("#user-search-div").hide();
+        $("#team-search-div").show();
+        $("#tournament-search-div").hide();
+      } else if (activeTab === "tabs-3") {
+        $("#user-search-div").hide();
+        $("#team-search-div").hide();
+        $("#tournament-search-div").show();
+      }
+    }
+  });
+});
+</script>
 
 <?php require_once '../view/footer.php'; ?>
 

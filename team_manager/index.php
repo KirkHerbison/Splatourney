@@ -52,6 +52,7 @@ else if ($controllerChoice == 'team_list') {
 
 // team list for a different user
 else if ($controllerChoice == 'user_team_list') {
+    header("Cache-Control: no cache");
     $userId = filter_input(INPUT_POST, 'userId');
     $teams = get_teams_by_user_id($userId);
     require_once("team_list.php");
@@ -68,7 +69,7 @@ else if ($controllerChoice == 'team_results') {
     $ID = filter_input(INPUT_POST, 'team_id');
     $team = get_team_by_id($ID);
     $results = get_team_results($ID);
-    include("team_results.php");
+    require_once("team_results.php");
 }
 
 
@@ -180,7 +181,7 @@ else if ($controllerChoice == 'delete_team_member') {
 //Finds teams bassed on a name search and sends a list back to the list page
 else if ($controllerChoice == 'team_search_by_name') {
     $teams = search_teams(filter_input(INPUT_POST, 'team_search'));
-    include("team_list.php");
+    require_once("team_list.php");
 }
 
 

@@ -1,68 +1,75 @@
 <?php require_once '../view/header.php'; ?> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><!--for image upload -->
+<link rel="stylesheet" type="text/css" href="styles/image_upload_1.css"><!-- for image upload -->
+<link rel="stylesheet" href="styles/tournament_register.css"/>
 
-<h1>Create Tournament</h1>
-<span style='color: red'><?php echo $error_message ?></span>
-<form action="tournament_manager/index.php" method="post">
-    <input type="hidden" name="controllerRequest" value="tournament_register_confirmation" /> 
-    <br>
-    <div>
-        <p>Organization Name: </p>
-        <input type="text" name="tournamentOrganizerName" value="My Organization">
-    </div>
-    <br>
-    <div>
-        <p>Tournament Type: </p>
-        <select name="tournamentType" id="tournamentType">
-            <?php foreach ($tournamnetTypes as $type) { ?>
-                    <option value="<?php echo $type->getId(); ?>" ><?php echo $type->getDescription(); ?></option>
-            <?php }?>        
-        </select>
-    </div>
-    <br>
-    <div>
-        <p>Tournament Banner: 1290 x 600</p>
-        <input type="file" name="tournamentBanner">
-    </div>
-    <br>
-    <div>
-        <p>Tournament Name: </p>
-        <input type="text" name="tournamentName" value="My Tournament Name">
-    </div>
-    <br>
-    <div>
-        <p>Tournament Date Time: </p>
-        <input type='datetime-local' name="tournamentDateTime">
-    </div>
-    <br>
-    <div>
-        <p>Tournament Registration Deadline: </p>
-        <input type='datetime-local' name="tournamentDeadline">
-    </div>
-    <br>
-    <div>
-        <p>Tournament About: </p>
-        <textarea name="tournamentAbout" maxlength="5000" rows="4" cols="70">About tournament</textarea>
-    </div>
-    <br>
-    <div>
-        <p>Prizes: </p>
-        <textarea name="tournamentPrizes" maxlength="5000" rows="4" cols="70">Prizes</textarea>
-    </div>
-    <br>
-    <div>
-        <p>Contact: </p>
-        <textarea name="tournamentContact" maxlength="5000" rows="4" cols="70">Contact</textarea>
-    </div>
-    <br>
-    <div>
-        <p>Rules: </p>
-        <textarea name="tournamentRules" maxlength="5000" rows="4" cols="70">Rules</textarea>
-    </div>
-    <br>
-    <div>
-        <p></p><input type='submit' value='Create Tournament'>
-    </div>
-    <br>
-</form>
 
+
+
+
+
+
+
+<div class="container">
+    <div class="title">Create Tournament</div>
+    <span style='color: red'><?php echo $error_message ?></span>
+    <div class="content">
+        <form action="tournament_manager/index.php" method="post">  
+            <div class="user-details">
+                <div class="input-box">
+                    <span class="details">Tournament Name<span style="color: red;">*</span></span>
+                    <input type="text" name="tournamentName" placeholder="tournament name" required>
+                </div>
+                <div class="input-box">
+                    <span class="details">Organization Name<span style="color: red;">*</span></span>
+                    <input type="text" name="tournamentOrganizerName" placeholder="prganization name" required>
+                </div>
+                <div class="input-box">
+                    <span class="details">Start Date Time</span>
+                    <input type='datetime-local' name="tournamentDateTime" required>
+                </div>
+                <div class="input-box">
+                    <span class="details">Registration Deadline<span style="color: red;">*</span></span>
+                    <input type='datetime-local' name="tournamentDeadline" required>
+                </div>
+            </div>
+            <div class="input-box">
+              <span class="details">Tournament Banner</span>
+              <div class="drag-image">
+                <div class="wrapper">
+                  <div class="icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                  <h6>Drag & Drop File Here</h6>
+                  <p>1290 x 600</p>
+                  <span>OR</span>
+                  <button type="button">Browse File</button>
+                  <input type="file" name="image" accept = "image/*" hidden>
+                </div>
+              </div>
+              <div class="display-image" style="display: none;"></div>
+            </div>
+                <div class="input-box">
+                    <span class="details">About</span>
+                    <textarea name="tournamentAbout" maxlength="5000" rows="4" cols="70"></textarea>
+                </div>
+                <div class="input-box">
+                    <span class="details">Prizes</span>
+                    <textarea name="tournamentPrizes" maxlength="5000" rows="4" cols="70"></textarea>
+                </div>
+                <div class="input-box">
+                    <span class="details">Contact</span>
+                    <textarea name="tournamentContact" maxlength="5000" rows="4" cols="70"></textarea>
+                </div>
+                <div class="input-box">
+                    <span class="details">Rules</span>
+                    <textarea name="tournamentRules" maxlength="5000" rows="4" cols="70"></textarea>
+                </div>
+                <div class="button">
+                    <input type='submit' value='Create'>           
+                </div>  
+        </form>
+    </div>
+</div>
+
+
+<script src="js/image_upload.js"></script>
 <?php require_once '../view/footer.php'; ?>

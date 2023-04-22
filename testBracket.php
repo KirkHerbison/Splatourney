@@ -79,9 +79,6 @@ require_once 'view/header.php';
     </div>
 </div>
 
-
-
-
 <!--  READ UP ON THIS PAGE, I NEED TO CHANGE TO A DIFFERENT BRACKET, THIS ALSO SUPPORTS DOUBLE ELIM slightly less appealing initially http://www.aropupu.fi/bracket/ -->
 
 </div>

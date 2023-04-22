@@ -39,7 +39,7 @@
                     <span class="details">Discord Username</span>
                     <input type='text' name='discordUsername' placeholder="LittleTimmy#1234" value="<?php if($userLogedin->getId() > 0){ echo $userLogedin->getDiscordUsername();}?>">
                 </div>
-                                <div class="input-box">
+                <div class="input-box">
                     <span class="details">username <span style="color: red;">*</span></span>
                     <input type='text' name='username' placeholder="Enter a username" required value="<?php if($userLogedin->getId() > 0){ echo $userLogedin->getUsername();}?>">
                 </div>

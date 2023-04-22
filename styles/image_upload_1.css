@@ -1,0 +1,153 @@
+.drag-image {
+  border: 2px solid black;
+  background: lightgray;
+    height: 0;
+  padding-bottom: 46.67%; /* 15:7 aspect ratio */
+  max-width: 1290px;
+  border-radius: 5px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.drag-image .wrapper {
+  height: 0;
+  padding-top: 46.67%; /* 15:7 aspect ratio */
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.drag-image .active {
+  border: 2px solid black;
+}
+
+.drag-image .icon {
+  font-size: 30px;
+  color: black;
+}
+
+.drag-image h6 {
+  font-size: 14px;
+  font-weight: 300;
+  color: black;
+}
+
+.drag-image p {
+  margin-top: 10px;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.drag-image span {
+  font-size: 14px;
+  font-weight: 300;
+  color: black;
+  margin: 10px 0 15px 0;
+}
+
+.drag-image button {
+  width: 80%;
+  height: 50px;
+  border: 1px solid black;
+  background: #A51EE1;
+  border-radius: 25px;
+  font-size: 18px;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  outline: none;
+}
+
+.drag-image button:hover {
+  transition: .5s;
+  border-color: #A51EE1;
+}
+
+form .button input {
+  width: 100%;
+  height: 50px;
+  border: 1px solid;
+  background: #FFC857;
+  border-radius: 25px;
+  font-size: 18px;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  outline: none;
+}
+
+form .button input:hover {
+  border-color: #FFC857;
+  transition: .5s;
+}
+
+.drag-image img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.display-image {
+  max-height: 600px;
+  max-width: 1290px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.display-image.active {
+  border: 2px solid black;
+}
+
+.display-image .icon {
+  font-size: 30px;
+  color: black;
+}
+
+.display-image h6 {
+  font-size: 20px;
+  font-weight: 300;
+  color: black;
+}
+
+.display-image span{
+  font-size: 14px;
+  font-weight: 300;
+  color: black;
+  margin: 10px 0 15px 0;
+}
+
+.display-image button{
+  padding: 10px 25px;
+  font-size: 14px; 
+  font-weight: 300;
+  border: none;
+  outline: none;
+  background-color: lightgray;
+  color: black;
+  border:1px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+  transition:all 
+
+}
+
+.display-image button:hover{
+    background-color:black;
+    color:red;
+}
+
+.display-image img{
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+}

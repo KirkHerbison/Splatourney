@@ -14,7 +14,8 @@
     <div class="title">Create Tournament</div>
     <span style='color: red'><?php echo $error_message ?></span>
     <div class="content">
-        <form action="tournament_manager/index.php" method="post">  
+        <form action="tournament_manager/index.php" method="post"  enctype="multipart/form-data">  
+            <input type="hidden" name="controllerRequest" value="tournament_register_confirmation" /> 
             <div class="user-details">
                 <div class="input-box">
                     <span class="details">Tournament Name<span style="color: red;">*</span></span>
@@ -22,7 +23,7 @@
                 </div>
                 <div class="input-box">
                     <span class="details">Organization Name<span style="color: red;">*</span></span>
-                    <input type="text" name="tournamentOrganizerName" placeholder="prganization name" required>
+                    <input type="text" name="tournamentOrganizerName" placeholder="organization name" required>
                 </div>
                 <div class="input-box">
                     <span class="details">Start Date Time</span>

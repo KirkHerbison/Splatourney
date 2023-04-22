@@ -34,12 +34,21 @@
                 <li>
                     <a href="" >Home</a>
                 </li>
+                <?php if ($userLogedin->getID() == null) { ?>  
                 <li>
                     <a href="user_manager/index.php?controllerRequest=user_register">Register</a>
                 </li>
+                <?php } else{ ?>
+                    <li>
+                        <a href="user_manager/index.php?controllerRequest=user_register">Profile</a>
+                    </li>
+                <?php }?>
+                
+                <?php if ($userLogedin->getID() == null) { ?>   
                 <li>
                     <a href="user_manager?controllerRequest=login_user">Login</a>
                 </li>
+                <?php }?>
                 <li>
                     <a href="tournament_manager?controllerRequest=tournament_list">Tournament List</a>
                 </li>          
@@ -59,6 +68,14 @@
                     <li>
                         <a href="tournament_manager?controllerRequest=tournament_register">Create Tournament</a>
                     </li>
+                     <li>
+                        <a href="tournament_manager?controllerRequest=my_tournament_list">My Tournaments</a>
+                    </li>
+                    
+                    
+                    
+                    
+                    
                 <?php }?>
                 <?php if ($userLogedin->getUserTypeId() === 2) { ?>
                     <li>

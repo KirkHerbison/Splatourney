@@ -33,7 +33,6 @@ if ($controllerChoice == NULL) {
 ////////////////////////////////////////////////////////////////////////////////
 // sends the user to the tournament registration page if register is selected in the header
 if ($controllerChoice == 'tournament_register') {
-    $tournamnetTypes = get_tournament_types();
     require_once("tournament_register.php");
 }
 
@@ -46,8 +45,24 @@ else if ($controllerChoice == 'tournament_list') {
 // The tournmanet list search by tournaments
 else if ($controllerChoice == 'tournament_search_by_name') {
     $tournaments = search_tournaments(filter_input(INPUT_POST, 'tournament_search'));
-    include("tournament_list.php");
-    
+    require_once("tournament_list.php");
+}
+
+// To a users tournament to edit
+else if ($controllerChoice == 'edit_my_tournament') {
+    $tournament = get_tournament_by_id(filter_input(INPUT_POST, 'tournament_id'));
+    require_once("tournament_edit.php");
+}
+
+// In the header when the user selects my teams
+else if ($controllerChoice == 'my_tournament_list') {
+    if($userLogedin->getId() >0){
+        $tournamentsOwned = get_tournaments_by_ownerId($userLogedin->getId());
+        require_once("user_tournament_list.php");
+    }
+    else{
+        require_once('../user_manager/user_login.php');
+    }
 }
 
 
@@ -61,7 +76,6 @@ else if ($controllerChoice == 'map_list') {
 // verifys information from the tournament register page and makes a decission bassed on results
 else if ($controllerChoice == 'tournament_register_confirmation') {
     $tournamentOrganizerName = filter_input(INPUT_POST, 'tournamentOrganizerName');
-    $tournamentType = filter_input(INPUT_POST, 'tournamentType');
     $tournamentName = filter_input(INPUT_POST, 'tournamentName');
     $tournamentAbout = filter_input(INPUT_POST, 'tournamentAbout');
     $tournamentPrizes = filter_input(INPUT_POST, 'tournamentPrizes');
@@ -69,7 +83,7 @@ else if ($controllerChoice == 'tournament_register_confirmation') {
     $tournamentRules = filter_input(INPUT_POST, 'tournamentRules');
     $tournamentDatetime = filter_input(INPUT_POST, 'tournamentDateTime');
     $tournamentDeadline = filter_input(INPUT_POST, 'tournamentDeadline');
-
+    $imageValid = true;
     $today = new DateTime();
 
     $startDatetime = new DateTime(filter_input(INPUT_POST, 'tournamentDeadline'));
@@ -108,7 +122,7 @@ else if ($controllerChoice == 'tournament_register_confirmation') {
                 null,
                 $userLogedin->getID(),
                 $tournamentOrganizerName,
-                $tournamentType,
+                1,
                 null,
                 $tournamentName,
                 $sqlDatetime,
@@ -119,10 +133,40 @@ else if ($controllerChoice == 'tournament_register_confirmation') {
                 $tournamentRules,
                 1
         );
-        $id = add_tournament($tournament);
-        $brackets = get_brackets_by_tournament_id($id);
-        $tournament->setId($id);
-        require_once("tournament_edit.php");
+
+        if (isset($_FILES['image']) && !empty($_FILES['image']['name'])) { // start for image upload
+            $target_dir = "../images/tournament_images/"; // this is the initial file path to my images folder
+            //this creates a unique identity for the image, something like teamImage_1236781236.php
+            //uniqueid() gets a random number bassed on current time
+            //.path info gets the file type (.jpg, .jpeg, .png [or invalid files])
+            $image_name = 'teamImage_' . uniqid() . '.' . pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+
+            $target_file = $target_dir . $image_name; // this combines the ../images/ with the image name on the end
+            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION)); // gets file type for validation
+
+
+            if (in_array($imageFileType, array('jpg', 'jpeg', 'png'))) { // verifys the file type is valid
+                if (move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) { //attempts to put file into folder
+                    $tournament->setTournamentBannerLink($image_name); //database call to put link into database
+                } else { //file upload did not work
+                    $imageValid = false;
+                    $error_message = "Sorry, there was an error uploading your file.";
+                }
+            } else { // file type was invalid
+                $imageValid = false;
+                $error_message = "Sorry, only JPG, JPEG, & PNG files are allowed.";
+            }
+        } //end for image upload
+
+        if ($imageValid == true) {
+            $id = add_tournament($tournament);
+            $brackets = get_brackets_by_tournament_id($id);
+            $tournament->setId($id);
+            require_once("tournament_edit.php");
+        }
+        else{
+            require_once("tournament_register.php");
+        }
     }
 }
 
@@ -194,33 +238,30 @@ else if ($controllerChoice == 'tournament_edit') {
         add_tournament($tournament);
         require_once("tournament_edit.php");
     }
-}
+} else if ($controllerChoice == 'insert_bracket') {
 
-else if ($controllerChoice == 'insert_bracket') {
-    
     $bracket = new Bracket(
             0,
             filter_input(INPUT_POST, 'tournamentId'),
             filter_input(INPUT_POST, 'tournamentTypeId'),
-            filter_input(INPUT_POST, 'tournamentBracketName')      
+            filter_input(INPUT_POST, 'tournamentBracketName')
     );
 
-    
     //this is just a test for commit/pushs
-    
-    
+
+
     $bracket->setId(insert_bracket($bracket));
-    
-    $maxMatches =  pow(2,(int)filter_input(INPUT_POST, 'rounds')); 
+
+    $maxMatches = pow(2, (int) filter_input(INPUT_POST, 'rounds'));
     $maxRounds = log($maxMatches, 2);
-    $round = (int)filter_input(INPUT_POST, 'rounds');
+    $round = (int) filter_input(INPUT_POST, 'rounds');
     $roundCurrent = $round;
     $matchNumber = 1;
-    
+
     //inserts each match with it's round #. will always insert like 1,1,1,1,2,2,3
     while ($matchNumber <= $maxMatches) {
         for ($i = 0; $i < pow(2, $round - 1); $i++) {
-            if($round>0){
+            if ($round > 0) {
                 insert_match($bracket, $round);
             }
             $matchNumber++;
@@ -230,12 +271,11 @@ else if ($controllerChoice == 'insert_bracket') {
         }
         $round--;
     }
-    
+
     $tournament = get_tournament_by_id(filter_input(INPUT_POST, 'tournamentId'));
     $brackets = get_brackets_by_tournament_id($tournament->getId());
     $tournamnetTypes = get_tournament_types();
     require_once("tournament_edit.php");
-    
 }
 
 
@@ -268,13 +308,11 @@ else if ($controllerChoice == 'tournament_bracket') {
 else {
     // Show this is an unhandled $controllerChoice
     // Show generic else page
-        require_once '../view/header.php';
-        echo "<h1>Not yet implimented... </h1>";
-        echo "<h2> controllerChoice:  $controllerChoice</h2>";
-        echo "<h3> File:  team_manager/index.php </h3>";
-        require_once '../view/footer.php';
-
-
+    require_once '../view/header.php';
+    echo "<h1>Not yet implimented... </h1>";
+    echo "<h2> controllerChoice:  $controllerChoice</h2>";
+    echo "<h3> File:  team_manager/index.php </h3>";
+    require_once '../view/footer.php';
 }
 
 

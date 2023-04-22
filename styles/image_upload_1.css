@@ -1,7 +1,7 @@
 .drag-image {
   border: 2px solid black;
   background: lightgray;
-    height: 0;
+  height: 0;
   padding-bottom: 46.67%; /* 15:7 aspect ratio */
   max-width: 1290px;
   border-radius: 5px;
@@ -9,18 +9,22 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  /* add display and justify-content properties */
 }
 
-.drag-image .wrapper {
-  height: 0;
-  padding-top: 46.67%; /* 15:7 aspect ratio */
+.wrapper {
+  height: 100%;
   width: 100%;
+  margin-top: 30%;
   position: relative;
+  
+  /* add display and justify-content properties */
   display: flex;
-  align-items: center;
-  justify-content: center;
   flex-direction: column;
+  text-align: center;
 }
+
 
 .drag-image .active {
   border: 2px solid black;
@@ -51,7 +55,7 @@
 }
 
 .drag-image button {
-  width: 80%;
+  width: 50%;
   height: 50px;
   border: 1px solid black;
   background: #A51EE1;
@@ -61,6 +65,8 @@
   font-weight: 700;
   cursor: pointer;
   outline: none;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .drag-image button:hover {

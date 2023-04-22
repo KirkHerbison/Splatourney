@@ -151,9 +151,9 @@ else if ($controllerChoice == 'team_register_confirmation') {
                 $team = get_team_by_id($teamId);
                 add_team_member($userLogedin, $team);
                 $teamMembers = get_team_members($team);
-                require_once 'team_edit.php';
+                require_once ("tournament_edit.php");
             } else {
-                require_once("team_register.php");
+                require_once("tournament_register.php");
             }
         }
     }
@@ -216,34 +216,6 @@ else if ($controllerChoice == 'team_update_confirmation') {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // In team_edit when the user clicks the Add Member button

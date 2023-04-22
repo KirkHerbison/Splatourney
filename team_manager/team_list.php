@@ -23,7 +23,7 @@
     <?php foreach ($teams as $team) : ?>
     <div class="team-tag" id="<?php echo $team->getId();?>">
         <div class="team-details">
-            <img src="<?php echo $team->getTeamImageLink(); ?>" alt="<?php echo $team->getTeamName(); ?> Image"/>
+            <img src="images/team_images/<?php echo $team->getTeamImageLink(); ?>" alt="<?php echo $team->getTeamName(); ?> Image"/>
             
             <div class="team-info">
                 <span class="team-name"><?php echo $team->getTeamName(); ?></span>

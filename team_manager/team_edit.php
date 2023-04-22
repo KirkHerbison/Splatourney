@@ -5,7 +5,7 @@
         <span class="team-name"><?php echo $team->getTeamName(); ?></span>
     </div>
 <div class="team-display">
-    <img src="<?php echo $team->getTeamImageLink(); ?>" alt="<?php echo $team->getTeamName(); ?> Image"/>
+    <img src="images/team_images/<?php echo $team->getTeamImageLink(); ?>" alt="<?php echo $team->getTeamName(); ?> Image"/>
     <?php if(isset($userLogedin) && $userLogedin->getId() == $team->getCaptainUserId()){ ?>
         <form class='edit-form' action="team_manager/index.php" method="POST">
             <input type="hidden" name="controllerRequest" value="edit_team_details" /> 

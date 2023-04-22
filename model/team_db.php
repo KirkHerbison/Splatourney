@@ -258,6 +258,19 @@ function update_team_by_admin($id, $teamName, $teamImageLink){
     $statement->closeCursor();
 }
 
+function update_team($team){
+    $db = Database::getDB();
+    $query = 'UPDATE team
+                     SET team_name = :team_name, team_image_link = :team_image_link
+                     WHERE id = :id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':id', $team->getId());
+    $statement->bindValue(':team_name', $team->getTeamName());
+    $statement->bindValue(':team_image_link', $team->getTeamImageLink());
+    $statement->execute();
+    $statement->closeCursor();
+}
+
 function update_team_isActive($id, $isActive){
     $db = Database::getDB();
     $query = 'UPDATE team

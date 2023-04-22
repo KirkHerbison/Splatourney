@@ -13,7 +13,7 @@
     <br>
     <div>
         <label>Team Image:</label>
-        <img style=" max-height: 100px; max-width: 100px" src="<?php echo $team->getTeamImageLink(); ?>" alt="<?php echo $team->getTeamName(); ?> team image" />
+        <img style=" max-height: 100px; max-width: 100px" src="images/team_images/<?php echo $team->getTeamImageLink(); ?>" alt="<?php echo $team->getTeamName(); ?> team image" />
     </div>
     <div>
         <label>Remove Team Image:</label>

@@ -37,8 +37,24 @@ if ($controllerChoice == NULL) {
 
 // sends user to the create team page from the header
 if ($controllerChoice == 'create_team') {
+    $team_id = -1;
     if (isset($_SESSION['userLogedin'])) {
         require_once("team_register.php");
+    } else {
+        require_once("../user_manager/user_login.php");
+    }
+}
+
+// sends user to the create team page from the details page for editing
+else if($controllerChoice == 'edit_team_details') {
+    if (isset($_SESSION['userLogedin'])) {
+        $team_id = filter_input(INPUT_POST, 'team_id');
+        $team = get_team_by_id($team_id);
+        if($team->getCaptainUserId() == $userLogedin->getId()){
+            require_once("team_register.php");
+        }else{
+            require_once("../user_manager/user_login.php");
+        }
     } else {
         require_once("../user_manager/user_login.php");
     }
@@ -143,6 +159,93 @@ else if ($controllerChoice == 'team_register_confirmation') {
     }
 }
 
+
+
+
+
+
+
+
+// Creates a team when the user hits the create team button on in team_register.php
+else if ($controllerChoice == 'team_update_confirmation') {
+    if (isset($_SESSION['userLogedin'])) {
+        $userLogedin = $_SESSION['userLogedin'];
+        $imageValid = true;
+
+        $team_id = filter_input(INPUT_POST, 'team_id');
+        $team = get_team_by_id($team_id);
+
+        if (filter_input(INPUT_POST, 'teamName') == null || filter_input(INPUT_POST, 'teamName') == "" ) {
+            $error_message = "Please enter a team name.";
+            require_once("team_register.php");
+        }else {
+            
+            if (isset($_FILES['image']) && !empty($_FILES['image']['name'])) { // start for image upload
+                $target_dir = "../images/team_images/"; // this is the initial file path to my images folder
+                //this creates a unique identity for the image, something like teamImage_1236781236.php
+                //uniqueid() gets a random number bassed on current time
+                //.path info gets the file type (.jpg, .jpeg, .png [or invalid files])
+                $image_name = 'teamImage_' . uniqid() . '.' . pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION); 
+
+                $target_file = $target_dir . $image_name;// this combines the ../images/ with the image name on the end
+                $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION)); // gets file type for validation
+                
+                
+                if (in_array($imageFileType, array('jpg', 'jpeg', 'png'))) { // verifys the file type is valid
+                    if (move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) { //attempts to put file into folder
+                        $team->setTeamImageLink($image_name); //database call to put link into database
+                    } else { //file upload did not work
+                        $imageValid = false;
+                        $error_message = "Sorry, there was an error uploading your file.";
+                    }
+                } else { // file type was invalid
+                    $imageValid = false;
+                    $error_message = "Sorry, only JPG, JPEG, & PNG files are allowed.";
+                }
+            } //end for image upload
+
+            if ($imageValid == true) { 
+                $team->setTeamName(filter_input(INPUT_POST, 'teamName'));
+                update_team($team);
+                $team = get_team_by_id($team->getId());
+                $teamMembers = get_team_members($team);
+                require_once 'team_edit.php';
+            } else {
+                require_once("team_register.php");
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // In team_edit when the user clicks the Add Member button
 else if ($controllerChoice == 'add_team_member') {
     $team = get_team_by_id(filter_input(INPUT_POST, 'team_id'));
@@ -223,4 +326,3 @@ else {
     echo "<h3> File:  team_manager/index.php </h3>";
     require_once '../view/footer.php';
 }
-?>

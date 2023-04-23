@@ -12,11 +12,12 @@
  */
 class Game {
 
-    private $id, $bracketMatchListId, $mapId, $modeId, $isActive;
+    private $id, $bracketMatchListId, $gameNumber, $mapId, $modeId, $isActive;
 
-    public function __construct($id, $bracketMatchListId, $mapId, $modeId, $isActive) {
+    public function __construct($id, $bracketMatchListId, $gameNumber, $mapId, $modeId, $isActive) {
         $this->id = $id;
         $this->bracketMatchListId = $bracketMatchListId;
+        $this->gameNumber = $gameNumber;
         $this->mapId = $mapId;
         $this->modeId = $modeId;
         $this->isActive = $isActive;
@@ -42,6 +43,14 @@ class Game {
         return $this->isActive;
     }
 
+    public function getGameNumber() {
+        return $this->gameNumber;
+    }
+
+    public function setGameNumber($gameNumber) {
+        $this->gameNumber = $gameNumber;
+    }
+     
     public function setId($id) {
         $this->id = $id;
     }

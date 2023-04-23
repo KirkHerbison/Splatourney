@@ -47,6 +47,27 @@ function get_maps() {
     return $mapArray;
 }
 
+function get_modes() {
+    $db = Database::getDB();
+    $modeArray = array();
+
+    $query = 'SELECT * FROM mode';
+    $statement = $db->prepare($query);
+    $statement->execute();
+    $modes = $statement->fetchAll();
+    $statement->closeCursor();
+
+    foreach ($modes as $mode) {
+        $modeObject = new Map($mode['ID'],
+                $mode['description'],
+                $mode['image_link']);
+
+        $modeArray[] = $modeObject;
+    }
+
+    return $modeArray;
+}
+
 function get_map_by_id($id) {
     $db = Database::getDB();
 

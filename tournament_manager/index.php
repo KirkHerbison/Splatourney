@@ -9,6 +9,10 @@ require_once('../model/team_db.php');
 require_once('../model/tournament_db.php');
 require_once('../model/bracket_db.php');
 require_once('../model/Round.php');
+require_once('../model/Bracket.php');
+require_once('../model/MapList.php');
+require_once('../model/Map.php');
+require_once('../model/Mode.php');
 session_start();
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -50,7 +54,12 @@ else if ($controllerChoice == 'tournament_search_by_name') {
 
 // To a users tournament to edit
 else if ($controllerChoice == 'edit_my_tournament') {
-    $tournament = get_tournament_by_id(filter_input(INPUT_POST, 'tournament_id'));
+    $tournament_id = filter_input(INPUT_POST, 'tournament_id');
+    $tournament = get_tournament_by_id($tournament_id);
+    $bracket = get_bracket_by_tournament_id($tournament_id);
+    $mapLists = get_bracket_map_lists_by_bracket_id($bracket->getId());
+    $maps = get_maps();
+    $modes = get_modes();
     require_once("tournament_edit.php");
 }
 

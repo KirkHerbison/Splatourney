@@ -97,10 +97,6 @@ function get_matches_by_tournament_id($ID) {
 
 
 
-
-
-
-
 function insert_message_by_chat_id($message){
     $db = Database::getDB();
     $query = 'INSERT INTO chat_message (chat_id, user_id, message)
@@ -156,27 +152,49 @@ function check_round_exists_by_number($number, $tournament_id) {
     return $exists;
 }
 
-function get_brackets_by_tournament_id($tournament_id) {
+function get_bracket_by_tournament_id($tournament_id) {
     $db = Database::getDB();
-    $bracketArray = array();
 
     $query = 'SELECT * FROM bracket
               WHERE tournament_id = :tournament_id';
     $statement = $db->prepare($query);
     $statement->bindValue(':tournament_id', $tournament_id);
     $statement->execute();
-    $brackets = $statement->fetchAll();
+    $bracket = $statement->fetch();
+    $statement->closeCursor();
+    $bracketObject = new Bracket($bracket['ID'],
+            $bracket['tournament_id'],
+            $bracket['tournament_type_id'],
+            $bracket['bracket_name']);
+    return $bracketObject;
+}
+
+function get_bracket_map_lists_by_bracket_id($bracket_id) {
+    $db = Database::getDB();
+    $mapListArray = array();
+
+    $query = 'SELECT * FROM bracket_map_list
+              WHERE bracket_id = :bracket_id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':bracket_id', $bracket_id);
+    $statement->execute();
+    $mapLists = $statement->fetchAll();
     $statement->closeCursor();
 
-    foreach ($brackets as $bracket) {
-        $bracketObject = new Bracket($bracket['ID'],
-                $bracket['tournament_id'],
-                $bracket['tournament_type_id'],
-                $bracket['bracket_name']);
-        $bracketArray[] = $bracketObject;
+    foreach ($mapLists as $mapList) {
+        $mapListObject = new MapList($mapList['ID'],
+                $mapList['bracket_id'],
+                $mapList['round'],
+                $mapList['isActive']);
+        $mapListArray[] = $mapListObject;
     }
-    return $bracketArray;
+    return $mapListArray;
 }
+
+
+
+
+
 
 function get_match_games_by_id($bracket_match_list_id) {
     $db = Database::getDB();
@@ -193,6 +211,7 @@ function get_match_games_by_id($bracket_match_list_id) {
     foreach ($games as $game) {
         $gameObject = new Game($game['ID'],
                 $game['bracket_match_list_id'],
+                $game['game_number'],
                 $game['map_id'],
                 $game['mode_id'],
                 $game['isActive']);

@@ -131,7 +131,7 @@ function get_tournament_by_id($id) {
 function add_tournament($tournament) {
     $db = Database::getDB();
     $query = 'INSERT INTO tournament (tournament_owner_id, tournament_organizer_name, tournament_type_id, tournament_banner_link, tournament_name,tournament_date, tournament_registration_deadline,  tournament_about, tournament_prizes, tournament_contact, tournament_rules, isActive)
-                VALUES(:tournament_owner_id, :tournament_organizer_name, :tournament_type_id, :tournament_banner_link, :tournament_name, :tournament_date, :tournament_registration_deadline, :tournament_about, :tournament_prizes, :tournament_contact, :tournament_rules, :isActive)';
+                VALUES(:tournament_owner_id, :tournament_organizer_name, :tournament_type_id, COALESCE(:tournament_banner_link, \'default.png\'), :tournament_name, :tournament_date, :tournament_registration_deadline, :tournament_about, :tournament_prizes, :tournament_contact, :tournament_rules, :isActive)';
     $statement = $db->prepare($query);
     $statement->bindValue(':tournament_owner_id', $tournament->getTournamentOwnerId());
     $statement->bindValue(':tournament_organizer_name', $tournament->getTournamentOrganizerName());
@@ -151,14 +151,16 @@ function add_tournament($tournament) {
     return $db->lastInsertId();
 }
 
-function edit_tournament($tournament) {
+function update_tournament($tournament) {
     $db = Database::getDB();
     $query = 'UPDATE tournament
-                SET tournament_organizer_name = :tournament_organizer_name, tournament_type_id = :tournament_type_id, tournament_banner_link = :tournament_banner_link, tournament_name = :tournament_name,tournament_date = :tournament_date, tournament_registration_deadline = :tournament_registration_deadline,  tournament_about = :tournament_about, tournament_prizes = :tournament_prizes, tournament_contact = :tournament_contact, tournament_rules = :tournament_rules
+                SET tournament_organizer_name = :tournament_organizer_name, tournament_type_id = :tournament_type_id, 
+                tournament_banner_link = :tournament_banner_link, tournament_name = :tournament_name,tournament_date = :tournament_date, 
+                tournament_registration_deadline = :tournament_registration_deadline,  tournament_about = :tournament_about, 
+                tournament_prizes = :tournament_prizes, tournament_contact = :tournament_contact, tournament_rules = :tournament_rules        
                 WHERE id = :id';
     $statement = $db->prepare($query);
     $statement->bindValue(':id', $tournament->getId());
-    $statement->bindValue(':tournament_owner_id', $tournament->getTournamentOwnerId());
     $statement->bindValue(':tournament_organizer_name', $tournament->getTournamentOrganizerName());
     $statement->bindValue(':tournament_type_id', $tournament->getTournamentTypeId());
     $statement->bindValue(':tournament_banner_link', $tournament->getTournamentBannerLink());
@@ -169,7 +171,6 @@ function edit_tournament($tournament) {
     $statement->bindValue(':tournament_prizes', $tournament->getTournamentPrizes());
     $statement->bindValue(':tournament_contact', $tournament->getTournamentContact());
     $statement->bindValue(':tournament_rules', $tournament->getTournamentRules());
-    $statement->bindValue(':isActive', $tournament->getIsActive());
     $statement->execute();
     $statement->closeCursor();
 

@@ -2,13 +2,14 @@
 
 class Bracket {
 
-    private $id, $tournamentId, $tournamentTypeId, $tournamentBracketName;
+    private $id, $tournamentId, $tournamentTypeId, $tournamentBracketName, $numberOfRounds;
 
-    public function __construct($id, $tournamentId, $tournamentTypeId, $tournamentBracketName) {
+    public function __construct($id, $tournamentId, $tournamentTypeId, $tournamentBracketName, $numberOfRounds) {
         $this->id = $id;
         $this->tournamentId = $tournamentId;
         $this->tournamentTypeId = $tournamentTypeId;
         $this->tournamentBracketName = $tournamentBracketName;
+        $this->numberOfRounds = $numberOfRounds;
     }
     
     public function getId() {
@@ -26,7 +27,16 @@ class Bracket {
     public function getTournamentBracketName() {
         return $this->tournamentBracketName;
     }
+    
+    public function getNumberOfRounds() {
+        return $this->numberOfRounds;
+    }
 
+    public function setNumberOfRounds($numberOfRounds) {
+        $this->numberOfRounds = $numberOfRounds;
+    }
+
+    
     public function setId($id) {
         $this->id = $id;
     }

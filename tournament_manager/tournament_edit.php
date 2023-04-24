@@ -30,6 +30,7 @@
             <div class="content">
                 <form action="tournament_manager/index.php" method="post"  enctype="multipart/form-data">  
                     <input type="hidden" name="controllerRequest" value="tournament_update_confirmation" /> 
+                    <input type="hidden" name="tournament_id" value="<?php echo $tournament->getId(); ?>" />
                     <div class="user-details">
                         <div class="input-box">
                             <span class="details">Tournament Name<span style="color: red;">*</span></span>
@@ -88,39 +89,49 @@
     
     
     <div id="tabs-2">
-        <h1>Tournament Brackets</h1>
-        <span style='color: red'><?php //echo $error_message_brcket ?></span>
-        <form action="tournament_manager/index.php" method="POST">
-            <input type="hidden" name="tournamentId" value="<?php echo $tournament->getId(); ?>" />
-            <input type="hidden" name="controllerRequest" value="insert_bracket" /> 
-            <div>
-                <label>Number of Rounds</label>
-                <select name="rounds" id="rounds">
-                    <option value="1" >1 Round | 2 teams</option>
-                    <option value="2" >2 Rounds | 3-4 teams</option>  
-                    <option value="3" >3 Rounds | 5-8 teams</option>  
-                    <option value="4" >4 Rounds | 9-16 teams</option>  
-                    <option value="5" >5 Rounds | 17-32 teams</option>  
-                    <option value="6" >6 Rounds | 33-64 teams</option>  
-                    <option value="7" >7 Rounds | 65-128 teams</option>  
-                    <option value="8" >8 Rounds | 129-256 teams</option>  
-                    <option value="9" >9 Rounds | 257-512 teams</option>  
-                    <option value="10" >10 Rounds | 513-1024 teams</option>  
-                    <option value="11" >11 Rounds | 1025-2048 teams</option>  
-                </select>
+        <div class="container">
+        <div class="title">Tournament Bracket</div>
+        <span style='color: red'><?php echo $error_message_bracket ?></span>
+            <div class="content">
+                <form action="tournament_manager/index.php" method="POST">
+                    <input type="hidden" name="tournament_id" value="<?php echo $tournament->getId(); ?>" />
+                    <input type="hidden" name="controllerRequest" value="update_bracket_info" /> 
+                    <input type="hidden" name="bracket_id" value="<?php echo $bracket->getId(); ?>" /> 
+                    <div class="user-details">
+                        <div class="input-box">
+                            <span class="details">Number of Rounds</span>
+                            <select name="rounds" id="rounds">
+                                <option <?php if($bracket->getNumberOfRounds() == 1){echo 'selected';} ?> value="1" >1 Round | 2 teams</option>
+                                <option <?php if($bracket->getNumberOfRounds() == 2){echo 'selected';} ?> value="2" >2 Rounds | 3-4 teams</option>  
+                                <option <?php if($bracket->getNumberOfRounds() == 3){echo 'selected';} ?> value="3" >3 Rounds | 5-8 teams</option>  
+                                <option <?php if($bracket->getNumberOfRounds() == 4){echo 'selected';} ?> value="4" >4 Rounds | 9-16 teams</option>  
+                                <option <?php if($bracket->getNumberOfRounds() == 5){echo 'selected';} ?> value="5" >5 Rounds | 17-32 teams</option>  
+                                <option <?php if($bracket->getNumberOfRounds() == 6){echo 'selected';} ?> value="6" >6 Rounds | 33-64 teams</option>  
+                                <option <?php if($bracket->getNumberOfRounds() == 7){echo 'selected';} ?> value="7" >7 Rounds | 65-128 teams</option>  
+                                <option <?php if($bracket->getNumberOfRounds() == 8){echo 'selected';} ?> value="8" >8 Rounds | 129-256 teams</option>  
+                                <option <?php if($bracket->getNumberOfRounds() == 9){echo 'selected';} ?> value="9" >9 Rounds | 257-512 teams</option>  
+                                <option <?php if($bracket->getNumberOfRounds() == 10){echo 'selected';} ?> value="10" >10 Rounds | 513-1024 teams</option>  
+                                <option <?php if($bracket->getNumberOfRounds() == 11){echo 'selected';} ?> value="11" >11 Rounds | 1025-2048 teams</option>  
+                            </select>
+                        </div>
+                        <div class="input-box">
+                            <span class="details">Bracket name</span>
+                            <input type="text" name="tournamentBracketName" value="<?php echo $bracket->getTournamentBracketName(); ?>">
+                        </div>
+                    </div>
+                    <div class="button">
+                        <input type="submit" value="Save Changes">
+                    </div>
+                </form> 
             </div>
-            <div>
-                <label>Bracket name</label>
-                <input type="text" name="tournamentBracketName">
-            </div>
-            <input type="submit" value="Add">
-        </form> 
+        </div>
     </div>
     
     
     <div id="tabs-3">
         <div class="maplist-container">
             <?php foreach ($mapLists as $mapList) : ?> 
+                <?php if($mapList->getIsActive() == 1){?>
                 <div class="round-container">
                     <div class="round" id="round<?php echo $mapList->getRound();?>">
                         <h1>Round <?php echo $mapList->getRound(); ?></h1>
@@ -148,8 +159,12 @@
                                 </div>
                         </div>
                         <?php endforeach; ?>
+                        <div class="button">
+                            <input type="submit" value="Save Changes">
+                        </div>
                     </div>
                 </div>
+                <?php } ?>
             <?php endforeach; ?>
         </div>     
     </div>

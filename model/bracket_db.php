@@ -94,9 +94,6 @@ function get_matches_by_tournament_id($ID) {
     return $matchArray;
 }
 
-
-
-
 function insert_message_by_chat_id($message){
     $db = Database::getDB();
     $query = 'INSERT INTO chat_message (chat_id, user_id, message)
@@ -108,6 +105,49 @@ function insert_message_by_chat_id($message){
     $statement->execute();
     $statement->closeCursor();
 }
+
+
+function insert_bracket_by_tournament_id($tournament_id){
+    $db = Database::getDB();
+    $query = 'INSERT INTO bracket (tournament_id)
+                VALUES(:tournament_id)';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':tournament_id', $tournament_id);
+    $statement->execute();
+    $statement->closeCursor();
+}
+
+function  insert_bracket_map_list_by_round_and_bracket_id($bracket_id, $round, $isActive){
+    $db = Database::getDB();
+    $query = 'INSERT INTO bracket_map_list (bracket_id, round, isActive)
+                VALUES(:bracket_id, :round, :isActive)';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':bracket_id', $bracket_id);
+    $statement->bindValue(':round', $round);
+    $statement->bindValue(':isActive', $isActive);
+    $statement->execute();
+    $statement->closeCursor();
+    
+    return $db->lastInsertId();
+}
+
+
+function insert_map_list_map_by_map_list_id_and_game_number($map_list_id, $game_number, $isActive){
+        $db = Database::getDB();
+    $query = 'INSERT INTO bracket_map_list_map (bracket_match_list_id, game_number, isActive)
+                VALUES(:bracket_match_list_id, :game_number, :isActive)';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':bracket_match_list_id', $map_list_id);
+    $statement->bindValue(':game_number', $game_number);
+    $statement->bindValue(':isActive', $isActive);
+    $statement->execute();
+    $statement->closeCursor();
+}
+
+
+
+
+
 
 function addTeamOneWin($ID) {
     $db = Database::getDB();
@@ -165,7 +205,8 @@ function get_bracket_by_tournament_id($tournament_id) {
     $bracketObject = new Bracket($bracket['ID'],
             $bracket['tournament_id'],
             $bracket['tournament_type_id'],
-            $bracket['bracket_name']);
+            $bracket['bracket_name'],
+            $bracket['number_of_rounds']);
     return $bracketObject;
 }
 
@@ -201,7 +242,7 @@ function get_match_games_by_id($bracket_match_list_id) {
     $gameArray = array();
 
     $query = 'SELECT * FROM bracket_map_list_map
-              WHERE bracket_match_list_id = :bracket_match_list_id AND isActive = 1';
+              WHERE bracket_match_list_id = :bracket_match_list_id';
     $statement = $db->prepare($query);
     $statement->bindValue(':bracket_match_list_id', $bracket_match_list_id);
     $statement->execute();
@@ -325,4 +366,30 @@ function insert_match($bracket, $round) {
     $statement->closeCursor();
     
     return $db->lastInsertId();
+}
+
+function update_bracket_map_list_isActive($bracket_id, $round, $isActive) {
+    $db = Database::getDB();
+    $query = 'UPDATE bracket_map_list
+                     SET isActive = :isActive
+                     WHERE bracket_id = :bracket_id AND round = :round';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':bracket_id', $bracket_id);
+     $statement->bindValue(':round', $round);
+    $statement->bindValue(':isActive', $isActive);
+    $statement->execute();
+    $statement->closeCursor();
+}
+
+function update_bracket_info($bracket_id, $bracket_name, $number_of_rounds) {
+    $db = Database::getDB();
+    $query = 'UPDATE bracket
+                     SET bracket_name = :bracket_name, number_of_rounds = :number_of_rounds
+                     WHERE id = :bracket_id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':bracket_id', $bracket_id);
+     $statement->bindValue(':bracket_name', $bracket_name);
+    $statement->bindValue(':number_of_rounds', $number_of_rounds);
+    $statement->execute();
+    $statement->closeCursor();
 }

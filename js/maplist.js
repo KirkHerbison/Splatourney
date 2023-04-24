@@ -36,6 +36,9 @@ function checkGameSelections(gameNum, roundNum) {
     let valid = true;
     var mapValue = jQuery('#round' + roundNum + ' #game' + gameNum + ' .mapPicker select').val();
     var modeValue = jQuery('#round' + roundNum + ' #game' + gameNum + ' .modePicker select').val();
+    console.log('mapValue' + mapValue);
+    console.log('modeValue' + modeValue);
+    
     if (mapValue === 'NONE' || modeValue === 'NONE') {
         valid = false;
     }
@@ -94,8 +97,11 @@ function updateGameOptions(previousGameOne, previousGameTwo, gameOne, gameTwo, r
 
 // display  games based on user input
 jQuery('#tabs-3').find('select').change(function () {
+    console.log('here');
     var gameNum = parseInt(jQuery(this).closest('.game').attr('id').replace('game', ''));
     var roundNum = parseInt(jQuery(this).closest('.round').attr('id').replace('round', ''));
+    console.log('gn' + gameNum);
+    console.log('rn' + roundNum);
     // check if all selects in game 1 are not set to NONE
     if (gameNum === 1 && checkGameSelections(1, roundNum)) {
         jQuery('#round' + roundNum + ' #game2, #round' + roundNum + ' #game3').show();

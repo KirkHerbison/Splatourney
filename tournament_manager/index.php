@@ -27,6 +27,7 @@ if (isset($_SESSION['userLogedin'])) {
 // Get the data from either the GET or POST collection.
 $controllerChoice = filter_input(INPUT_POST, 'controllerRequest');
 $error_message = '';
+$error_message_bracket = '';
 if ($controllerChoice == NULL) {
     $controllerChoice = filter_input(INPUT_GET, 'controllerRequest');
     if ($controllerChoice == NULL) {
@@ -169,8 +170,28 @@ else if ($controllerChoice == 'tournament_register_confirmation') {
 
         if ($imageValid == true) {
             $id = add_tournament($tournament);
-            $brackets = get_brackets_by_tournament_id($id);
+            insert_bracket_by_tournament_id($id);
+            $bracket = get_bracket_by_tournament_id($id);
+            $bracket_id = $bracket->getId();
+            
+            // Loop through rounds 1 to 11
+            for ($round = 1; $round <= 11; $round++) {
+                // Set isActive based on round number
+                    $isActive = ($round === 1) ? 1 : 0;   
+                // Insert bracket map list for this round
+                $map_list_id = insert_bracket_map_list_by_round_and_bracket_id($bracket_id, $round, $isActive);                          
+                // Loop through games 1 to 11 for this map list
+                for ($game_number = 1; $game_number <= 11; $game_number++) {
+                    // Set isActive based on game number
+                    $isActive = ($game_number === 1) ? 1 : 0;             
+                    // Insert map list map for this game number
+                    insert_map_list_map_by_map_list_id_and_game_number($map_list_id, $game_number, $isActive);
+                }
+            }
             $tournament->setId($id);
+            $mapLists = get_bracket_map_lists_by_bracket_id($bracket->getId());
+            $maps = get_maps();
+            $modes = get_modes();
             require_once("tournament_edit.php");
         }
         else{
@@ -179,11 +200,9 @@ else if ($controllerChoice == 'tournament_register_confirmation') {
     }
 }
 
-// Edits a tournament
-else if ($controllerChoice == 'tournament_edit') {
-    $id = filter_input(INPUT_POST, 'tournamentId');
+// Updates a tournament
+else if ($controllerChoice == 'tournament_update_confirmation') {
     $tournamentOrganizerName = filter_input(INPUT_POST, 'tournamentOrganizerName');
-    $tournamentType = filter_input(INPUT_POST, 'tournamentType');
     $tournamentName = filter_input(INPUT_POST, 'tournamentName');
     $tournamentAbout = filter_input(INPUT_POST, 'tournamentAbout');
     $tournamentPrizes = filter_input(INPUT_POST, 'tournamentPrizes');
@@ -191,15 +210,16 @@ else if ($controllerChoice == 'tournament_edit') {
     $tournamentRules = filter_input(INPUT_POST, 'tournamentRules');
     $tournamentDatetime = filter_input(INPUT_POST, 'tournamentDateTime');
     $tournamentDeadline = filter_input(INPUT_POST, 'tournamentDeadline');
-
+    $imageValid = true;
     $today = new DateTime();
-
     $startDatetime = new DateTime(filter_input(INPUT_POST, 'tournamentDeadline'));
     $deadline = new DateTime(filter_input(INPUT_POST, 'tournamentDateTime'));
-
     $difference = $startDatetime->diff($deadline);
     $tournamnetTypes = get_tournament_types();
-    $tournament = get_tournament_by_id($id);
+    $tournamentId = filter_input(INPUT_POST, 'tournament_id');
+    $tournament = get_tournament_by_id($tournamentId);
+    
+    
 
     if ($tournamentOrganizerName == null || $tournamentOrganizerName == "") {
         $error_message = "Tournament Organizer name reqired";
@@ -227,12 +247,12 @@ else if ($controllerChoice == 'tournament_edit') {
         $sqlDatetime = $dt->format('Y-m-d H:i:s');
         $dl = DateTime::createFromFormat('Y-m-d\TH:i', $tournamentDeadline);
         $sqlDeadline = $dl->format('Y-m-d H:i:s');
-        $tournament = new Tournament(
-                $id,
-                $userLogedin->getID(),
+        $tournamentUpdated = new Tournament(
+                $tournament->getId(),
+                $tournament->getTournamentOwnerId(),
                 $tournamentOrganizerName,
-                $tournamentType,
-                null,
+                1,
+                $tournament->getTournamentBannerLink(),
                 $tournamentName,
                 $sqlDatetime,
                 $sqlDeadline,
@@ -243,11 +263,46 @@ else if ($controllerChoice == 'tournament_edit') {
                 1
         );
 
-        $error_message = "Tournament Edit Saved!";
-        add_tournament($tournament);
-        require_once("tournament_edit.php");
+        if (isset($_FILES['image']) && !empty($_FILES['image']['name'])) { // start for image upload
+            $target_dir = "../images/tournament_images/"; // this is the initial file path to my images folder
+            //this creates a unique identity for the image, something like teamImage_1236781236.php
+            //uniqueid() gets a random number bassed on current time
+            //.path info gets the file type (.jpg, .jpeg, .png [or invalid files])
+            $image_name = 'teamImage_' . uniqid() . '.' . pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+
+            $target_file = $target_dir . $image_name; // this combines the ../images/ with the image name on the end
+            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION)); // gets file type for validation
+
+
+            if (in_array($imageFileType, array('jpg', 'jpeg', 'png'))) { // verifys the file type is valid
+                if (move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) { //attempts to put file into folder
+                    $tournamentUpdated->setTournamentBannerLink($image_name); //database call to put link into database
+                } else { //file upload did not work
+                    $imageValid = false;
+                    $error_message = "Sorry, there was an error uploading your file.";
+                }
+            } else { // file type was invalid
+                $imageValid = false;
+                $error_message = "Sorry, only JPG, JPEG, & PNG files are allowed.";
+            }
+        } //end for image upload
+
+        if ($imageValid == true) {
+            update_tournament($tournamentUpdated);
+            $bracket = get_bracket_by_tournament_id($tournamentId);
+            $tournament = get_tournament_by_id($tournamentId);
+            $mapLists = get_bracket_map_lists_by_bracket_id($bracket->getId());
+            $maps = get_maps();
+            $modes = get_modes();
+            require_once("tournament_edit.php");
+        }
+        else{
+            require_once("tournament_edit.php");
+        }
     }
-} else if ($controllerChoice == 'insert_bracket') {
+} 
+
+else if ($controllerChoice == 'insert_bracket') {
 
     $bracket = new Bracket(
             0,
@@ -284,6 +339,30 @@ else if ($controllerChoice == 'tournament_edit') {
     $tournament = get_tournament_by_id(filter_input(INPUT_POST, 'tournamentId'));
     $brackets = get_brackets_by_tournament_id($tournament->getId());
     $tournamnetTypes = get_tournament_types();
+    require_once("tournament_edit.php");
+}
+
+
+else if($controllerChoice == 'update_bracket_info'){
+    
+    $bracket_name = filter_input(INPUT_POST, 'tournamentBracketName');
+    $number_of_rounds = filter_input(INPUT_POST, 'rounds');
+    $bracket_id = filter_input(INPUT_POST, 'bracket_id');
+    
+    // Loop through rounds 1 to 11
+    for ($round = 1; $round <= 11; $round++) {
+      // Set isActive based on the current round and number_of_rounds
+      $isActive = ($round <= $number_of_rounds) ? 1 : 0;
+      // Update bracket map list isActive for this round
+      update_bracket_map_list_isActive($bracket_id, $round, $isActive);
+    }
+    update_bracket_info($bracket_id, $bracket_name, $number_of_rounds);
+    $tournament_id = filter_input(INPUT_POST, 'tournament_id');
+    $tournament = get_tournament_by_id($tournament_id);
+    $bracket = get_bracket_by_tournament_id($tournament_id);
+    $mapLists = get_bracket_map_lists_by_bracket_id($bracket->getId());
+    $maps = get_maps();
+    $modes = get_modes();
     require_once("tournament_edit.php");
 }
 

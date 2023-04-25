@@ -10,7 +10,7 @@
 <input type="hidden" id="matchId" name="matchId" value="<?php echo $bracketMatch->getId(); ?>">
 <input type="hidden" id="userId" name="userId" value="<?php echo $userLogedin->getId(); ?>">
 <h1 id="vs"><?php echo get_team_by_id($bracketMatch->getTeamOneId())->getTeamName(); ?> VS <?php echo get_team_by_id($bracketMatch->getTeamTwoId())->getTeamName(); ?></h1>
-<hr>
+
 <div id="match"> 
 
     <div class="scoreTeamOne">

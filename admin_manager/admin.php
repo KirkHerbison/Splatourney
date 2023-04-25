@@ -191,11 +191,6 @@
                         <td><p><?php echo $tournament->getTournamentDate(); ?></p></td>
                         <?php if ($tournament->getTournamentOwnerId() == $userLogedin->getId()) { ?>
                             <td>
-                                <form action="admin_manager/index.php" method="POST">
-                                    <input type="hidden" name="controllerRequest" value="tournament_details" /> 
-                                    <input type="hidden" name="tournament_id" value="<?php echo $tournament->getId(); ?>">
-                                    <input class="button-top" type="submit" value="View Details">
-                                </form>
                                 <?php if ($tournament->getIsActive() == 1) { ?>
                                     <form action="admin_manager/index.php" method="POST">
                                         <input type="hidden" name="controllerRequest" value="tournament_deactivate" /> 

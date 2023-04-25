@@ -13,6 +13,42 @@ $matchId = filter_input(INPUT_POST, 'matchId', FILTER_SANITIZE_NUMBER_INT);
 $message = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_STRING);
 
 
+
+//API call to Bad Word Filter by Rapid APT
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+	CURLOPT_URL => "https://neutrinoapi-bad-word-filter.p.rapidapi.com/bad-word-filter",
+	CURLOPT_RETURNTRANSFER => true,
+	CURLOPT_ENCODING => "",
+	CURLOPT_MAXREDIRS => 10,
+	CURLOPT_TIMEOUT => 30,
+	CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+	CURLOPT_CUSTOMREQUEST => "POST",
+	CURLOPT_POSTFIELDS => "content=" . urlencode($message) . "&censor-character=*",
+	CURLOPT_HTTPHEADER => [
+		"X-RapidAPI-Host: neutrinoapi-bad-word-filter.p.rapidapi.com",
+		"X-RapidAPI-Key: ec32d365cbmshcd4644180137d07p1274e0jsn73302fc69052",
+		"content-type: application/x-www-form-urlencoded"
+	],
+]);
+
+$response = curl_exec($curl);
+$err = curl_error($curl);
+
+curl_close($curl);
+
+if ($err) {
+	echo "cURL Error #:" . $err;
+}
+else{
+    $json = json_decode($response);
+    $censoredContent = $json->{"censored-content"};
+}
+
+
+
+
 ////////////////////////////////////////////////////////////////////////////////
 //gets user for session for use or creates an empty user object so the code does not break
 if (isset($_SESSION['userLogedin'])) {
@@ -24,7 +60,7 @@ if (isset($_SESSION['userLogedin'])) {
 
 if($matchId != null) {
   $chat = get_chat_by_match_id($matchId);
-  $messageToSend = new Chat_Message(null, $chat->getId(), $userLogedin->getId(), $message, null);
+  $messageToSend = new Chat_Message(null, $chat->getId(), $userLogedin->getId(), $censoredContent, null);
   insert_message_by_chat_id($messageToSend);
   $messages = get_messages_by_chat_id($chat->getId());
   

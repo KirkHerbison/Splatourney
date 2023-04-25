@@ -3,15 +3,15 @@ jQuery(document).ready(function () {
     jQuery('.round').each(function (index) {
         jQuery(this).find('.game').hide();
         jQuery(this).find('#game1').show();
-        jQuery(this).find('#game1').css("border-bottom", "2px solid black");
+        jQuery(this).find('#game1').css("border-bottom", "1px solid lightgray");
         jQuery(this).find('#game1').css("margin-bottom", "10px");
-                jQuery(this).find('#game3').css("border-bottom", "2px solid black");
+        jQuery(this).find('#game3').css("border-bottom", "1px solid lightgray");
         jQuery(this).find('#game3').css("margin-bottom", "10px");
-                jQuery(this).find('#game5').css("border-bottom", "2px solid black");
+        jQuery(this).find('#game5').css("border-bottom", "1px solid lightgray");
         jQuery(this).find('#game5').css("margin-bottom", "10px");
-                jQuery(this).find('#game7').css("border-bottom", "2px solid black");
+        jQuery(this).find('#game7').css("border-bottom", "1px solid lightgray");
         jQuery(this).find('#game7').css("margin-bottom", "10px");
-                jQuery(this).find('#game9').css("border-bottom", "2px solid black");
+        jQuery(this).find('#game9').css("border-bottom", "1px solid lightgray");
         jQuery(this).find('#game9').css("margin-bottom", "10px");
 
         

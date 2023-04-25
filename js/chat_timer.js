@@ -35,18 +35,11 @@ setInterval(function() {
                         dtSpan.style.opacity = "1";
                         dtSpan.style.marginTop = "0px";
                         p.textContent = newMessage.message;
-                        dtSpan.innerHTML = newMessage.dateSent;
+                        dtSpan.innerHTML = newMessage.username +" - "+ newMessage.dateSent;
                         bubbleDiv.appendChild(p);
                         cont1.innerHTML += bubbleDiv.outerHTML; // append the new message to the existing chat-container
                         cont1.innerHTML += dtSpan.outerHTML;
                     });
-                    $('#message').val(''); // clear the input field
-                    // Get a reference to the .chat-box element
-                    const chatBox = document.querySelector('#cont1');
-
-// Set the scrollTop property to the scrollHeight value
-                    chatBox.scrollTop = chatBox.scrollHeight;
-
 
                 },
                 error: function (xhr, ajaxOptions, thrownError) {

@@ -20,6 +20,7 @@
         <li><a href="#tabs-1" >Basic Info</a></li>
         <li><a href="#tabs-2" >Bracket</a></li>
         <li><a href="#tabs-3" >Map List</a></li>
+        <li><a href="#tabs-4" >Seeding</a></li>
     </ul>
 
 
@@ -152,16 +153,16 @@
     
     
     <div id="tabs-3">
-        <div class="maplist-container">
+        <div class="container">
             <?php foreach ($mapLists as $mapList) : ?> 
                 <?php if($mapList->getIsActive() == 1){?>
                 <div class="round-container">
                     <div class="round" id="round<?php echo $mapList->getRound();?>">
-                        <h1>Round <?php echo $mapList->getRound(); ?></h1>
+                        <div class="title">Round <?php echo $mapList->getRound(); ?></div>
                         <?php $games = get_match_games_by_id($mapList->getId()); ?>
                         <?php foreach ($games as $game) : ?> 
                         <div class="game" id="game<?php echo $game->getGameNumber();?>">      
-                                <label>game <?php echo $game->getGameNumber(); ?></label>
+                                <span class='gameLabel'>game <?php echo $game->getGameNumber(); ?></span>
                                 <div class="mapPicker">
                                     <label>Map</label>
                                     <select name="map" id="map" class="map-select">
@@ -192,6 +193,88 @@
             <?php endforeach; ?>
         </div>     
     </div>
+    
+    
+	<style>
+		#drag-list li {
+			cursor: move;
+			counter-increment: item;
+		}
+		#drag-list li::before {
+			content: counter(item) ". ";
+			font-weight: bold;
+			margin-right: 10px;
+		}
+	</style>
+	<script>
+		function allowDrop(event) {
+			event.preventDefault();
+		}
+
+		function drag(event) {
+			event.dataTransfer.setData("text", event.target.id);
+		}
+
+		function drop(event) {
+			event.preventDefault();
+			var data = event.dataTransfer.getData("text");
+			var target = event.target;
+			while (target.nodeName !== "LI") {
+				target = target.parentNode;
+			}
+			var swapNode = document.getElementById(data);
+			target.parentNode.insertBefore(swapNode, target);
+		}
+
+		function submitOrder() {
+			var orderList = document.getElementById("order-list");
+			var orderInputs = orderList.getElementsByTagName("input");
+			for (var i = 0; i < orderInputs.length; i++) {
+				orderInputs[i].value = i + 1;
+			}
+			document.getElementById("order-form").submit();
+		}
+	</script>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div id="tabs-4">
+        <div class="container">
+	<ul id="drag-list">
+		<li id="item1" draggable="true" ondragstart="drag(event)">Item 1</li>
+		<li id="item2" draggable="true" ondragstart="drag(event)">Item 2</li>
+		 <li id="item3" draggable="true" ondragstart="drag(event)">Item 3</li>
+		<li id="item4" draggable="true" ondragstart="drag(event)">Item 4</li>
+	</ul>
+	<input type="button" value="Submit Order" onclick="submitOrder();">
+	<form id="order-form" method="post">
+		<ul id="order-list">
+			<li><input type="hidden" name="item[]" value=""></li>
+			<li><input type="hidden" name="item[]" value=""></li>
+			<li><input type="hidden" name="item[]" value=""></li>
+			<li><input type="hidden" name="item[]" value=""></li>
+		</ul>
+	</form>
+	<script>
+		var dragList = document.getElementById("drag-list");
+		for (var i = 0; i < dragList.children.length; i++) {
+			dragList.children[i].addEventListener("drop", drop);
+			dragList.children[i].addEventListener("dragover", allowDrop);
+		}
+	</script>
+        </div>     
+    </div>
+    
+    
+    
+
 </div>
 
 <script src="js/maplist.js"></script>

@@ -3,34 +3,47 @@ jQuery(document).ready(function () {
     jQuery('.round').each(function (index) {
         jQuery(this).find('.game').hide();
         jQuery(this).find('#game1').show();
-        if (jQuery(this).find('#game2 .mapPicker select').val() !== 'NONE') {
+        jQuery(this).find('#game1').css("border-bottom", "2px solid black");
+        jQuery(this).find('#game1').css("margin-bottom", "10px");
+                jQuery(this).find('#game3').css("border-bottom", "2px solid black");
+        jQuery(this).find('#game3').css("margin-bottom", "10px");
+                jQuery(this).find('#game5').css("border-bottom", "2px solid black");
+        jQuery(this).find('#game5').css("margin-bottom", "10px");
+                jQuery(this).find('#game7').css("border-bottom", "2px solid black");
+        jQuery(this).find('#game7').css("margin-bottom", "10px");
+                jQuery(this).find('#game9').css("border-bottom", "2px solid black");
+        jQuery(this).find('#game9').css("margin-bottom", "10px");
+
+        
+        if (jQuery(this).find('#game1 .mapPicker select').val() !== 'NONE') {
             jQuery(this).find('#game2').show();
             jQuery(this).find('#game3').show();
             updateGameOptions(0, 1, 2, 3, (index + 1));
+
         }
-        if (jQuery(this).find('#game4 .mapPicker select').val() !== 'NONE') {
+        if (jQuery(this).find('#game2 .mapPicker select').val() !== 'NONE') {
             jQuery(this).find('#game4').show();
             jQuery(this).find('#game5').show();
             updateGameOptions(2, 3, 4, 5, (index + 1));
         }
-        if (jQuery(this).find('#game6 .mapPicker select').val() !== 'NONE') {
+        if (jQuery(this).find('#game4 .mapPicker select').val() !== 'NONE') {
             jQuery(this).find('#game6').show();
             jQuery(this).find('#game7').show();
             updateGameOptions(4, 5, 6, 7, (index + 1));
         }
-        if (jQuery(this).find('#game8 .mapPicker select').val() !== 'NONE') {
+        if (jQuery(this).find('#game6 .mapPicker select').val() !== 'NONE') {
             jQuery(this).find('#game8').show();
             jQuery(this).find('#game9').show();
             updateGameOptions(6, 7, 8, 9, (index + 1));
         }
-        if (jQuery(this).find('#game10 .mapPicker select').val() !== 'NONE') {
+        if (jQuery(this).find('#game8 .mapPicker select').val() !== 'NONE') {
             jQuery(this).find('#game10').show();
             jQuery(this).find('#game11').show();
             updateGameOptions(8, 9, 10, 11, (index + 1));
         }
+
     });
 });
-
 // function to check if all selects in a game are not set to NONE
 function checkGameSelections(gameNum, roundNum) {
     let valid = true;

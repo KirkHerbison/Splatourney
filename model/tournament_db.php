@@ -233,7 +233,17 @@ function get_tournaments_by_ownerId($ID) {
     return $tournamentArray;
 }
 
-
+function get_tournaments_team_count_by_tournament_id($ID) {
+    $db = Database::getDB();
+    $query = 'SELECT COUNT(*) FROM tournament_team'
+            . ' WHERE tournament_id = :tournament_id;';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':tournament_id', $ID);
+    $statement->execute();
+    $count = $statement->fetchColumn();
+    $statement->closeCursor();
+    return $count;
+}
 
 
 

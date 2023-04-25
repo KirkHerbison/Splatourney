@@ -10,7 +10,6 @@ session_start();
 //error_log(print_r($_POST, true));
 
 $matchId = filter_input(INPUT_POST, 'matchId', FILTER_SANITIZE_NUMBER_INT);
-$message = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_STRING);
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -24,16 +23,11 @@ if (isset($_SESSION['userLogedin'])) {
 
 if($matchId != null) {
   $chat = get_chat_by_match_id($matchId);
-  $messageToSend = new Chat_Message(null, $chat->getId(), $userLogedin->getId(), $message, null);
-  insert_message_by_chat_id($messageToSend);
   $messages = get_messages_by_chat_id($chat->getId());
-  
-  $newMessages = array(
-      
+  $newMessages = array(  
   );
   
   foreach($messages as $message){
-      
       $message_array = array("id" => $message->getId(), "chatId" => $message->getChatId(), 
           "userId" => $message->getUserId(), "message" => $message->getMessage(), 
           "dateSent" => date("H:i:s", strtotime($message->getDateSent())), "username" => get_user_by_id($message->getUserId())->getUsername());

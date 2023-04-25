@@ -2,19 +2,20 @@
 <link rel="stylesheet" type="text/css" href="styles/match.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script src="js/chatbox.js"></script>
+
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@800&display=swap');
 </style>
 
 <input type="hidden" id="matchId" name="matchId" value="<?php echo $bracketMatch->getId(); ?>">
+<input type="hidden" id="userId" name="userId" value="<?php echo $userLogedin->getId(); ?>">
 <h1 id="vs"><?php echo get_team_by_id($bracketMatch->getTeamOneId())->getTeamName(); ?> VS <?php echo get_team_by_id($bracketMatch->getTeamTwoId())->getTeamName(); ?></h1>
 <hr>
 <div id="match"> 
 
     <div class="scoreTeamOne">
         <h2 class="team"><?php echo get_team_by_id($bracketMatch->getTeamOneId())->getTeamName(); ?></h2>
-        <img style=" max-height: 200px; max-width: 200px" src="<?php echo get_team_by_id($bracketMatch->getTeamOneId())->getTeamImageLink(); ?>" alt="<?php echo get_team_by_id($bracketMatch->getTeamOneId())->getTeamName(); ?> team image" />
+        <img style=" max-height: 200px; max-width: 200px" src="images/team_images/<?php echo get_team_by_id($bracketMatch->getTeamOneId())->getTeamImageLink(); ?>" alt="<?php echo get_team_by_id($bracketMatch->getTeamOneId())->getTeamName(); ?> team image" />
         <hr>
         <p class="win">wins: </p>
         <h1 class="scoreDisplay"><span id="teamOneScore"><?php echo $bracketMatch->getTeamOneWins(); ?></span></h1>
@@ -40,7 +41,8 @@
         
         <div class="mapList">
             <?php $gameNumber = 1; ?>
-            <?php foreach ($games as $game) : ?> 
+            <?php foreach ($games as $game) : ?>
+                <?php if($game->getMapId() > 0) { ?>
                 <div class="game">
                     <p>game <?php echo $gameNumber; ?></p>
                     <p><?php echo get_map_by_id($game->getMapId())->getDescription(); ?></p>
@@ -48,6 +50,7 @@
                     <img class ="mode" style="max-width: 200px;" src="<?php echo get_mode_image_link_by_id($game->getModeId()); ?>" alt="<?php echo get_mode_by_id($game->getModeId())->getDescription(); ?>"/>
 
                 </div>
+                <?php } ?>
                 <?php $gameNumber++; ?>
             <?php endforeach; ?>
         </div>
@@ -61,7 +64,7 @@
                         <div class="<?php echo ($message->getUserId() === $userLogedin->getID()) ? "bubble bubble-alt" : "bubble"; ?>">
                             <p><?php echo $message->getMessage(); ?></p>
                         </div>
-                        <span class="<?php echo ($message->getUserId() === $userLogedin->getID()) ? "datestamp  dt-alt" : "datestamp"; ?>"><?php echo $message->getDateSent(); ?></span>
+                    <span class="<?php echo ($message->getUserId() === $userLogedin->getID()) ? "datestamp  dt-alt" : "datestamp"; ?>"><?php echo get_user_by_id($message->getUserId())->getUsername(); ?> - <?php echo date("H:i:s", strtotime($message->getDateSent())); ?></span>
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -79,7 +82,7 @@
 
     <div class="scoreTeamTwo">
         <h2 class="team"><?php echo get_team_by_id($bracketMatch->getTeamTwoId())->getTeamName(); ?></h2>
-        <img style=" max-height: 200px; max-width: 200px" src="<?php echo get_team_by_id($bracketMatch->getTeamTwoId())->getTeamImageLink(); ?>" alt="<?php echo get_team_by_id($bracketMatch->getTeamTwoId())->getTeamName(); ?> team image" />
+        <img style=" max-height: 200px; max-width: 200px" src="images/team_images/<?php echo get_team_by_id($bracketMatch->getTeamTwoId())->getTeamImageLink(); ?>" alt="<?php echo get_team_by_id($bracketMatch->getTeamTwoId())->getTeamName(); ?> team image" />
         <hr>
 
 
@@ -101,5 +104,7 @@
     </div>
 </div>
 
+<script src="js/chatbox.js"></script>
+<script src="js/chat_timer.js"></script>
 <script src="js/update_score.js"></script>
 <?php require_once '../view/footer.php'; die();?>

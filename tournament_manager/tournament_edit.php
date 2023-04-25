@@ -101,17 +101,40 @@
                         <div class="input-box">
                             <span class="details">Number of Rounds</span>
                             <select name="rounds" id="rounds">
+                                
+                                <?php if(get_tournaments_team_count_by_tournament_id($tournament->getId()) >= 1) { ?>        
                                 <option <?php if($bracket->getNumberOfRounds() == 1){echo 'selected';} ?> value="1" >1 Round | 2 teams</option>
-                                <option <?php if($bracket->getNumberOfRounds() == 2){echo 'selected';} ?> value="2" >2 Rounds | 3-4 teams</option>  
-                                <option <?php if($bracket->getNumberOfRounds() == 3){echo 'selected';} ?> value="3" >3 Rounds | 5-8 teams</option>  
-                                <option <?php if($bracket->getNumberOfRounds() == 4){echo 'selected';} ?> value="4" >4 Rounds | 9-16 teams</option>  
+                                <?php } ?>
+                                <?php if(get_tournaments_team_count_by_tournament_id($tournament->getId()) >= 3) { ?> 
+                                <option <?php if($bracket->getNumberOfRounds() == 2){echo 'selected';} ?> value="2" >2 Rounds | 3-4 teams</option>            
+                                <?php } ?>
+                                <?php if(get_tournaments_team_count_by_tournament_id($tournament->getId()) >= 5) { ?> 
+                                <option <?php if($bracket->getNumberOfRounds() == 3){echo 'selected';} ?> value="3" >3 Rounds | 5-8 teams</option>                               
+                                <?php } ?>
+                                <?php if(get_tournaments_team_count_by_tournament_id($tournament->getId()) >= 9) { ?> 
+                                <option <?php if($bracket->getNumberOfRounds() == 4){echo 'selected';} ?> value="4" >4 Rounds | 9-16 teams</option>    
+                                <?php } ?>
+                                <?php if(get_tournaments_team_count_by_tournament_id($tournament->getId()) >= 17) { ?> 
                                 <option <?php if($bracket->getNumberOfRounds() == 5){echo 'selected';} ?> value="5" >5 Rounds | 17-32 teams</option>  
-                                <option <?php if($bracket->getNumberOfRounds() == 6){echo 'selected';} ?> value="6" >6 Rounds | 33-64 teams</option>  
-                                <option <?php if($bracket->getNumberOfRounds() == 7){echo 'selected';} ?> value="7" >7 Rounds | 65-128 teams</option>  
-                                <option <?php if($bracket->getNumberOfRounds() == 8){echo 'selected';} ?> value="8" >8 Rounds | 129-256 teams</option>  
+                                <?php } ?>
+                                <?php if(get_tournaments_team_count_by_tournament_id($tournament->getId()) >= 33) { ?> 
+                                <option <?php if($bracket->getNumberOfRounds() == 6){echo 'selected';} ?> value="6" >6 Rounds | 33-64 teams</option>           
+                                <?php } ?>
+                                <?php if(get_tournaments_team_count_by_tournament_id($tournament->getId()) >= 65) { ?> 
+                                <option <?php if($bracket->getNumberOfRounds() == 7){echo 'selected';} ?> value="7" >7 Rounds | 65-128 teams</option>                         
+                                <?php } ?>
+                                <?php if(get_tournaments_team_count_by_tournament_id($tournament->getId()) >= 129) { ?> 
+                                <option <?php if($bracket->getNumberOfRounds() == 8){echo 'selected';} ?> value="8" >8 Rounds | 129-256 teams</option>   
+                                <?php } ?>
+                                <?php if(get_tournaments_team_count_by_tournament_id($tournament->getId()) >= 257) { ?> 
                                 <option <?php if($bracket->getNumberOfRounds() == 9){echo 'selected';} ?> value="9" >9 Rounds | 257-512 teams</option>  
+                                <?php } ?>
+                                <?php if(get_tournaments_team_count_by_tournament_id($tournament->getId()) >= 513) { ?> 
                                 <option <?php if($bracket->getNumberOfRounds() == 10){echo 'selected';} ?> value="10" >10 Rounds | 513-1024 teams</option>  
+                                <?php } ?>
+                                <?php if(get_tournaments_team_count_by_tournament_id($tournament->getId()) >= 1025) { ?> 
                                 <option <?php if($bracket->getNumberOfRounds() == 11){echo 'selected';} ?> value="11" >11 Rounds | 1025-2048 teams</option>  
+                                <?php } ?>
                             </select>
                         </div>
                         <div class="input-box">
@@ -158,6 +181,7 @@
                                     </select>
                                 </div>
                         </div>
+
                         <?php endforeach; ?>
                         <div class="button">
                             <input type="submit" value="Save Changes">

@@ -295,6 +295,7 @@ else if ($controllerChoice == 'tournament_update_confirmation') {
 
         if ($imageValid == true) {
             update_tournament($tournamentUpdated);
+            $teams = get_tournament_teams_by_tournament_id($tournamentId);
             $bracket = get_bracket_by_tournament_id($tournamentId);
             $tournament = get_tournament_by_id($tournamentId);
             $mapLists = get_bracket_map_lists_by_bracket_id($bracket->getId());
@@ -303,6 +304,8 @@ else if ($controllerChoice == 'tournament_update_confirmation') {
             $tab = 0;
             require_once("tournament_edit.php");
         } else {
+            
+            $teams = get_tournament_teams_by_tournament_id($tournamentId);
             $bracket = get_bracket_by_tournament_id($tournamentId);
             $tournament = get_tournament_by_id($tournamentId);
             $mapLists = get_bracket_map_lists_by_bracket_id($bracket->getId());
@@ -350,6 +353,7 @@ else if ($controllerChoice == 'tournament_update_confirmation') {
     $brackets = get_brackets_by_tournament_id($tournament->getId());
     $tournamnetTypes = get_tournament_types();
     require_once("tournament_edit.php");
+    
 } else if ($controllerChoice == 'update_bracket_info') {
 
     $bracket_name = filter_input(INPUT_POST, 'tournamentBracketName');
@@ -364,7 +368,10 @@ else if ($controllerChoice == 'tournament_update_confirmation') {
         update_bracket_map_list_isActive($bracket_id, $round, $isActive);
     }
     update_bracket_info($bracket_id, $bracket_name, $number_of_rounds);
+    
+    
     $tournament_id = filter_input(INPUT_POST, 'tournament_id');
+    $teams = get_tournament_teams_by_tournament_id($tournament_id);
     $tournament = get_tournament_by_id($tournament_id);
     $bracket = get_bracket_by_tournament_id($tournament_id);
     $mapLists = get_bracket_map_lists_by_bracket_id($bracket->getId());
@@ -374,6 +381,26 @@ else if ($controllerChoice == 'tournament_update_confirmation') {
     require_once("tournament_edit.php");
 }
 
+else if ($controllerChoice == 'update_seeding') {
+
+    $teamsArray = $_POST['team'];
+    $tournament_id = filter_input(INPUT_POST, 'tournament_id');
+
+    $seedCount = 1;
+    foreach ($teamsArray as $team) {  
+        update_seeding_by_team_id_and_tournament_id($team, $tournament_id, $seedCount);
+        $seedCount++;
+    }
+
+    $teams = get_tournament_teams_by_tournament_id($tournament_id);
+    $tournament = get_tournament_by_id($tournament_id);
+    $bracket = get_bracket_by_tournament_id($tournament_id);
+    $mapLists = get_bracket_map_lists_by_bracket_id($bracket->getId());
+    $maps = get_maps();
+    $modes = get_modes();
+    $tab = 1;
+    require_once("tournament_edit.php");
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // sends user to the tournament bracket when selected from tournament_list
@@ -518,6 +545,7 @@ else if ($controllerChoice == 'update_maplist') {
 
     $tab = 2;
     $tournament_id = filter_input(INPUT_POST, 'tournament_id');
+    $teams = get_tournament_teams_by_tournament_id($tournament_id);
     $tournament = get_tournament_by_id($tournament_id);
     $bracket = get_bracket_by_tournament_id($tournament_id);
     $mapLists = get_bracket_map_lists_by_bracket_id($bracket->getId());

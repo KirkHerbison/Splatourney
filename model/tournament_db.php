@@ -28,25 +28,34 @@ function get_tournament_types() {
 
 function get_tournament_teams_by_tournament_id($tournament_id) {
     $db = Database::getDB();
-    $tournamentTypeArray = array();
+    $teamArray = array();
 
-    $query = 'SELECT * FROM tournament_team'
-            . 'WHERE tournament_id = :tournament_id';
+    $query = 'SELECT tt.*, t.ID AS team_ID, t.isActive AS team_isActive,'
+            . ' u.ID AS user_ID, u.username, t.team_name, t.team_image_link,'
+            . ' t.captain_user_id FROM tournament_team tt'
+            . ' JOIN team t ON t.ID = tt.team_id '
+            . ' JOIN splatourney_user u ON u.ID = t.captain_user_id'
+            . ' WHERE tournament_id = :tournament_id'
+            . ' ORDER BY seed ASC';
     $statement = $db->prepare($query);
+    $statement->bindValue(':tournament_id', $tournament_id);
     $statement->execute();
-    $tournamentTypes = $statement->fetchAll();
+    $teams = $statement->fetchAll();
     $statement->closeCursor();
 
-    foreach ($tournamentTypes as $tournamentType) {
-        $tournamentObject = new TournamnetType($tournamentType['ID'],
-                $tournamentType['description'],
-                $tournamentType['isActive']);
-
-        $tournamentTypeArray[] = $tournamentObject;
+    foreach ($teams as $team) {
+        $teamObject = new Team($team['team_ID'],
+                $team['captain_user_id'],
+                $team['username'],
+                $team['team_name'],
+                $team['team_image_link'],
+                $team['team_isActive']);
+        $teamArray[] = $teamObject;
     }
 
-    return $tournamentTypeArray;
+    return $teamArray;
 }
+
 
 function get_maps() {
     $db = Database::getDB();
@@ -306,6 +315,19 @@ function update_tournament_isActive($id, $isActive) {
     $statement = $db->prepare($query);
     $statement->bindValue(':id', $id);
     $statement->bindValue(':isActive', $isActive);
+    $statement->execute();
+    $statement->closeCursor();
+}
+
+function update_seeding_by_team_id_and_tournament_id($team_id, $tournament_id, $seed) {
+    $db = Database::getDB();
+    $query = 'UPDATE tournament_team
+                     SET seed = :seed
+                     WHERE team_id = :team_id AND tournament_id = :tournament_id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':team_id', $team_id);
+    $statement->bindValue(':tournament_id', $tournament_id);
+    $statement->bindValue(':seed', $seed);
     $statement->execute();
     $statement->closeCursor();
 }

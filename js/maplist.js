@@ -15,28 +15,28 @@ jQuery(document).ready(function () {
         jQuery(this).find('#game9').css("margin-bottom", "10px");
 
         
-        if (jQuery(this).find('#game1 .mapPicker select').val() !== 'NONE') {
+        if (jQuery(this).find('#game1 .mapPicker select').val() !== "0") {
             jQuery(this).find('#game2').show();
             jQuery(this).find('#game3').show();
             updateGameOptions(0, 1, 2, 3, (index + 1));
 
         }
-        if (jQuery(this).find('#game2 .mapPicker select').val() !== 'NONE') {
+        if (jQuery(this).find('#game2 .mapPicker select').val() !== "0") {
             jQuery(this).find('#game4').show();
             jQuery(this).find('#game5').show();
             updateGameOptions(2, 3, 4, 5, (index + 1));
         }
-        if (jQuery(this).find('#game4 .mapPicker select').val() !== 'NONE') {
+        if (jQuery(this).find('#game4 .mapPicker select').val() !== "0") {
             jQuery(this).find('#game6').show();
             jQuery(this).find('#game7').show();
             updateGameOptions(4, 5, 6, 7, (index + 1));
         }
-        if (jQuery(this).find('#game6 .mapPicker select').val() !== 'NONE') {
+        if (jQuery(this).find('#game6 .mapPicker select').val() !== "0") {
             jQuery(this).find('#game8').show();
             jQuery(this).find('#game9').show();
             updateGameOptions(6, 7, 8, 9, (index + 1));
         }
-        if (jQuery(this).find('#game8 .mapPicker select').val() !== 'NONE') {
+        if (jQuery(this).find('#game8 .mapPicker select').val() !== "0") {
             jQuery(this).find('#game10').show();
             jQuery(this).find('#game11').show();
             updateGameOptions(8, 9, 10, 11, (index + 1));
@@ -52,7 +52,7 @@ function checkGameSelections(gameNum, roundNum) {
     console.log('mapValue' + mapValue);
     console.log('modeValue' + modeValue);
     
-    if (mapValue === 'NONE' || modeValue === 'NONE') {
+    if (mapValue === "0" || modeValue === "0") {
         valid = false;
     }
     return (valid);
@@ -63,13 +63,13 @@ function closeGameOptions(nextGameOne, nextGameTwo, gameOne, gameTwo, roundNum) 
     var noneCount = 0;
     // check if any of the selects in the newly opened game have a value other than NONE
     jQuery('#round' + roundNum + ' #game' + gameOne + ' select').each(function () {
-        if (jQuery(this).val() === 'NONE') {
+        if (jQuery(this).val() === "0") {
             noneCount++;
         }
     });
     // check if any of the selects in the newly opened game have a value other than NONE
     jQuery('#round' + roundNum + ' #game' + gameTwo + ' select').each(function () {
-        if (jQuery(this).val() === 'NONE') {
+        if (jQuery(this).val() === "0") {
             noneCount++;
         }
     });
@@ -86,25 +86,25 @@ function updateGameOptions(previousGameOne, previousGameTwo, gameOne, gameTwo, r
     var nonNoneCount = 0;
     // check if any of the selects in the newly opened game have a value other than NONE
     jQuery('#round' + roundNum + ' #game' + gameOne + ' select').each(function () {
-        if (jQuery(this).val() !== 'NONE') {
+        if (jQuery(this).val() !== "0") {
             nonNoneCount++;
         }
     });
     // check if any of the selects in the newly opened game have a value other than NONE
     jQuery('#round' + roundNum + ' #game' + gameTwo + ' select').each(function () {
-        if (jQuery(this).val() !== 'NONE') {
+        if (jQuery(this).val() !== "0") {
             nonNoneCount++;
         }
     });
     // if at least one select has a non-NONE value, disable the NONE option for all selects in the game
     if (nonNoneCount > 0) {
-        jQuery('#round' + roundNum + ' #game' + previousGameOne + ' select option[value="NONE"]').prop('disabled', true);
-        jQuery('#round' + roundNum + ' #game' + previousGameTwo + ' select option[value="NONE"]').prop('disabled', true);
+        jQuery('#round' + roundNum + ' #game' + previousGameOne + ' select option[value="0"]').prop('disabled', true);
+        jQuery('#round' + roundNum + ' #game' + previousGameTwo + ' select option[value="0"]').prop('disabled', true);
     }
     // if all selects are set back to NONE, reactivate the NONE option for all selects in the game
     else {
-        jQuery('#round' + roundNum + ' #game' + previousGameOne + ' select option[value="NONE"]').prop('disabled', false);
-        jQuery('#round' + roundNum + ' #game' + previousGameTwo + ' select option[value="NONE"]').prop('disabled', false);
+        jQuery('#round' + roundNum + ' #game' + previousGameOne + ' select option[value="0"]').prop('disabled', false);
+        jQuery('#round' + roundNum + ' #game' + previousGameTwo + ' select option[value="0"]').prop('disabled', false);
     }
 }
 

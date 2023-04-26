@@ -28,6 +28,7 @@ if (isset($_SESSION['userLogedin'])) {
 $controllerChoice = filter_input(INPUT_POST, 'controllerRequest');
 $error_message = '';
 $error_message_bracket = '';
+$error_message_maplist = '';
 if ($controllerChoice == NULL) {
     $controllerChoice = filter_input(INPUT_GET, 'controllerRequest');
     if ($controllerChoice == NULL) {
@@ -55,22 +56,23 @@ else if ($controllerChoice == 'tournament_search_by_name') {
 
 // To a users tournament to edit
 else if ($controllerChoice == 'edit_my_tournament') {
+    $tab = 0;
     $tournament_id = filter_input(INPUT_POST, 'tournament_id');
     $tournament = get_tournament_by_id($tournament_id);
     $bracket = get_bracket_by_tournament_id($tournament_id);
     $mapLists = get_bracket_map_lists_by_bracket_id($bracket->getId());
     $maps = get_maps();
     $modes = get_modes();
+    $teams = get_tournament_teams_by_tournament_id($tournament_id);
     require_once("tournament_edit.php");
 }
 
 // In the header when the user selects my teams
 else if ($controllerChoice == 'my_tournament_list') {
-    if($userLogedin->getId() >0){
+    if ($userLogedin->getId() > 0) {
         $tournamentsOwned = get_tournaments_by_ownerId($userLogedin->getId());
         require_once("user_tournament_list.php");
-    }
-    else{
+    } else {
         require_once('../user_manager/user_login.php');
     }
 }
@@ -173,17 +175,17 @@ else if ($controllerChoice == 'tournament_register_confirmation') {
             insert_bracket_by_tournament_id($id);
             $bracket = get_bracket_by_tournament_id($id);
             $bracket_id = $bracket->getId();
-            
+
             // Loop through rounds 1 to 11
             for ($round = 1; $round <= 11; $round++) {
                 // Set isActive based on round number
-                    $isActive = ($round === 1) ? 1 : 0;   
+                $isActive = ($round === 1) ? 1 : 0;
                 // Insert bracket map list for this round
-                $map_list_id = insert_bracket_map_list_by_round_and_bracket_id($bracket_id, $round, $isActive);                          
+                $map_list_id = insert_bracket_map_list_by_round_and_bracket_id($bracket_id, $round, $isActive);
                 // Loop through games 1 to 11 for this map list
                 for ($game_number = 1; $game_number <= 11; $game_number++) {
                     // Set isActive based on game number
-                    $isActive = ($game_number === 1) ? 1 : 0;             
+                    $isActive = ($game_number === 1) ? 1 : 0;
                     // Insert map list map for this game number
                     insert_map_list_map_by_map_list_id_and_game_number($map_list_id, $game_number, $isActive);
                 }
@@ -193,8 +195,7 @@ else if ($controllerChoice == 'tournament_register_confirmation') {
             $maps = get_maps();
             $modes = get_modes();
             require_once("tournament_edit.php");
-        }
-        else{
+        } else {
             require_once("tournament_register.php");
         }
     }
@@ -211,15 +212,20 @@ else if ($controllerChoice == 'tournament_update_confirmation') {
     $tournamentDatetime = filter_input(INPUT_POST, 'tournamentDateTime');
     $tournamentDeadline = filter_input(INPUT_POST, 'tournamentDeadline');
     $imageValid = true;
-    $today = new DateTime();
+    $unformatedToday = new DateTime();
+    $today = $unformatedToday->format('Y-m-d\TH:i');
     $startDatetime = new DateTime(filter_input(INPUT_POST, 'tournamentDeadline'));
     $deadline = new DateTime(filter_input(INPUT_POST, 'tournamentDateTime'));
     $difference = $startDatetime->diff($deadline);
     $tournamnetTypes = get_tournament_types();
     $tournamentId = filter_input(INPUT_POST, 'tournament_id');
     $tournament = get_tournament_by_id($tournamentId);
-    
-    
+
+    $bracket = get_bracket_by_tournament_id($tournamentId);
+    $mapLists = get_bracket_map_lists_by_bracket_id($bracket->getId());
+    $maps = get_maps();
+    $modes = get_modes();
+    $tab = 0;
 
     if ($tournamentOrganizerName == null || $tournamentOrganizerName == "") {
         $error_message = "Tournament Organizer name reqired";
@@ -294,15 +300,19 @@ else if ($controllerChoice == 'tournament_update_confirmation') {
             $mapLists = get_bracket_map_lists_by_bracket_id($bracket->getId());
             $maps = get_maps();
             $modes = get_modes();
+            $tab = 0;
             require_once("tournament_edit.php");
-        }
-        else{
-            require_once("tournament_edit.php");
+        } else {
+            $bracket = get_bracket_by_tournament_id($tournamentId);
+            $tournament = get_tournament_by_id($tournamentId);
+            $mapLists = get_bracket_map_lists_by_bracket_id($bracket->getId());
+            $maps = get_maps();
+            $modes = get_modes();
+            $tab = 0;
+            require_once("edit.php");
         }
     }
-} 
-
-else if ($controllerChoice == 'insert_bracket') {
+} else if ($controllerChoice == 'insert_bracket') {
 
     $bracket = new Bracket(
             0,
@@ -340,21 +350,18 @@ else if ($controllerChoice == 'insert_bracket') {
     $brackets = get_brackets_by_tournament_id($tournament->getId());
     $tournamnetTypes = get_tournament_types();
     require_once("tournament_edit.php");
-}
+} else if ($controllerChoice == 'update_bracket_info') {
 
-
-else if($controllerChoice == 'update_bracket_info'){
-    
     $bracket_name = filter_input(INPUT_POST, 'tournamentBracketName');
     $number_of_rounds = filter_input(INPUT_POST, 'rounds');
     $bracket_id = filter_input(INPUT_POST, 'bracket_id');
-    
+
     // Loop through rounds 1 to 11
     for ($round = 1; $round <= 11; $round++) {
-      // Set isActive based on the current round and number_of_rounds
-      $isActive = ($round <= $number_of_rounds) ? 1 : 0;
-      // Update bracket map list isActive for this round
-      update_bracket_map_list_isActive($bracket_id, $round, $isActive);
+        // Set isActive based on the current round and number_of_rounds
+        $isActive = ($round <= $number_of_rounds) ? 1 : 0;
+        // Update bracket map list isActive for this round
+        update_bracket_map_list_isActive($bracket_id, $round, $isActive);
     }
     update_bracket_info($bracket_id, $bracket_name, $number_of_rounds);
     $tournament_id = filter_input(INPUT_POST, 'tournament_id');
@@ -363,6 +370,7 @@ else if($controllerChoice == 'update_bracket_info'){
     $mapLists = get_bracket_map_lists_by_bracket_id($bracket->getId());
     $maps = get_maps();
     $modes = get_modes();
+    $tab = 1;
     require_once("tournament_edit.php");
 }
 
@@ -389,6 +397,133 @@ else if ($controllerChoice == 'tournament_bracket') {
         }
         require_once("tournament_bracket.php");
     }
+}
+//updates the map list when a user saves a round
+else if ($controllerChoice == 'update_maplist') {
+
+    $maplist_id = filter_input(INPUT_POST, 'maplistId');
+    $roundNumber = filter_input(INPUT_POST, 'roundNumber');
+
+    $mode1 = filter_input(INPUT_POST, 'mode1');
+    $mode2 = filter_input(INPUT_POST, 'mode2');
+    $mode3 = filter_input(INPUT_POST, 'mode3');
+    $mode4 = filter_input(INPUT_POST, 'mode4');
+    $mode5 = filter_input(INPUT_POST, 'mode5');
+    $mode6 = filter_input(INPUT_POST, 'mode6');
+    $mode7 = filter_input(INPUT_POST, 'mode7');
+    $mode8 = filter_input(INPUT_POST, 'mode8');
+    $mode9 = filter_input(INPUT_POST, 'mode9');
+    $mode10 = filter_input(INPUT_POST, 'mode10');
+    $mode11 = filter_input(INPUT_POST, 'mode11');
+
+    $map1 = filter_input(INPUT_POST, 'map1');
+    $map2 = filter_input(INPUT_POST, 'map2');
+    $map3 = filter_input(INPUT_POST, 'map3');
+    $map4 = filter_input(INPUT_POST, 'map4');
+    $map5 = filter_input(INPUT_POST, 'map5');
+    $map6 = filter_input(INPUT_POST, 'map6');
+    $map7 = filter_input(INPUT_POST, 'map7');
+    $map8 = filter_input(INPUT_POST, 'map8');
+    $map9 = filter_input(INPUT_POST, 'map9');
+    $map10 = filter_input(INPUT_POST, 'map10');
+    $map11 = filter_input(INPUT_POST, 'map11');
+
+    $isValid = true;
+
+    //check for best of 1
+    if ($map1 > 0 && $mode1 > 0) {
+        update_maplist_game($maplist_id, 1, $map1, $mode1);
+    } else {
+        if ($map1 == 0 && $mode1 == 0) {
+            update_maplist_game($maplist_id, 1, 0, 0);
+        } else {
+            $error_message_maplist = 'Game 1 from round ' . $roundNumber . ' was not saved, please ensure map and mode are not set to NONE unless you want to delete the game';
+            $isValid = false;
+        }
+    }
+
+    //checking for best of 3
+    if ($isValid && $map2 > 0 && $mode2 > 0 && $map3 > 0 && $mode3 > 0) {
+        update_maplist_game($maplist_id, 2, $map2, $mode2);
+        update_maplist_game($maplist_id, 3, $map3, $mode3);
+    } else {
+        if ($map2 == 0 && $mode2 == 0 && $map3 == 0 && $mode3 == 0) {
+            update_maplist_game($maplist_id, 2, 0, 0);
+            update_maplist_game($maplist_id, 3, 0, 0);
+        } else {
+            $error_message_maplist = 'Game 2 and game 3 from round ' . $roundNumber . ' were not saved, please ensure maps and modes are not set to NONE unless you want to delete the games';
+            $isValid = false;
+        }
+    }
+
+    //checking for best of 5
+    if ($isValid && $map4 > 0 && $mode4 > 0 && $map5 > 0 && $mode5 > 0) {
+        update_maplist_game($maplist_id, 4, $map4, $mode4);
+        update_maplist_game($maplist_id, 5, $map5, $mode5);
+    } else {
+        if ($map4 == 0 && $mode4 == 0 && $map5 == 0 && $mode5 == 0) {
+            update_maplist_game($maplist_id, 4, 0, 0);
+            update_maplist_game($maplist_id, 5, 0, 0);
+        } else {
+            $error_message_maplist = 'Game 4 and game 5 from round ' . $roundNumber . ' were not saved, please ensure maps and modes are not set to NONE unless you want to delete the games';
+            $isValid = false;
+        }
+    }
+
+    //checking for best of 7
+    if ($isValid && $map6 > 0 && $mode6 > 0 && $map7 > 0 && $mode7 > 0) {
+        update_maplist_game($maplist_id, 6, $map6, $mode6);
+        update_maplist_game($maplist_id, 7, $map7, $mode7);
+    } else {
+        if ($map6 == 0 && $mode6 == 0 && $map7 == 0 && $mode7 == 0) {
+            update_maplist_game($maplist_id, 6, 0, 0);
+            update_maplist_game($maplist_id, 7, 0, 0);
+        } else {
+            $error_message_maplist = 'Game 6 and game 7 from round ' . $roundNumber . ' were not saved, please ensure maps and modes are not set to NONE unless you want to delete the games';
+            $isValid = false;
+        }
+    }
+
+
+    //checking for best of 9
+    if ($isValid && $map8 > 0 && $mode8 > 0 && $map9 > 0 && $mode9 > 0) {
+        update_maplist_game($maplist_id, 8, $map8, $mode8);
+        update_maplist_game($maplist_id, 9, $map9, $mode9);
+    } else {
+        if ($map8 == 0 && $mode8 == 0 && $map9 == 0 && $mode9 == 0) {
+            update_maplist_game($maplist_id, 8, 0, 0);
+            update_maplist_game($maplist_id, 9, 0, 0);
+        } else {
+            $error_message_maplist = 'Game 8 and game 9 from round ' . $roundNumber . ' were not saved, please ensure maps and modes are not set to NONE unless you want to delete the games';
+            $isValid = false;
+        }
+    }
+
+    //checking for best of 5
+    if ($isValid && $map10 > 0 && $mode10 > 0 && $map11 > 0 && $mode11 > 0) {
+        update_maplist_game($maplist_id, 10, $map10, $mode10);
+        update_maplist_game($maplist_id, 11, $map11, $mode11);
+    } else {
+        if ($map10 == 0 && $mode10 == 0 && $map11 == 0 && $mode11 == 0) {
+            update_maplist_game($maplist_id, 10, 0, 0);
+            update_maplist_game($maplist_id, 11, 0, 0);
+        } else {
+            $error_message_maplist = 'Game 10 and game 11 from round ' . $roundNumber . ' were not saved, please ensure maps and modes are not set to NONE unless you want to delete the games';
+        }
+    }
+
+
+
+
+
+    $tab = 2;
+    $tournament_id = filter_input(INPUT_POST, 'tournament_id');
+    $tournament = get_tournament_by_id($tournament_id);
+    $bracket = get_bracket_by_tournament_id($tournament_id);
+    $mapLists = get_bracket_map_lists_by_bracket_id($bracket->getId());
+    $maps = get_maps();
+    $modes = get_modes();
+    require_once("tournament_edit.php");
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -6,12 +6,44 @@
 <script src="js/hrefLinks.js"></script>
 <link rel="stylesheet" type="text/css" href="styles/image_upload_1.css"><!-- for image upload -->
 <link rel="stylesheet" type="text/css" href="styles/tournament_edit.css">
+
+
+
+<script src="js/hrefLinks.js"></script>
 <script>
-    $(function () {
+    $(document).ready(function () {
         $("#tabs").tabs();
-        console.log("tabs is loading");
+        $("#tabs").tabs({active: <?php echo $tab; ?>});
+        var activeTab = <?php echo $tab; ?>; // replace with your variable that holds the ID of the active tab
+        activateSearch(activeTab);
+        console.log(activeTab);
+        $(".ui-tabs-nav").show();
+
+
+        function activateSearch(activeTab) {
+            if (activeTab === 0) {
+                $("#user-search-div").show();
+                $("#team-search-div").hide();
+                $("#tournament-search-div").hide();
+            } else if (activeTab === 1) {
+                $("#user-search-div").hide();
+                $("#team-search-div").show();
+                $("#tournament-search-div").hide();
+            } else if (activeTab === 2) {
+                $("#user-search-div").hide();
+                $("#team-search-div").hide();
+                $("#tournament-search-div").show();
+            }
+        }
+
+        $("#tabs").on("tabsactivate", function (event, ui) {
+            $tab = ui.newTab.index();
+            activateSearch($tab);
+        });
+
     });
 </script>
+
 
 
 
@@ -154,19 +186,26 @@
     
     <div id="tabs-3">
         <div class="container">
+            <span style='color: red'><?php echo $error_message_maplist ?></span>
             <?php foreach ($mapLists as $mapList) : ?> 
-                <?php if($mapList->getIsActive() == 1){?>
+            <?php if($mapList->getIsActive() == 1){?>
+            <form action="tournament_manager/index.php" method="POST">
+                <input type="hidden" name="controllerRequest" value="update_maplist" />
+                <input type="hidden" name="tournament_id" value="<?php echo $tournament->getId(); ?>" />
+                <input type="hidden" name="maplistId" value="<?php echo $mapList -> getId(); ?>" /> 
+                <input type="hidden" name="bracket_id" value="<?php echo $bracket->getId(); ?>" /> 
                 <div class="round-container">
                     <div class="round" id="round<?php echo $mapList->getRound();?>">
                         <div class="title">Round <?php echo $mapList->getRound(); ?></div>
                         <?php $games = get_match_games_by_id($mapList->getId()); ?>
                         <?php foreach ($games as $game) : ?> 
+                        
                         <div class="game" id="game<?php echo $game->getGameNumber();?>">      
                                 <span class='gameLabel'>game <?php echo $game->getGameNumber(); ?></span>
                                 <div class="mapPicker">
                                     <label>Map</label>
-                                    <select name="map" id="map" class="map-select">
-                                        <option value="NONE">NONE</option> 
+                                    <select name="map<?php echo $game->getGameNumber(); ?>" id="map" class="map-select">
+                                        <option value="0">NONE</option> 
                                         <?php foreach ($maps as $map) : ?>    
                                             <option <?php if($map->getId() == $game->getMapId()){ echo 'selected'; }?> value="<?php echo $map->getId();?>"><?php echo $map->getDescription() ;?></option>
                                         <?php endforeach; ?>
@@ -174,21 +213,22 @@
                                 </div>
                                 <div class="modePicker" >    
                                 <label>Mode</label>
-                                    <select name="mode" id="mode" class="mode-select">
-                                        <option value="NONE">NONE</option>    
+                                    <select name="mode<?php echo $game->getGameNumber(); ?>" id="mode" class="mode-select">
+                                        <option value="0">NONE</option>    
                                         <?php foreach ($modes as $mode) : ?> 
                                             <option <?php if($mode->getId() == $game->getModeId()){ echo 'selected'; }?> value="<?php echo $mode->getId();?>"><?php echo $mode->getDescription() ;?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
                         </div>
-
                         <?php endforeach; ?>
+                        <input type="hidden" name="roundNumber" value="<?php echo $mapList->getRound(); ?>">
                         <div class="button">
                             <input type="submit" value="Save Changes">
                         </div>
                     </div>
                 </div>
+            </form>
                 <?php } ?>
             <?php endforeach; ?>
         </div>     
@@ -204,6 +244,10 @@
 			content: counter(item) ". ";
 			font-weight: bold;
 			margin-right: 10px;
+		}
+                
+                #drag-list li:last-child::before {
+			content: "";
 		}
 	</style>
 	<script>
@@ -250,8 +294,9 @@
 	<ul id="drag-list">
 		<li id="item1" draggable="true" ondragstart="drag(event)">Item 1</li>
 		<li id="item2" draggable="true" ondragstart="drag(event)">Item 2</li>
-		 <li id="item3" draggable="true" ondragstart="drag(event)">Item 3</li>
+		<li id="item3" draggable="true" ondragstart="drag(event)">Item 3</li>
 		<li id="item4" draggable="true" ondragstart="drag(event)">Item 4</li>
+                <li id="bottom-dropzone" style="color: lightgray; cursor: default; " ondrop="drop(event)" ondragover="allowDrop(event)">Drag here for bottom</li>
 	</ul>
 	<input type="button" value="Submit Order" onclick="submitOrder();">
 	<form id="order-form" method="post">

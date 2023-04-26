@@ -26,6 +26,28 @@ function get_tournament_types() {
     return $tournamentTypeArray;
 }
 
+function get_tournament_teams_by_tournament_id($tournament_id) {
+    $db = Database::getDB();
+    $tournamentTypeArray = array();
+
+    $query = 'SELECT * FROM tournament_team'
+            . 'WHERE tournament_id = :tournament_id';
+    $statement = $db->prepare($query);
+    $statement->execute();
+    $tournamentTypes = $statement->fetchAll();
+    $statement->closeCursor();
+
+    foreach ($tournamentTypes as $tournamentType) {
+        $tournamentObject = new TournamnetType($tournamentType['ID'],
+                $tournamentType['description'],
+                $tournamentType['isActive']);
+
+        $tournamentTypeArray[] = $tournamentObject;
+    }
+
+    return $tournamentTypeArray;
+}
+
 function get_maps() {
     $db = Database::getDB();
     $mapArray = array();

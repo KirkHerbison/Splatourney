@@ -106,6 +106,20 @@ function insert_message_by_chat_id($message){
     $statement->closeCursor();
 }
 
+function update_maplist_game($bracket_match_list_id, $game_number, $map_id, $mode_id){
+        $db = Database::getDB();
+    $query = 'UPDATE bracket_map_list_map
+                     SET map_id = :map_id, mode_id  = :mode_id
+                     WHERE bracket_match_list_id = :bracket_match_list_id AND game_number = :game_number';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':bracket_match_list_id', $bracket_match_list_id);
+    $statement->bindValue(':game_number', $game_number);
+    $statement->bindValue(':map_id', $map_id);
+    $statement->bindValue(':mode_id', $mode_id);
+    $statement->execute();
+    $statement->closeCursor();
+}
+
 
 function insert_bracket_by_tournament_id($tournament_id){
     $db = Database::getDB();
@@ -232,7 +246,24 @@ function get_bracket_map_lists_by_bracket_id($bracket_id) {
     return $mapListArray;
 }
 
+function get_bracket_map_list_by_round_and_bracket_id($bracket_id, $round) {
+    $db = Database::getDB();
 
+    $query = 'SELECT * FROM bracket_map_list
+              WHERE bracket_id = :bracket_id AND round = :round';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':bracket_id', $bracket_id);
+    $statement->bindValue(':round', $round);
+    $statement->execute();
+    $mapList = $statement->fetch();
+    $statement->closeCursor();
+
+    $mapListObject = new MapList($mapList['ID'],
+        $mapList['bracket_id'],
+        $mapList['round'],
+        $mapList['isActive']);
+    return $mapListObject;
+}
 
 
 

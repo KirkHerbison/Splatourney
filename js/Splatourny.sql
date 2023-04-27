@@ -18,19 +18,19 @@ CREATE TABLE user_type (
 -- details about a user
 CREATE TABLE splatourney_user(
   ID        		INT         	NOT NULL   AUTO_INCREMENT,
-  user_type_id      INT    			NOT NULL,
-  email_address      VARCHAR(255)   	NOT NULL,
-  username			VARCHAR(60)		NOT NULL,
-  password          VARCHAR(60)    	NOT NULL,
-  first_name         VARCHAR(60)    	NOT NULL,
-  last_name          VARCHAR(60)    	NOT NULL,
-  switch_friend_code VARCHAR(12),
+  user_type_id          INT    		NOT NULL,
+  email_address         VARCHAR(255)   	NOT NULL,
+  username		VARCHAR(60)	NOT NULL,
+  password              VARCHAR(60)    	NOT NULL,
+  first_name            VARCHAR(60)    	NOT NULL,
+  last_name             VARCHAR(60)    	NOT NULL,
+  switch_friend_code    VARCHAR(12),
   switch_username	VARCHAR(10),
-  splashtag			VARCHAR(15),
+  splashtag		VARCHAR(15),
   discord_username 	VARCHAR(60),
   discord_client_secret VARCHAR(60),
   isActive      	BOOLEAN     	DEFAULT 1,
-  display_name		BOOLEAN			DEFAULT 0,
+  display_name		BOOLEAN		DEFAULT 0,
   PRIMARY KEY (ID),
   UNIQUE INDEX emailAddress (email_address),
   UNIQUE INDEX discord_username (discord_username),
@@ -55,7 +55,7 @@ CREATE TABLE map (
 
 -- list of modes in splatoon
 CREATE TABLE mode (
-  ID				INT				NOT NULL	AUTO_INCREMENT,
+  ID			INT		NOT NULL	AUTO_INCREMENT,
   description		VARCHAR(200)	NOT NULL,
   image_link		VARCHAR(200)	NOT NULL,
   PRIMARY KEY (ID)
@@ -64,17 +64,17 @@ CREATE TABLE mode (
 
 -- member of a team
 CREATE TABLE team_member_list (
-  ID				INT				NOT NULL AUTO_INCREMENT,
-  user_id			INT			    NOT NULL,
-  team_id			INT 			NOT NULL,
-  isActive      	BOOLEAN     	DEFAULT 1,
+  ID			INT		NOT NULL AUTO_INCREMENT,
+  user_id		INT		NOT NULL,
+  team_id		INT 		NOT NULL,
+  isActive              BOOLEAN     	DEFAULT 1,
   PRIMARY KEY (ID)
 );
 
 -- table for a team
 CREATE TABLE team(
   ID        		INT         	NOT NULL   AUTO_INCREMENT,
-  captain_user_id   INT    			NOT NULL,
+  captain_user_id       INT    		NOT NULL,
   team_name      	VARCHAR(255)   	NOT NULL,
   team_image_link	VARCHAR(5000),
   isActive      	BOOLEAN     	DEFAULT 1,
@@ -86,19 +86,19 @@ CREATE TABLE team(
 
 -- details of a tournament
 CREATE TABLE tournament (
-    ID				INT 			NOT NULL AUTO_INCREMENT,
-    tournament_owner_id	INT,
-    tournament_organizer_name		VARCHAR(255)		NOT NULL,
-    tournament_type_id	INT,
-    tournament_banner_link VARCHAR(5000) Default 'default.png',
-    tournament_name		VARCHAR(255),
-    tournament_date		DATETIME,
-    tournament_registration_deadline	DATETIME,
-    tournament_about	LONGTEXT,
-    tournament_prizes	LONGTEXT,
-    tournament_contact	LONGTEXT,
-    tournament_rules	LONGTEXT,
-	isActive			BOOLEAN        	DEFAULT 1,
+    ID                                  INT 		NOT NULL AUTO_INCREMENT,
+    tournament_owner_id                 INT,
+    tournament_organizer_name           VARCHAR(255)    NOT NULL,
+    tournament_type_id                  INT,
+    tournament_banner_link              VARCHAR(5000)   Default 'default.png',
+    tournament_name                     VARCHAR(255),
+    tournament_date                     DATETIME,
+    tournament_registration_deadline    DATETIME,
+    tournament_about                    LONGTEXT,
+    tournament_prizes                   LONGTEXT,
+    tournament_contact                  LONGTEXT,
+    tournament_rules                    LONGTEXT,
+    isActive                            BOOLEAN        	DEFAULT 1,
     PRIMARY KEY (ID)
 ); 
 
@@ -106,18 +106,18 @@ CREATE TABLE tournament (
 -- a bracket of a tournament
 CREATE TABLE bracket (
   ID        		INT            	NOT NULL   AUTO_INCREMENT,
-  tournament_id     INT    			NOT NULL,
-  tournament_type_id INT      	    Default 1,
-  bracket_name VARCHAR(255) Default '',
-  number_of_rounds INT		Default 1,
+  tournament_id         INT    		NOT NULL,
+  tournament_type_id    INT      	Default 1,
+  bracket_name          VARCHAR(255)    Default '',
+  number_of_rounds      INT		Default 1,
   PRIMARY KEY (ID)
 );  
 
 	-- game for maplist
 CREATE TABLE bracket_map_list (
-	ID				INT				NOT NULL	AUTO_INCREMENT,
-	bracket_id	INT				NOT NULL,
-	round			INT				NOT NULL,
+	ID		INT		NOT NULL	AUTO_INCREMENT,
+	bracket_id	INT		NOT NULL,
+	round		INT		NOT NULL,
 	isActive      	BOOLEAN     	DEFAULT 1,	
 	PRIMARY KEY (ID)
 );
@@ -125,26 +125,28 @@ CREATE TABLE bracket_map_list (
 -- maps for the map list
 CREATE TABLE bracket_map_list_map(
   ID        		INT         	NOT NULL   AUTO_INCREMENT,
-  bracket_match_list_id		INT				NOT NULL,
-  game_number		INT				NOT NULL,
-  map_id   			INT    			DEFAULT 0,
-  mode_id      		INT   			DEFAULT 0,
+  bracket_match_list_id	INT		NOT NULL,
+  game_number		INT		NOT NULL,
+  map_id   		INT    		DEFAULT 0,
+  mode_id      		INT   		DEFAULT 0,
   isActive      	BOOLEAN     	DEFAULT 1,	
   PRIMARY KEY (ID)
 );
+	  
 
 -- a match in a tournament 
 CREATE TABLE bracket_match (
   ID        		INT            	NOT NULL   AUTO_INCREMENT,
-  tournament_id     INT    			NOT NULL,
-  bracket_id INT			NOT NULL,
-  team_one_id  		INT,				
-  team_two_id		INT,
-  round				INT				NOT NULL,
-  team_one_wins     INT				DEFAULT 0,
-  team_two_wins		INT				DEFAULT 0,
-  winner_team_id	INT,
-  match_number		INT				NOT NULL,
+  tournament_id         INT    		NOT NULL,
+  bracket_id            INT		NOT NULL,
+  team_one_id  		INT             Default NULL,				
+  team_two_id		INT             Default NULL,
+  round			INT		NOT NULL,
+  team_one_wins         INT		DEFAULT 0,
+  team_two_wins		INT		DEFAULT 0,
+  wins_needed_to_win    INT             NOT NULL,
+  winner_team_id	INT             DEFAULT 0,
+  match_number		INT		NOT NULL,
   isActive      	BOOLEAN     	DEFAULT 1,
   PRIMARY KEY (ID)
 );
@@ -152,7 +154,7 @@ CREATE TABLE bracket_match (
 -- a chat for a match 
 CREATE TABLE chat (
   ID        		INT            	NOT NULL   AUTO_INCREMENT,
-  match_id     		INT    			NOT NULL,
+  match_id     		INT    		NOT NULL,
   isActive      	BOOLEAN     	DEFAULT 1,
   PRIMARY KEY (ID)
 );
@@ -160,26 +162,26 @@ CREATE TABLE chat (
 -- a chat for a match 
 CREATE TABLE chat_message (
   ID        		INT            	NOT NULL   AUTO_INCREMENT,
-  chat_id     		INT    			NOT NULL,
-  user_id			INT				NOT NULL,
+  chat_id     		INT    		NOT NULL,
+  user_id		INT		NOT NULL,
   message      		VARCHAR(255)    NOT NULL,
-  date_sent			DATETIME		DEFAULT CURRENT_TIMESTAMP,
+  date_sent		DATETIME	DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (ID)
 );
 
 -- an admin of the tournament
 CREATE TABLE tournament_admin (
   ID        		INT            	NOT NULL   AUTO_INCREMENT,
-  tournament_id     INT    			NOT NULL,
-  user_id      		INT        	    NOT NULL,
+  tournament_id         INT    		NOT NULL,
+  user_id      		INT        	NOT NULL,
   PRIMARY KEY (ID)
 );
 
 -- table for a team in a tournament
 CREATE TABLE tournament_team(
   ID        		INT         	NOT NULL   AUTO_INCREMENT,
-  tournament_id   	INT    			NOT NULL,
-  team_id      		INT   			NOT NULL,
+  tournament_id   	INT    		NOT NULL,
+  team_id      		INT   		NOT NULL,
   seed                  INT             NOT NULL,
   isActive      	BOOLEAN     	DEFAULT 1,
   PRIMARY KEY (ID)
@@ -188,10 +190,10 @@ CREATE TABLE tournament_team(
 -- results from a tournament
 CREATE TABLE tournament_result (
   ID        		INT            	NOT NULL   AUTO_INCREMENT,
-  tournament_id     INT    			NOT NULL,
-  bracket_id INT			NOT NULL,
-  team_id      		INT        	    NOT NULL,
-  result			INT				NOT NULL,
+  tournament_id         INT    		NOT NULL,
+  bracket_id            INT		NOT NULL,
+  team_id      		INT        	NOT NULL,
+  result		INT		NOT NULL,
   PRIMARY KEY (ID)
 );
 
@@ -240,9 +242,9 @@ VALUES('Zones', 'images/modes/zones.png'),
 INSERT INTO splatourney_user(user_type_id, email_address, username, password, first_name, last_name, switch_friend_code, switch_username, splashtag, discord_username, display_name)
 VALUES(2, 'admin@admin.com', 'admin', 'password', 'adminf', 'adminl','123456789123', 'adminsu', 'adminsu#1234', 'admindu#1234', '1'),
 	(1, 'user@user.com', 'user', 'password', 'userf', 'userl','222444777888', 'useru', 'usersu#1234', 'userdu#1234', '1'),
-    (1, 'steve@mail.com', 'steveT', 'password', 'Steve', 'Tod','111444777456', 'steveruser', 'steverusersu#1234', 'steveruserdu#1234', '0'),
-    (1, 'Jay@mail.com', 'JayJ', 'password', 'Jay', 'Johnson','777444777888', 'jayuser', 'jayusersu#1234', 'jayuserdu#1234', '0'),
-    (1, 'Mary@mail.com', 'MaryK', 'password', 'Mary', 'Kruger','222333999444', 'maryuser', 'maryusersu#1234', 'maryuserdu#1234', '1');
+        (1, 'steve@mail.com', 'steveT', 'password', 'Steve', 'Tod','111444777456', 'steveruser', 'steverusersu#1234', 'steveruserdu#1234', '0'),
+        (1, 'Jay@mail.com', 'JayJ', 'password', 'Jay', 'Johnson','777444777888', 'jayuser', 'jayusersu#1234', 'jayuserdu#1234', '0'),
+        (1, 'Mary@mail.com', 'MaryK', 'password', 'Mary', 'Kruger','222333999444', 'maryuser', 'maryusersu#1234', 'maryuserdu#1234', '1');
     
 INSERT INTO team(captain_user_id, team_name, team_image_link)
 VALUES(1,'The Admin Team', 'Siege_art.png'),
@@ -265,10 +267,10 @@ VALUES(1,'The Admin Team', 'Siege_art.png'),
 INSERT INTO team_member_list(team_id, user_id)
 VALUES (1,1),
 	(1,2),
-    (1,3),
-    (1,4),
-    (2,5),
-    (3,2);
+        (1,3),
+        (1,4),
+        (2,5),
+        (3,2);
     
 INSERT INTO tournament(tournament_owner_id, tournament_organizer_name, tournament_type_id, tournament_name, tournament_banner_link, tournament_date, tournament_registration_deadline, tournament_about, tournament_prizes, tournament_contact, tournament_rules)
 VALUES(1,'admin gaming', 1, 'admins tournament', 'test_tournament_1.png', '2023-03-20 03:00:00', '2023-03-10 03:00:00', 'this is the about information of the test tournament', 'the prize for winning this tournament is the privlige to pet my cat', 'email us at admin@admin.com', 'the rules of the tournament are to win the tournament' ),
@@ -309,6 +311,7 @@ VALUES(1,1,1),
 	(1,9,0),
 	(1,10,0),
 	(1,11,0),
+
 	(2,1,1),
 	(2,2,1),
 	(2,3,1),
@@ -319,7 +322,19 @@ VALUES(1,1,1),
 	(2,8,0),
 	(2,9,0),
 	(2,10,0),
-	(2,11,0);
+	(2,11,0),
+
+        (3,1,1),
+	(3,2,0),
+	(3,3,0),
+	(3,4,0),
+	(3,5,0),
+	(3,6,0),
+	(3,7,0),
+	(3,8,0),
+	(3,9,0),
+	(3,10,0),
+	(3,11,0);
 
 INSERT INTO bracket_map_list_map(bracket_match_list_id, game_number, map_id, mode_id)
 VALUES(1,1,4,2),
@@ -584,12 +599,144 @@ VALUES(1,1,4,2),
 	(22,8,0,0),
 	(22,9,0,0),
 	(22,10,0,0),
-	(22,11,0,0);
+	(22,11,0,0),
+
+        (23,1,0,0),
+	(23,2,0,0),
+	(23,3,0,0),
+	(23,4,0,0),
+	(23,5,0,0),
+	(23,6,0,0),
+	(23,7,0,0),
+	(23,8,0,0),
+	(23,9,0,0),
+	(23,10,0,0),
+	(23,11,0,0),
+	
+	(24,1,0,0),
+	(24,2,0,0),
+	(24,3,0,0),
+	(24,4,0,0),
+	(24,5,0,0),
+	(24,6,0,0),
+	(24,7,0,0),
+	(24,8,0,0),	
+	(24,9,0,0),
+	(24,10,0,0),
+	(24,11,0,0),
+	
+	(25,1,0,0),
+	(25,2,0,0),
+	(25,3,0,0),
+	(25,4,0,0),
+	(25,5,0,0),
+	(25,6,0,0),
+	(25,7,0,0),
+	(25,8,0,0),
+	(25,9,0,0),
+	(25,10,0,0),
+	(25,11,0,0),
+	
+	(26,1,0,0),
+	(26,2,0,0),
+	(26,3,0,0),
+	(26,4,0,0),
+	(26,5,0,0),
+	(26,6,0,0),
+	(26,7,0,0),
+	(26,8,0,0),
+	(26,9,0,0),
+	(26,10,0,0),
+	(26,11,0,0),
+	
+	(27,1,0,0),
+	(27,2,0,0),
+	(27,3,0,0),
+	(27,4,0,0),
+	(27,5,0,0),
+	(27,6,0,0),
+	(27,7,0,0),
+	(27,8,0,0),
+	(27,9,0,0),
+	(27,10,0,0),
+	(27,11,0,0),
+	
+	(28,1,0,0),
+	(28,2,0,0),
+	(28,3,0,0),
+	(28,4,0,0),
+	(28,5,0,0),
+	(28,6,0,0),
+	(28,7,0,0),
+	(28,8,0,0),
+	(28,9,0,0),
+	(28,10,0,0),
+	(28,11,0,0),
+	
+	(29,1,0,0),
+	(29,2,0,0),
+	(29,3,0,0),
+	(29,4,0,0),
+	(29,5,0,0),
+	(29,6,0,0),
+	(29,7,0,0),
+	(29,8,0,0),
+	(29,9,0,0),
+	(29,10,0,0),
+	(29,11,0,0),
+	
+	(30,1,0,0),
+	(30,2,0,0),
+	(30,3,0,0),
+	(30,4,0,0),
+	(30,5,0,0),
+	(30,6,0,0),
+	(30,7,0,0),
+	(30,8,0,0),
+	(30,9,0,0),
+	(30,10,0,0),
+	(30,11,0,0),
+	
+	(31,1,0,0),
+	(31,2,0,0),
+	(31,3,0,0),
+	(31,4,0,0),
+	(31,5,0,0),
+	(31,6,0,0),
+	(31,7,0,0),
+	(31,8,0,0),
+	(31,9,0,0),
+	(31,10,0,0),
+	(31,11,0,0),
+	
+	(32,1,0,0),
+	(32,2,0,0),
+	(32,3,0,0),
+	(32,4,0,0),
+	(32,5,0,0),
+	(32,6,0,0),
+	(32,7,0,0),
+	(32,8,0,0),
+	(32,9,0,0),
+	(32,10,0,0),
+	(32,11,0,0),
+	
+	(33,1,0,0),
+	(33,2,0,0),
+	(33,3,0,0),
+	(33,4,0,0),
+	(33,5,0,0),
+	(33,6,0,0),
+	(33,7,0,0),
+	(33,8,0,0),
+	(33,9,0,0),
+	(33,10,0,0),
+	(33,11,0,0);
 
 INSERT INTO tournament_result(tournament_id, bracket_id, team_id,result)
 VALUES(1,1,13,1),
 	(1,1,4,2),
-    (1,1,11,3),
+        (1,1,11,3),
 	(1,1,5,3),
 	
 	
@@ -641,7 +788,16 @@ VALUES(1,1,1),
 	(2,13,13),
 	(2,14,14),
 	(2,15,15),
-	(2,16,16);
+	(2,16,16),
+
+	(3,1,1),
+	(3,2,2),
+        (3,3,3),
+	(3,4,4),
+	(3,5,5),
+	(3,6,6),
+	(3,7,7),
+	(3,8,8);
  
  
 INSERT INTO tournament_type(description)
@@ -651,13 +807,14 @@ VALUES('Single Elimination'),
 	
 INSERT INTO bracket(tournament_id, tournament_type_id, bracket_name, number_of_rounds)
 VALUES(1, 1, 'my single elimination bracket', 4),
-		(2,1,'',1);
+	(2,1,'',1),
+        (3,1,'',1);
     
     
 INSERT INTO bracket_match(tournament_id, bracket_id, team_one_id,team_two_id,round, team_one_wins, team_two_wins, winner_team_id, match_number)
 VALUES(1,1,1,2,1   ,2,1    ,1,1),
 	(1,1,3,4,1     ,1,2    ,4,2),
-    (1,1,5,6,1     ,3,0    ,5,3),
+        (1,1,5,6,1     ,3,0    ,5,3),
 	(1,1,7,8,1     ,2,1    ,7,4),
 	(1,1,9,10,1    ,1,2    ,10,5),
 	(1,1,11,12,1   ,2,1    ,11,6),
@@ -676,12 +833,12 @@ VALUES(1,1,1,2,1   ,2,1    ,1,1),
 	
 INSERT INTO tournament_admin(tournament_id,user_id)
 VALUES(1,1),
-	(1,2),
-    (1,3);
+        (1,2),
+        (1,3);
 
 INSERT INTO user_type(description)
 VALUES('user'),
-	('admin');
+        ('admin');
 
 
 -- create the users and grant priveleges to those users

@@ -94,9 +94,62 @@ if ($controllerChoice == 'bracket') {
 
         // Convert output to JSON format
         $bracketData = json_encode($dataForBracket);
-        require_once("../testBracket.php");
+        require_once("bracket.php");
     }
 }
+
+// Starts/creates the bracket for a tournament
+else if ($controllerChoice == 'start_bracket') {
+    $tournament_id = filter_input(INPUT_POST, 'tournament_id');
+    $teams = get_tournament_teams_by_tournament_id($tournament_id);
+    $tournament = get_tournament_by_id($tournament_id);
+    $bracket = get_bracket_by_tournament_id($tournament_id);
+       
+    
+    
+    
+    
+    
+    
+    for ($round = 1; $x <= $bracket->getNumberOfRounds(); $round++) {
+        $mapList = get_bracket_map_list_by_round_and_bracket_id($bracket->getId(), $round); 
+
+        
+        get_
+        
+        
+        
+        insert_tournament_match($tournament_id, $bracket->getId(), $round, wins_needed_to_win, match_number);
+        
+    }
+    
+    //creating empty matches
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    require_once("bracket.php");
+    
+}
+
+
+
+
+
+
 
 // Sends user to a match when the match is selected
 else if ($controllerChoice == 'match') {

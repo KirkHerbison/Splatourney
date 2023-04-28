@@ -10,6 +10,8 @@ if (isset($_SESSION['userLogedin'])) {
 require_once '../view/header.php';
 ?>
 <link rel="stylesheet" type="text/css" href="styles/single_elimination_bracket.css">
+<h3><?php echo $bracket->getTournamentBracketName();?></h3>
+<div id="container">
 <div class="bracketContainer">
     <div class="resize-handle resize-handle-bottom-right"></div>
 
@@ -20,8 +22,9 @@ require_once '../view/header.php';
     <link rel="stylesheet" type="text/css" href="styles/jquery.bracket.min.css" /> <!-- for jquery bracket -->
     <input type="hidden" id="tournament-id" value="<?php echo $tournament_id; ?> ">
 
+    
     <div id="minimal">
-        <h3>Minimal</h3>
+        
         <Div class="demo"></Div>
 
         
@@ -77,6 +80,7 @@ require_once '../view/header.php';
             });
         </script>
     </div>
+</div>
 </div>
 
 <!--  READ UP ON THIS PAGE, I NEED TO CHANGE TO A DIFFERENT BRACKET, THIS ALSO SUPPORTS DOUBLE ELIM slightly less appealing initially http://www.aropupu.fi/bracket/ -->

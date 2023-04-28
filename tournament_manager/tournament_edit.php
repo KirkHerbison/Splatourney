@@ -175,6 +175,7 @@
                     </div>
                 </form> 
                 <form action="bracket_manager/index.php" method="POST">
+                    <input type="hidden" name="tournament_id" value="<?php echo $tournament->getId(); ?>" />
                     <input type="hidden" name="controllerRequest" value="start_bracket" /> 
                     <div class="button">
                         <input type="submit" value="Start Bracket">

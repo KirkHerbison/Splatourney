@@ -9,6 +9,8 @@ require_once('../model/Bracket.php');
 require_once('../model/Game.php');
 require_once('../model/Chat.php');
 require_once('../model/Chat_Message.php');
+require_once('../model/MapList.php');
+require_once('../model/Map.php');
 
 function get_matches_by_round_number($number, $bracket_id) {
     $db = Database::getDB();
@@ -127,6 +129,20 @@ function insert_bracket_by_tournament_id($tournament_id){
                 VALUES(:tournament_id)';
     $statement = $db->prepare($query);
     $statement->bindValue(':tournament_id', $tournament_id);
+    $statement->execute();
+    $statement->closeCursor();
+}
+
+function insert_tournament_match($tournament_id, $bracket_id, $round, $wins_needed_to_win, $match_number){
+    $db = Database::getDB();
+    $query = 'INSERT INTO bracket_match (tournament_id, bracket_id, round, wins_needed_to_win, match_number)
+                VALUES(:tournament_id, :bracket_id, :round, :wins_needed_to_win, :match_number)';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':tournament_id', $tournament_id);
+    $statement->bindValue(':bracket_id',$bracket_id);
+    $statement->bindValue(':round', $round);
+    $statement->bindValue(':wins_needed_to_win', $wins_needed_to_win);
+    $statement->bindValue(':match_number', $match_number);
     $statement->execute();
     $statement->closeCursor();
 }
@@ -423,4 +439,18 @@ function update_bracket_info($bracket_id, $bracket_name, $number_of_rounds) {
     $statement->bindValue(':number_of_rounds', $number_of_rounds);
     $statement->execute();
     $statement->closeCursor();
+}
+
+
+function get_map_count_by_map_list_id($id){
+    
+    $db = Database::getDB();
+    $query = 'SELECT COUNT(*) FROM bracket_map_list_map'
+            . ' WHERE bracket_match_list_id = :bracket_match_list_id AND map_id > 0;';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':bracket_match_list_id', $id);
+    $statement->execute();
+    $count = $statement->fetchColumn();
+    $statement->closeCursor();
+    return $count;
 }

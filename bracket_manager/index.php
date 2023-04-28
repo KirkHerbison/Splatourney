@@ -41,9 +41,9 @@ if ($controllerChoice == 'bracket') {
 
     $tournament_id = filter_input(INPUT_POST, 'tournamentId');
     $tournament = get_tournament_by_id($tournament_id);
+    $bracket = get_bracket_by_tournament_id($tournament_id);
     $roundArray = array();
 
-    if ($tournament->getTournamentTypeId() == 1) {
         $roundExists = true;
         $teamsData = [];
         $resultsData = [];
@@ -52,9 +52,17 @@ if ($controllerChoice == 'bracket') {
 
         //creates the teams list for the bracket
         foreach ($matches as $match) {
-            $teamOne = get_team_by_id($match->getTeamOneId());
-            $teamTwo = get_team_by_id($match->getTeamTwoId());
-
+            if($match->getTeamOneId() != null){
+                $teamOne = get_team_by_id($match->getTeamOneId());
+            }else{
+                $teamOne = new Team(null, null, null, null, null, null);
+            }
+            if($match->getTeamTwoId() != null){
+                $teamTwo = get_team_by_id($match->getTeamTwoId());
+            }
+            else{
+                $teamTwo = new Team(null, null, null, null, null, null);
+            }
             $teamsData[] = [
                 $teamOne->getTeamName(),
                 $teamTwo->getTeamName(),
@@ -69,13 +77,19 @@ if ($controllerChoice == 'bracket') {
                 $roundData = [];
 
                 foreach ($matches as $match) {
-                    $teamOne = get_team_by_id($match->getTeamOneId());
-                    $teamTwo = get_team_by_id($match->getTeamTwoId());
 
-                    $roundData[] = [
-                        $match->getTeamOneWins(),
-                        $match->getTeamTwoWins()
-                    ];
+                    if($match->getTeamOneWins() == 0 && $match->getTeamTwoWins() == 0){
+                        $roundData[] = [
+                            1,
+                            0
+                        ];                        
+                    }else{
+                        $roundData[] = [
+                            $match->getTeamOneWins(),
+                            $match->getTeamTwoWins()
+                        ];
+                    }
+
                 }
                 $resultsData [] = $roundData;
             } else {
@@ -83,19 +97,16 @@ if ($controllerChoice == 'bracket') {
             }
         }
 
-        $extraTestData[] = [1, 2, 3, 4, 5, 6, 7];
-
         // Combine teams and results into output array
         $dataForBracket = array(
             'teams' => $teamsData,
-            'results' => $resultsData,
-            'extraData' => $extraTestData
+            'results' => $resultsData
+
         );
 
         // Convert output to JSON format
         $bracketData = json_encode($dataForBracket);
         require_once("bracket.php");
-    }
 }
 
 // Starts/creates the bracket for a tournament
@@ -105,44 +116,38 @@ else if ($controllerChoice == 'start_bracket') {
     $tournament = get_tournament_by_id($tournament_id);
     $bracket = get_bracket_by_tournament_id($tournament_id);
        
-    
-    
-    
-    
-    
-    
-    for ($round = 1; $x <= $bracket->getNumberOfRounds(); $round++) {
+    for ($round = 1; $round <= $bracket->getNumberOfRounds(); $round++) {
         $mapList = get_bracket_map_list_by_round_and_bracket_id($bracket->getId(), $round); 
 
         
-        get_
+        $totalGames =  get_map_count_by_map_list_id($mapList->getId());
+        $wins_needed_to_win = 1;
+        
+        //gets the number of wins needed for a match to be done
+        if($totalGames == 3){
+           $wins_needed_to_win = 2;
+        }else if($totalGames == 5){
+            $wins_needed_to_win = 3;
+        }else if($totalGames == 7){
+            $wins_needed_to_win = 4;
+        }else if($totalGames ==9){
+            $wins_needed_to_win = 5;
+        }else if($totalGames == 11){
+            $wins_needed_to_win = 6;
+        }
         
         
+        $total_rounds = $bracket->getNumberOfRounds();
+        $matches_in_round = pow(2, $total_rounds - $round);
+
         
-        insert_tournament_match($tournament_id, $bracket->getId(), $round, wins_needed_to_win, match_number);
+        for ($match_number = 1; $match_number <= $matches_in_round; $match_number++) {
+            insert_tournament_match($tournament_id, $bracket->getId(), $round, $wins_needed_to_win, $match_number);
+        }
         
     }
-    
-    //creating empty matches
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    require_once("bracket.php");
-    
+
+    require_once("bracket.php");    
 }
 
 

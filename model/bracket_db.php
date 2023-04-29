@@ -147,6 +147,26 @@ function insert_tournament_match($tournament_id, $bracket_id, $round, $wins_need
     $statement->closeCursor();
 }
 
+function update_match_seeding($match_number, $seedTop, $seedBottom, $bracket_id){
+    $db = Database::getDB();
+    $query = 'UPDATE bracket_match
+                     SET team_one_id = :team_one_id, team_two_id  = :team_two_id
+                     WHERE bracket_id = :bracket_id AND match_number = :match_number';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':match_number', $match_number);
+    $statement->bindValue(':bracket_id', $bracket_id);
+    $statement->bindValue(':team_one_id', $seedBottom);
+    $statement->bindValue(':team_two_id', $seedTop);
+    $statement->execute();
+    $statement->closeCursor();  
+}
+
+
+
+
+
+
+
 function  insert_bracket_map_list_by_round_and_bracket_id($bracket_id, $round, $isActive){
     $db = Database::getDB();
     $query = 'INSERT INTO bracket_map_list (bracket_id, round, isActive)

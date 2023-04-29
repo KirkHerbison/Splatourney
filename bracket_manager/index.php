@@ -80,8 +80,8 @@ if ($controllerChoice == 'bracket') {
 
                     if($match->getTeamOneWins() == 0 && $match->getTeamTwoWins() == 0){
                         $roundData[] = [
-                            1,
-                            0
+                            null,
+                            null
                         ];                        
                     }else{
                         $roundData[] = [
@@ -115,7 +115,9 @@ else if ($controllerChoice == 'start_bracket') {
     $teams = get_tournament_teams_by_tournament_id($tournament_id);
     $tournament = get_tournament_by_id($tournament_id);
     $bracket = get_bracket_by_tournament_id($tournament_id);
-       
+    
+    
+    $match_number = 1;
     for ($round = 1; $round <= $bracket->getNumberOfRounds(); $round++) {
         $mapList = get_bracket_map_list_by_round_and_bracket_id($bracket->getId(), $round); 
 
@@ -136,17 +138,52 @@ else if ($controllerChoice == 'start_bracket') {
             $wins_needed_to_win = 6;
         }
         
-        
         $total_rounds = $bracket->getNumberOfRounds();
         $matches_in_round = pow(2, $total_rounds - $round);
 
         
-        for ($match_number = 1; $match_number <= $matches_in_round; $match_number++) {
+        for ($i = 1; $i <= $matches_in_round; $i++) {
             insert_tournament_match($tournament_id, $bracket->getId(), $round, $wins_needed_to_win, $match_number);
-        }
-        
+            $match_number++;
+        }   
     }
+    
+    
+// Split teams into two groups
+$num_teams = $bracket->getNumberOfRounds() * 2;
+$half_num_teams = ceil($num_teams / 2);
+$top_half = array_slice($teams, 0, $half_num_teams);
+$bottom_half = array_slice($teams, $half_num_teams);
 
+// Assign seeds to each group separately
+$seeds = array();
+for ($i = 1; $i <= $num_teams; $i++) {
+    // Calculate the reversed binary representation of the seed
+    $binary = strrev(str_pad(decbin($i), $total_rounds, '0', STR_PAD_LEFT));
+
+    // Add the seed and binary representation to the array if it doesn't already exist
+    if (!in_array($i, array_column($seeds, 'seed'))) {
+        $seeds[] = array('seed' => $i, 'binary' => $binary);
+    }
+}
+
+// Sort the seeds based on their reversed binary representations
+usort($seeds, function($a, $b) {
+    return strcmp($a['binary'], $b['binary']);
+});
+
+
+for ($i = 0; $i < $num_teams / 2; $i++) {
+    $seedTop[] = $seeds[$i]['seed'];
+    $seedBottom[] = $seeds[$num_teams - $i - 1]['seed'];
+}
+$seedBottom = array_reverse($seedBottom);
+
+    $match_number = 1;
+    for ($i = 0; $i < count($seedBottom); $i++) {
+        update_match_seeding($match_number, $seedTop[$i], $seedBottom[$i], $bracket->getId());
+        $match_number++;
+    }
     require_once("bracket.php");    
 }
 

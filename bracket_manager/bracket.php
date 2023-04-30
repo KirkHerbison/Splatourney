@@ -21,6 +21,7 @@ require_once '../view/header.php';
     <script type="text/javascript" src="js/jquery.bracket.min.js"></script> <!-- for jquery bracket -->
     <link rel="stylesheet" type="text/css" href="styles/jquery.bracket.min.css" /> <!-- for jquery bracket -->
     <input type="hidden" id="tournament-id" value="<?php echo $tournament_id; ?> ">
+    <input type="hidden" id="bracketId" value="<?php echo $bracket->getId(); ?> ">
 
     
     <div id="minimal">
@@ -43,6 +44,7 @@ require_once '../view/header.php';
                     onMatchClick: function (data) {
                         const divs = document.querySelectorAll('.match'); // Get all divs with class "my-class"
                         const tournamentId = document.getElementById('tournament-id').value;
+                        const bracketId = document.getElementById('bracketId').value;
                         const controllerRequest = 'match';
                         divs.forEach((div, index) => { // Loop through each div
 
@@ -57,12 +59,15 @@ require_once '../view/header.php';
                                 const formData = new FormData(); // Create a new FormData object
                                 formData.append('tournamentId', tournamentId); // Add the tournamentId parameter to the FormData object
                                 formData.append('matchId', id); // Add the matchId parameter to the FormData object
+                                formData.append('bracketId', bracketId); // Add the brcketId parameter to the FormData object
                                 formData.append('controllerRequest', controllerRequest);
                                 
                                 let matchURL = 'bracket_manager/index.php?controllerRequest=match&matchId=';
                                 matchURL += id.toString();
                                 matchURL += '&tournamentId=';
                                 matchURL += tournamentId.toString();
+                                matchURL += '&bracketId=';
+                                matchURL += bracketId.toString();
 
                                 fetch('bracket_manager/index.php', {
                                     method: 'POST',
@@ -86,54 +91,6 @@ require_once '../view/header.php';
 <!--  READ UP ON THIS PAGE, I NEED TO CHANGE TO A DIFFERENT BRACKET, THIS ALSO SUPPORTS DOUBLE ELIM slightly less appealing initially http://www.aropupu.fi/bracket/ -->
 
 </div>
-
-
-
-<script> //for resizable div
-var bracketContainer = document.querySelector('.bracketContainer');
-var isResizing = false;
-var isDragging = false;
-var lastX, lastY;
-
-bracketContainer.addEventListener('mousedown', function(e) {
-  e.preventDefault();
-  if (e.target.classList.contains('resize-handle-bottom-right')) {
-    isResizing = true;
-    lastX = e.clientX;
-    lastY = e.clientY;
-  } else {
-    isDragging = true;
-    lastX = e.clientX - bracketContainer.offsetLeft;
-    lastY = e.clientY - bracketContainer.offsetTop;
-  }
-});
-
-document.addEventListener('mousemove', function(e) {
-  if (isResizing) {
-    var newWidth = bracketContainer.offsetWidth + (e.clientX - lastX);
-    var newHeight = bracketContainer.offsetHeight + (e.clientY - lastY);
-
-    bracketContainer.style.width = newWidth + 'px';
-    bracketContainer.style.height = newHeight + 'px';
-
-    lastX = e.clientX;
-    lastY = e.clientY;
-  } else if (isDragging) {
-    var newX = e.clientX - lastX;
-    var newY = e.clientY - lastY;
-
-    bracketContainer.style.left = newX + 'px';
-    bracketContainer.style.top = newY + 'px';
-  }
-});
-
-document.addEventListener('mouseup', function(e) {
-  isResizing = false;
-  isDragging = false;
-});
-
-
-</script>
     
     
 

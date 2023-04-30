@@ -108,6 +108,28 @@ function get_teams_by_user_id($id){
 }
 
 
+function get_teams_by_captain_id($id){
+    $db = Database::getDB();
+    $teamArray = array();
+
+    $query = 'SELECT * FROM team t
+                WHERE captain_user_id = :captain_user_id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':captain_user_id', $id);
+    $statement->execute();
+    $teams = $statement->fetchAll();
+    $statement->closeCursor();
+    foreach ($teams as $team) {
+        $teamObject = new Team($team[0],
+                $team['captain_user_id'],
+                '',
+                $team['team_name'],
+                $team['team_image_link'],
+                $team[4]);
+        $teamArray[] = $teamObject;
+    }
+    return $teamArray;
+}
 
 
 function check_if_member_exists($user,$team) {

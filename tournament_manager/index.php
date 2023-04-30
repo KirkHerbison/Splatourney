@@ -67,6 +67,44 @@ else if ($controllerChoice == 'edit_my_tournament') {
     require_once("tournament_edit.php");
 }
 
+// Sends User to a tournament details page
+else if ($controllerChoice == 'details'){
+    $tournament_id = filter_input(INPUT_POST, 'tournament_id');
+    $tournament = get_tournament_by_id($tournament_id);
+    require_once("tournament_details.php");
+}
+
+// Sends User to a tournament signup page
+else if ($controllerChoice == 'tournament_signup'){
+    $tournament_id = filter_input(INPUT_POST, 'tournament_id');
+    $tournament = get_tournament_by_id($tournament_id);
+    
+    $teams = get_teams_by_captain_id($userLogedin->getId());
+    
+    require_once("tournament_signup.php");
+}
+
+// Validates signup
+else if ($controllerChoice == 'signup_confirmation'){
+    $tournament_id = filter_input(INPUT_POST, 'tournament_id');
+    $team_id = filter_input(INPUT_POST, 'team_id');
+    $tournament = get_tournament_by_id($tournament_id);
+
+    if(!check_team_exists_in_tournament($team_id, $tournament_id)){
+        add_tournament_team(get_lowest_seed_by_tournament_id($tournament_id), $team_id, $tournament_id);
+        require_once("tournament_details.php");
+    }else{
+        $teams = get_teams_by_captain_id($userLogedin->getId());
+        $error_message = 'Select A Team That Has Not Joined Yet';
+        require_once("tournament_signup.php");
+    }
+    
+    
+   
+}
+
+
+
 // In the header when the user selects my teams
 else if ($controllerChoice == 'my_tournament_list') {
     if ($userLogedin->getId() > 0) {

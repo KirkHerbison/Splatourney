@@ -26,6 +26,37 @@ function get_tournament_types() {
     return $tournamentTypeArray;
 }
 
+
+
+
+function check_team_exists_in_tournament($team_id, $tournament_id) {
+    $db = Database::getDB();
+    $exists = false;
+
+    $query = 'SELECT ID FROM tournament_team
+              WHERE team_id = :team_id AND tournament_id = :tournament_id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':team_id', $team_id);
+    $statement->bindValue(':tournament_id', $tournament_id);
+    $statement->execute();
+    $team = $statement->fetch();
+    $statement->closeCursor();
+    
+    if($team != null && $team_id != 0){
+        $exists = true;
+    }
+
+    return $exists;
+}
+
+
+
+
+
+
+
+
+
 function get_tournament_teams_by_tournament_id($tournament_id) {
     $db = Database::getDB();
     $teamArray = array();
@@ -55,6 +86,29 @@ function get_tournament_teams_by_tournament_id($tournament_id) {
 
     return $teamArray;
 }
+
+
+
+
+
+function get_lowest_seed_by_tournament_id($tournament_id) {
+    $db = Database::getDB();
+
+    $query = 'SELECT MAX(seed) FROM tournament_team'
+            . ' WHERE tournament_id = :tournament_id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':tournament_id', $tournament_id);
+    $statement->execute();
+    $seed = $statement->fetch();
+    $statement->closeCursor();
+    return $seed[0];
+}
+
+
+
+
+
+
 
 
 function get_maps() {
@@ -158,6 +212,19 @@ function get_tournament_by_id($id) {
             $tournament['isActive']);
     return $tournamentObject;
 }
+
+function add_tournament_team($seed, $team_id, $tournament_id) {
+    $db = Database::getDB();
+    $query = 'INSERT INTO tournament_team (seed, team_id, tournament_id)
+                VALUES(:seed, :team_id, :tournament_id)';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':seed', $seed);
+    $statement->bindValue(':team_id', $team_id);
+    $statement->bindValue(':tournament_id', $tournament_id);
+    $statement->execute();
+    $statement->closeCursor();
+}
+
 
 function add_tournament($tournament) {
     $db = Database::getDB();

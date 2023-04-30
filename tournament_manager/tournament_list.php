@@ -35,15 +35,15 @@
                         </div>
                     </div>
                     <div class="button-group">
-                        <form action="bracket_manager/index.php" method="POST">
-                            <input type="hidden" name="controllerRequest" value="bracket" />
-                            <input type="hidden" name="tournamentId" value="<?php echo $tournament->getId(); ?>">
+                        <form action="tournament_manager/index.php" method="POST">
+                            <input type="hidden" name="controllerRequest" value="details" />
+                            <input type="hidden" name="tournament_id" value="<?php echo $tournament->getId(); ?>">
                             <input type="submit" value="Details">
                         </form>
-                        <form action="team_manager/index.php" method="POST">
-                            <input type="hidden" name="controllerRequest" value="to_tournament_registration" /> 
+                        <form action="bracket_manager/index.php" method="POST">
+                            <input type="hidden" name="controllerRequest" value="bracket" /> 
                             <input type="hidden" name="tournamentId" value="<?php echo $tournament->getId(); ?>">
-                            <input class="button-regiser" type="submit" value="Register">
+                            <input class="button-regiser" type="submit" value="Bracket">
                         </form>
                     </div>
 

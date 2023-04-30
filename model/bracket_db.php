@@ -67,6 +67,33 @@ function get_match_by_id($ID) {
     return $matchObject;
 }
 
+function get_math_by_match_number_and_touranemnt_id($match_number,$tournament_id) {
+    $db = Database::getDB();
+    
+    $query = 'SELECT * FROM bracket_match
+              WHERE match_number = :match_number AND tournament_id = :tournament_id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':match_number', $match_number);
+    $statement->bindValue(':tournament_id', $tournament_id);
+    $statement->execute();
+    $match = $statement->fetch();
+    $statement->closeCursor();
+
+    $matchObject = new BracketMatch($match['ID'],
+            $match['tournament_id'],
+            $match['bracket_id'],
+            $match['team_one_id'],
+            $match['team_two_id'],
+            $match['round'],
+            $match['team_one_wins'],
+            $match['team_two_wins'],
+            $match['winner_team_id'],
+            $match['match_number'],
+            $match['isActive']);
+    return $matchObject;
+}
+
+
 function get_matches_by_tournament_id($ID) {
     $db = Database::getDB();
     $matchArray = array();
@@ -143,6 +170,18 @@ function insert_tournament_match($tournament_id, $bracket_id, $round, $wins_need
     $statement->bindValue(':round', $round);
     $statement->bindValue(':wins_needed_to_win', $wins_needed_to_win);
     $statement->bindValue(':match_number', $match_number);
+    $statement->execute();
+    $statement->closeCursor();
+    
+    return $db->lastInsertId();
+}
+
+function insert_chat_by_match_id($match_id){
+    $db = Database::getDB();
+    $query = 'INSERT INTO chat (match_id)
+                VALUES(:match_id)';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':match_id', $match_id);
     $statement->execute();
     $statement->closeCursor();
 }
@@ -241,6 +280,32 @@ function check_round_exists_by_number($number, $tournament_id) {
 
     return $exists;
 }
+
+function check_match_exists_by_number_and_tournament_id($number, $tournament_id) {
+    $db = Database::getDB();
+    $exists = false;
+
+    $query = 'SELECT ID FROM bracket_match
+              WHERE match_number = :match_number AND tournament_id = :tournament_id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':match_number', $number);
+    $statement->bindValue(':tournament_id', $tournament_id);
+    $statement->execute();
+    $matches = $statement->fetch();
+    $statement->closeCursor();
+    
+    if($matches != null){
+        $exists = true;
+    }
+
+    return $exists;
+}
+
+
+
+
+
+
 
 function get_bracket_by_tournament_id($tournament_id) {
     $db = Database::getDB();

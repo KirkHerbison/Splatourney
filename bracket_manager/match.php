@@ -9,17 +9,27 @@
 
 <input type="hidden" id="matchId" name="matchId" value="<?php echo $bracketMatch->getId(); ?>">
 <input type="hidden" id="userId" name="userId" value="<?php echo $userLogedin->getId(); ?>">
-<h1 id="vs"><?php echo get_team_by_id($bracketMatch->getTeamOneId())->getTeamName(); ?> VS <?php echo get_team_by_id($bracketMatch->getTeamTwoId())->getTeamName(); ?></h1>
+
+<?php if($bracketMatch->getTeamOneId() != null && $bracketMatch->getTeamTwoId() != null){ ?>
+<h1 id="vs">
+    <?php echo get_team_by_id($bracketMatch->getTeamOneId())->getTeamName(); ?> 
+    VS 
+    <?php echo get_team_by_id($bracketMatch->getTeamTwoId())->getTeamName(); ?>
+</h1>
+<?php } ?>
 
 <div id="match"> 
 
     <div class="scoreTeamOne">
+        <?php if($bracketMatch->getTeamOneId() != null){ ?>
         <h2 class="team"><?php echo get_team_by_id($bracketMatch->getTeamOneId())->getTeamName(); ?></h2>
         <img style=" max-height: 200px; max-width: 200px" src="images/team_images/<?php echo get_team_by_id($bracketMatch->getTeamOneId())->getTeamImageLink(); ?>" alt="<?php echo get_team_by_id($bracketMatch->getTeamOneId())->getTeamName(); ?> team image" />
         <hr>
         <p class="win">wins: </p>
         <h1 class="scoreDisplay"><span id="teamOneScore"><?php echo $bracketMatch->getTeamOneWins(); ?></span></h1>
-        <button id="teamOneWin">Add Win</button>
+        <?php if($bracketMatch->getTeamOneWins() < $wins_needed_to_win && $bracketMatch->getTeamTwoWins() < $wins_needed_to_win ){?>
+            <button id="teamOneWin">Add Win</button>
+        <?php } ?>
         <hr>
         <div class="contactInfo">
             <div class="contactDiv">
@@ -31,6 +41,7 @@
                 <p class="constactDetail"><?php echo get_user_by_id(get_team_by_id($bracketMatch->getTeamOneId())->getCaptainUserId())->getDiscordUsername(); ?> </p>
             </div>
         </div>
+        <?php } ?>
     </div>
     
     
@@ -81,6 +92,7 @@
 
 
     <div class="scoreTeamTwo">
+        <?php if($bracketMatch->getTeamTwoId() != null){ ?>
         <h2 class="team"><?php echo get_team_by_id($bracketMatch->getTeamTwoId())->getTeamName(); ?></h2>
         <img style=" max-height: 200px; max-width: 200px" src="images/team_images/<?php echo get_team_by_id($bracketMatch->getTeamTwoId())->getTeamImageLink(); ?>" alt="<?php echo get_team_by_id($bracketMatch->getTeamTwoId())->getTeamName(); ?> team image" />
         <hr>
@@ -101,6 +113,7 @@
                 <p class="constactDetail"><?php echo get_user_by_id(get_team_by_id($bracketMatch->getTeamTwoId())->getCaptainUserId())->getDiscordUsername(); ?> </p>
             </div>
         </div>   
+        <?php } ?>
     </div>
 </div>
 

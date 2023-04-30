@@ -108,9 +108,12 @@
                         <span class="details">Rules</span>
                         <textarea name="tournamentRules" maxlength="5000" rows="4" cols="70"><?php echo $tournament->getTournamentRules(); ?></textarea>
                     </div>
+                        
+                       <?php if(!check_match_exists_by_number_and_tournament_id(1, $tournament->getId())){ ?>
                     <div class="button">
                         <input type='submit' value='Save Changes'>           
                     </div>  
+                       <?php } ?>
                 </form>
             </div>
         </div>       
@@ -170,6 +173,7 @@
                             <input type="text" name="tournamentBracketName" value="<?php echo $bracket->getTournamentBracketName(); ?>">
                         </div>
                     </div>
+                <?php if(!check_match_exists_by_number_and_tournament_id(1, $tournament->getId())){ ?>
                     <div class="button">
                         <input type="submit" value="Save Changes">
                     </div>
@@ -181,6 +185,7 @@
                         <input type="submit" value="Start Bracket">
                     </div>
                 </form> 
+                <?php } ?>
             </div>
         </div>
     </div>
@@ -229,9 +234,11 @@
                                         </div>
                                     <?php endforeach; ?>
                                 <input type="hidden" name="roundNumber" value="<?php echo $mapList->getRound(); ?>">
+                                <?php if(!check_match_exists_by_number_and_tournament_id(1, $tournament->getId())){ ?>
                                 <div class="button">
                                     <input type="submit" value="Save Changes">
                                 </div>
+                                <?php } ?>
                             </div>
                         </div>
                     </form>
@@ -303,9 +310,11 @@
                     <li id="bottom-dropzone" style="color: lightgray; cursor: default; " ondrop="drop(event)" ondragover="allowDrop(event)">Drag here for bottom</li>
                 </ul>
                 <input type="hidden" name="controllerRequest" value="update_seeding" />
+                <?php if(!check_match_exists_by_number_and_tournament_id(1, $tournament->getId())){ ?>
                 <div class="button">
                     <input type="submit" value="Save Changes">
                 </div>
+                <?php } ?>
             </form>    
 
             <script>

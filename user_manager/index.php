@@ -75,7 +75,7 @@ else if ($controllerChoice == 'validate_login') {
         $error_message = "Please enter a valid email and password";
         include('user_login.php');
     } else {
-        $user = get_user_by_email_password($email, $pass);
+        $user = validate_login($email, $pass);
         $ID = -1;
         if ($user != null) {$ID = $user->getId();} 
         if ($ID > 0) {
@@ -198,7 +198,7 @@ elseif ($controllerChoice == 'user_register_confirmation') {
         require_once("user_register.php");
     } else {
         add_user($user);
-        require_once("login.php");
+        require_once("user_login.php");
     }
 }
 

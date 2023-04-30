@@ -17,7 +17,7 @@ function get_users() {
                 $user['user_type_id'],
                 $user['email_address'],
                 $user['username'],
-                $user['password'],
+                null,
                 $user['first_name'],
                 $user['last_name'],
                 $user['switch_friend_code'],
@@ -70,7 +70,7 @@ function search_users($username) {
                 $user['user_type_id'],
                 $user['email_address'],
                 $user['username'],
-                $user['password'],
+                null,
                 $user['first_name'],
                 $user['last_name'],
                 $user['switch_friend_code'],
@@ -85,22 +85,27 @@ function search_users($username) {
     return $userArray;
 }
 
-function get_user_by_email_password($email, $password) {
+function validate_login($email, $password) {
     $db = Database::getDB();
     $query = 'SELECT * FROM splatourney_user
-                WHERE email_address = :email_address AND password = :password';
+                WHERE email_address = :email_address';
     $statement = $db->prepare($query);
     $statement->bindValue(':email_address', $email);
-    $statement->bindValue(':password', $password);
     $statement->execute();
     $user = $statement->fetch();
     $statement->closeCursor();
+    
     if ($user != null) {
-        $userObject = new User($user['ID'],
+    
+        $entered_password = $password;
+        $hashed_entered_password = hash('sha256', $entered_password . $user['salt']);
+    
+        if($hashed_entered_password === $user['hashed']){
+            $userObject = new User($user['ID'],
                 $user['user_type_id'],
                 $user['email_address'],
                 $user['username'],
-                $user['password'],
+                null,
                 $user['first_name'],
                 $user['last_name'],
                 $user['switch_friend_code'],
@@ -110,7 +115,11 @@ function get_user_by_email_password($email, $password) {
                 $user['discord_client_secret'],
                 $user['isActive'],
                 $user['display_name']);
-        return $userObject;
+            return $userObject;    
+        }else{
+            return null;
+        }
+
     } else {
         return null;
     }
@@ -129,7 +138,7 @@ function get_user_by_id($ID) {
             $user['user_type_id'],
             $user['email_address'],
             $user['username'],
-            $user['password'],
+            null,
             $user['first_name'],
             $user['last_name'],
             $user['switch_friend_code'],
@@ -155,7 +164,7 @@ function get_user_by_username($username) {
             $user['user_type_id'],
             $user['email_address'],
             $user['username'],
-            $user['password'],
+            null,
             $user['first_name'],
             $user['last_name'],
             $user['switch_friend_code'],
@@ -248,13 +257,19 @@ function check_username($username) {
 
 function add_user($user) {
     $db = Database::getDB();
-    $query = 'INSERT INTO splatourney_user (user_type_id, email_address, username, password, first_name, last_name, switch_friend_code, switch_username, splashtag, discord_username, discord_client_secret, display_name)
-                     VALUES(:user_type_id, :email_address, :username, :password, :first_name, :last_name, :switch_friend_code, :switch_username, :splashtag, :discord_username, :discord_client_secret, :display_name)';
+    $query = 'INSERT INTO splatourney_user (user_type_id, email_address, username, salt, hashed, first_name, last_name, switch_friend_code, switch_username, splashtag, discord_username, discord_client_secret, display_name)
+                     VALUES(:user_type_id, :email_address, :username, :salt, :hashed, :first_name, :last_name, :switch_friend_code, :switch_username, :splashtag, :discord_username, :discord_client_secret, :display_name)';
     $statement = $db->prepare($query);
     $statement->bindValue(':user_type_id', $user->getUserTypeId());
     $statement->bindValue(':email_address', $user->getEmailAddress());
     $statement->bindValue(':username', $user->getUsername());
-    $statement->bindValue(':password', $user->getPassword());
+    
+    $password = $user->getPassword();  
+    $salt = bin2hex(random_bytes(16));
+    $hashed_password = hash('sha256', $password . $salt); 
+  
+    $statement->bindValue(':salt', $salt);
+    $statement->bindValue(':hashed', $hashed_password);
     $statement->bindValue(':first_name', $user->getFirstName());
     $statement->bindValue(':last_name', $user->getLastName());
     $statement->bindValue(':switch_friend_code', $user->getSwitchFriendCode());

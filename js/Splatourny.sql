@@ -21,7 +21,8 @@ CREATE TABLE splatourney_user(
   user_type_id          INT    		NOT NULL,
   email_address         VARCHAR(255)   	NOT NULL,
   username		VARCHAR(60)	NOT NULL,
-  password              VARCHAR(60)    	NOT NULL,
+  salt                  VARCHAR(100)    NOT NULL,
+  hashed                VARCHAR(100)    NOT NULL,   
   first_name            VARCHAR(60)    	NOT NULL,
   last_name             VARCHAR(60)    	NOT NULL,
   switch_friend_code    VARCHAR(12),
@@ -239,12 +240,12 @@ VALUES('Zones', 'images/modes/zones.png'),
 	('Clam Blitz', 'images/modes/clam_blitz.png'),
 	('Turf War', 'images/modes/turf_war.png');
     
-INSERT INTO splatourney_user(user_type_id, email_address, username, password, first_name, last_name, switch_friend_code, switch_username, splashtag, discord_username, display_name)
-VALUES(2, 'admin@admin.com', 'admin', 'password', 'adminf', 'adminl','123456789123', 'adminsu', 'adminsu#1234', 'admindu#1234', '1'),
-	(1, 'user@user.com', 'user', 'password', 'userf', 'userl','222444777888', 'useru', 'usersu#1234', 'userdu#1234', '1'),
-        (1, 'steve@mail.com', 'steveT', 'password', 'Steve', 'Tod','111444777456', 'steveruser', 'steverusersu#1234', 'steveruserdu#1234', '0'),
-        (1, 'Jay@mail.com', 'JayJ', 'password', 'Jay', 'Johnson','777444777888', 'jayuser', 'jayusersu#1234', 'jayuserdu#1234', '0'),
-        (1, 'Mary@mail.com', 'MaryK', 'password', 'Mary', 'Kruger','222333999444', 'maryuser', 'maryusersu#1234', 'maryuserdu#1234', '1');
+INSERT INTO splatourney_user(user_type_id, email_address, username, salt, hashed, first_name, last_name, switch_friend_code, switch_username, splashtag, discord_username, display_name)
+VALUES(2, 'admin@admin.com', 'admin', 'a56e1b298206e85fa018dee34b8fb7e9', '67a062594702b94a7eea4a56b903515b99a41217c309cd8cba9a15a9a5d61154', 'adminf', 'adminl','123456789123', 'adminsu', 'adminsu#1234', 'admindu#1234', '1'),
+	(1, 'user@user.com', 'user', 'a56e1b298206e85fa018dee34b8fb7e9', '67a062594702b94a7eea4a56b903515b99a41217c309cd8cba9a15a9a5d61154',  'userf', 'userl','222444777888', 'useru', 'usersu#1234', 'userdu#1234', '1'),
+        (1, 'steve@mail.com', 'steveT', 'a56e1b298206e85fa018dee34b8fb7e9', '67a062594702b94a7eea4a56b903515b99a41217c309cd8cba9a15a9a5d61154',  'Steve', 'Tod','111444777456', 'steveruser', 'steverusersu#1234', 'steveruserdu#1234', '0'),
+        (1, 'Jay@mail.com', 'JayJ', 'a56e1b298206e85fa018dee34b8fb7e9', '67a062594702b94a7eea4a56b903515b99a41217c309cd8cba9a15a9a5d61154',  'Jay', 'Johnson','777444777888', 'jayuser', 'jayusersu#1234', 'jayuserdu#1234', '0'),
+        (1, 'Mary@mail.com', 'MaryK', 'a56e1b298206e85fa018dee34b8fb7e9', '67a062594702b94a7eea4a56b903515b99a41217c309cd8cba9a15a9a5d61154',  'Mary', 'Kruger','222333999444', 'maryuser', 'maryusersu#1234', 'maryuserdu#1234', '1');
     
 INSERT INTO team(captain_user_id, team_name, team_image_link)
 VALUES(1,'The Admin Team', 'Siege_art.png'),

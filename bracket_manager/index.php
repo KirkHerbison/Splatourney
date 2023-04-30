@@ -74,11 +74,31 @@ if ($controllerChoice == 'bracket') {
             if (check_round_exists_by_number($roundNumber, $tournament_id)) {
                 $matches = get_matches_by_round_number($roundNumber, $tournament_id);
 
+                $mapList = get_bracket_map_list_by_round_and_bracket_id($bracket->getId(), $roundNumber); 
+
+
+                $totalGames =  get_map_count_by_map_list_id($mapList->getId());
+                $wins_needed_to_win = 1;
+
+                //gets the number of wins needed for a match to be done
+                if($totalGames == 3){
+                   $wins_needed_to_win = 2;
+                }else if($totalGames == 5){
+                    $wins_needed_to_win = 3;
+                }else if($totalGames == 7){
+                    $wins_needed_to_win = 4;
+                }else if($totalGames ==9){
+                    $wins_needed_to_win = 5;
+                }else if($totalGames == 11){
+                    $wins_needed_to_win = 6;
+                }
+                
+                
                 $roundData = [];
 
                 foreach ($matches as $match) {
 
-                    if($match->getTeamOneWins() == 0 && $match->getTeamTwoWins() == 0){
+                    if($match->getTeamOneWins() < $wins_needed_to_win && $match->getTeamTwoWins() < $wins_needed_to_win ){
                         $roundData[] = [
                             null,
                             null
@@ -103,6 +123,7 @@ if ($controllerChoice == 'bracket') {
             'results' => $resultsData
 
         );
+        
 
         // Convert output to JSON format
         $bracketData = json_encode($dataForBracket);
@@ -143,14 +164,16 @@ else if ($controllerChoice == 'start_bracket') {
 
         
         for ($i = 1; $i <= $matches_in_round; $i++) {
-            insert_tournament_match($tournament_id, $bracket->getId(), $round, $wins_needed_to_win, $match_number);
+            $match_id = insert_tournament_match($tournament_id, $bracket->getId(), $round, $wins_needed_to_win, $match_number);
+            insert_chat_by_match_id($match_id);
             $match_number++;
         }   
     }
     
     
 // Split teams into two groups
-$num_teams = $bracket->getNumberOfRounds() * 2;
+$num_teams = pow(2, $bracket->getNumberOfRounds() -1)*2;
+
 $half_num_teams = ceil($num_teams / 2);
 $top_half = array_slice($teams, 0, $half_num_teams);
 $bottom_half = array_slice($teams, $half_num_teams);
@@ -195,14 +218,40 @@ $seedBottom = array_reverse($seedBottom);
 
 // Sends user to a match when the match is selected
 else if ($controllerChoice == 'match') {
-    $matchId = $_GET['matchId'];
-$tournamentId = $_GET['tournamentId'];
-    
 
-    $bracketMatch = get_match_by_id(filter_input(INPUT_GET, 'matchId', FILTER_SANITIZE_NUMBER_INT));
-    $chat = get_chat_by_match_id(filter_input(INPUT_GET, 'matchId', FILTER_SANITIZE_NUMBER_INT));
+    $match_number = filter_input(INPUT_GET, 'matchId', FILTER_SANITIZE_NUMBER_INT);
+    $tournament_id  = filter_input(INPUT_GET, 'tournamentId', FILTER_SANITIZE_NUMBER_INT);
+    $bracket_id  = filter_input(INPUT_GET, 'bracketId', FILTER_SANITIZE_NUMBER_INT);
+    
+    
+    $bracketMatch = get_math_by_match_number_and_touranemnt_id($match_number,$tournament_id);
+    
+    
+    $bracket_match_list = get_bracket_map_list_by_round_and_bracket_id($bracket_id, $bracketMatch->getRound());
+    
+    
+    $chat = get_chat_by_match_id($bracketMatch->getId());
+    
+    $totalGames =  get_map_count_by_map_list_id($bracket_match_list->getBracketId());
+    
+    $wins_needed_to_win = 1;
+
+    //gets the number of wins needed for a match to be done
+    if($totalGames == 3){
+       $wins_needed_to_win = 2;
+    }else if($totalGames == 5){
+        $wins_needed_to_win = 3;
+    }else if($totalGames == 7){
+        $wins_needed_to_win = 4;
+    }else if($totalGames ==9){
+        $wins_needed_to_win = 5;
+    }else if($totalGames == 11){
+        $wins_needed_to_win = 6;
+    }
+    
+    
     $messages = get_messages_by_chat_id($chat->getId());
-    $games = get_match_games_by_id($bracketMatch->getBracketId());
+    $games = get_match_games_by_id($bracket_match_list->getId());
     $tournament = get_tournament_by_id(filter_input(INPUT_GET, 'tournamentId', FILTER_SANITIZE_NUMBER_INT));
 
     require_once("match.php");

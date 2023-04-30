@@ -8,7 +8,7 @@ session_start();
 $email = filter_input(INPUT_POST, 'email');
 $pass = filter_input(INPUT_POST, 'pass');
 
-$user = get_user_by_email_password($email, $pass);
+$user = validate_login($email, $pass);
 $ID = -1;
 if ($user != null) {
     $ID = $user->getId();

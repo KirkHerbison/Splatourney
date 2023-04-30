@@ -22,7 +22,11 @@ $(document).ready(function () {
             success: function(data) {
                 alert("Score has been updated");
                 const response = JSON.parse(data);
+                const vic = response.victory;
                 teamOneScore.textContent = response.score;
+                if(vic === 'true'){
+                    teamOneWin.remove();
+                }
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 console.log(xhr);
@@ -44,7 +48,11 @@ $(document).ready(function () {
             success: function(data) {
                 alert("Score has been updated");
                 const response = JSON.parse(data);
+                const vic = response.victory;
                 teamTwoScore.textContent = response.score;
+                if(vic === 'true'){
+                    teamTwoWin.remove();
+                }
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 console.log(xhr);

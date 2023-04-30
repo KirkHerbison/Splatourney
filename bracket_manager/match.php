@@ -101,7 +101,9 @@
 
         <p class="win">wins: </p>
         <h1 class="scoreDisplay"><span id="teamTwoScore"><?php echo $bracketMatch->getTeamTwoWins(); ?></span></h1>
-        <button id="teamTwoWin">Add Win</button>
+        <?php if($bracketMatch->getTeamOneWins() < $wins_needed_to_win && $bracketMatch->getTeamTwoWins() < $wins_needed_to_win ){?>
+            <button id="teamTwoWin">Add Win</button>
+        <?php } ?>
         <hr>
         <div class="contactInfo">
             <div class="contactDiv">

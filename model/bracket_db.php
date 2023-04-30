@@ -247,7 +247,6 @@ function addTeamOneWin($ID) {
     $statement->bindValue(':ID', $ID);
     $statement->execute();
     $statement->closeCursor();
-    
 }
 
 function addTeamTwoWin($ID) {

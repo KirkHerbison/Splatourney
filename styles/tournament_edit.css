@@ -37,6 +37,11 @@ main{
     display:none;
 }
 
+#tabs-5{
+    padding: 0;
+    background-color: white;
+}
+
 #tabs ul{
     background: none;
     border: none;

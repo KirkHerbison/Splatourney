@@ -200,9 +200,31 @@ function update_match_seeding($match_number, $seedTop, $seedBottom, $bracket_id)
     $statement->closeCursor();  
 }
 
+function update_match_team_one($match_number,$team_one_id, $bracket_id){
+    $db = Database::getDB();
+    $query = 'UPDATE bracket_match
+                     SET team_one_id = :team_one_id
+                     WHERE bracket_id = :bracket_id AND match_number = :match_number';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':match_number', $match_number);
+    $statement->bindValue(':bracket_id', $bracket_id);
+    $statement->bindValue(':team_one_id', $team_one_id);
+    $statement->execute();
+    $statement->closeCursor();  
+}
 
-
-
+function update_match_team_two($match_number,$team_two_id, $bracket_id){
+    $db = Database::getDB();
+    $query = 'UPDATE bracket_match
+                     SET team_two_id = :team_two_id
+                     WHERE bracket_id = :bracket_id AND match_number = :match_number';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':match_number', $match_number);
+    $statement->bindValue(':bracket_id', $bracket_id);
+    $statement->bindValue(':team_two_id', $team_two_id);
+    $statement->execute();
+    $statement->closeCursor();  
+}
 
 
 

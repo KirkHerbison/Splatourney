@@ -50,6 +50,7 @@
         <?php if($teams != null) {?>
             <li><a href="#tabs-4" >Seeding</a></li>
         <?php } ?>
+        <li><a href="#tabs-5">Bracket</a></li>
     </ul>
 
     <div id="tabs-1">    
@@ -349,7 +350,27 @@
         </div>     
     </div>
     <?php } ?>
+    
+    
+    
+    
+    
+    <div id="tabs-5">
+        <span>Team 1</span>
+        <input type="text" name="teamOneScore" value="">
+        <span>Team 2</span>
+        <input type="text" name="teamTwoScore" value="">
+<input type="submit" value="Save Changes">
+        
+    </div>
 
+    
+    
+    
+    
+    
+    
+    
 </div>
 
 <script src="js/maplist.js"></script>

@@ -1,0 +1,58 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Mar 29, 2023, 11:37:06 AM
+    Author     : 16981925
+*/
+
+
+.mapList{
+  display: flex;
+  max-height: 800px;
+  overflow-x: auto;
+  overflow-y: auto;
+  padding-right: 2em;
+  padding-left: 2em;
+  white-space: nowrap;
+  background-image: url(../images/assets/black_graf.jpg);
+}
+.bracketContainer{
+  max-width: 1000px;
+  max-height: 1000px;
+  background-color: #ccc;
+  overflow-x: auto;
+  overflow-y: auto;
+  white-space: nowrap;
+  background-image: url(../images/assets/black_graf.jpg);
+
+}
+
+/*scrollbar*/
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  
+  border-radius: 10px;
+  background: rgb(161, 101, 204); 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(104, 0, 179); 
+  
+}
+
+
+
+

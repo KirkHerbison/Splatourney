@@ -60,6 +60,21 @@ else if ($controllerChoice == 'edit_my_tournament') {
     $tournament_id = filter_input(INPUT_POST, 'tournament_id');
     $tournament = get_tournament_by_id($tournament_id);
     $bracket = get_bracket_by_tournament_id($tournament_id);
+    
+    $roundExists = true;
+    $roundArray = array();
+    for ($roundNumber = 1; $roundExists == true; $roundNumber++) {
+        if (check_round_exists_by_number($roundNumber, $tournament_id)) {
+            $matches = get_matches_by_round_number($roundNumber, $tournament_id);
+            $round = new Round($roundNumber, $matches);
+            $roundArray[] = $round;
+        } else {
+            $roundExists = false;
+        }
+    }
+    
+    
+    
     $mapLists = get_bracket_map_lists_by_bracket_id($bracket->getId());
     $maps = get_maps();
     $modes = get_modes();
@@ -183,6 +198,8 @@ else if ($controllerChoice == 'tournament_register_confirmation') {
                 $tournamentRules,
                 1
         );
+        
+        
 
         if (isset($_FILES['image']) && !empty($_FILES['image']['name'])) { // start for image upload
             $target_dir = "../images/tournament_images/"; // this is the initial file path to my images folder
@@ -229,6 +246,21 @@ else if ($controllerChoice == 'tournament_register_confirmation') {
                 }
             }
             $tournament->setId($id);
+            
+            $roundExists = true;
+            $roundArray = array();
+            for ($roundNumber = 1; $roundExists == true; $roundNumber++) {
+                if (check_round_exists_by_number($roundNumber, $tournament_id)) {
+                    $matches = get_matches_by_round_number($roundNumber, $tournament_id);
+                    $round = new Round($roundNumber, $matches);
+                    $roundArray[] = $round;
+                } else {
+                    $roundExists = false;
+                }
+            }
+            
+            
+            
             $mapLists = get_bracket_map_lists_by_bracket_id($bracket->getId());
             $maps = get_maps();
             $modes = get_modes();

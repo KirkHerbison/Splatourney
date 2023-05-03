@@ -53,10 +53,20 @@ require_once 'view/header.php';
                 <div class="details-bottom">
                     <div class='dates'>
                         <div class="dateStart">
-                            <label>Start Date: </label><span><?php echo $tournament->getTournamentDate(); ?></span>
+                            <?php 
+                                $date_str_start = $tournament->getTournamentDate();
+                                $date_start = new DateTime($date_str_start);
+                                $formated_date_start = $date_start->format('D M d g:i A');
+                            ?>   
+                            <label>Start Date: </label><span><?php echo $formated_date_start; ?></span>
                         </div>
                         <div class="dateRegister">
-                            <label>Registration Deadline: </label><span><?php echo $tournament->getTournamentRegistrationDeadline(); ?></span>
+                            <?php 
+                                $date_str_end = $tournament->getTournamentRegistrationDeadline();
+                                $date_end= new DateTime($date_str_end);
+                                $formated_date_end = $date_end->format('D M d g:i A');
+                            ?>
+                            <label>Registration Deadline: </label><span><?php echo $formated_date_end; ?></span>
                         </div>
                     </div>
                     <div class="button-group">

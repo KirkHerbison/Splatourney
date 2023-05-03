@@ -7,7 +7,6 @@ main h1{
     padding-left: 0;
 }
 
-
 .search-form{
     display:  flex;
     flex-direction: row;
@@ -33,7 +32,8 @@ main h1{
 
 .team-name-input{
     height: 45px;
-    width: 25%;
+    flex-grow: 1;
+    width: auto;
     outline: none;
     font-size: 16px;
     border-radius: 5px;
@@ -171,4 +171,75 @@ main h1{
 .button-group .button-regiser:hover{
     border-color: #A51EE1;
     transition: .5s;
+}
+
+@media only screen and (max-width: 767px){
+
+}
+
+@media only screen and (max-width: 476px){
+    
+    main{
+        width: 100%;
+    }
+    
+    .search-form{
+        display:  flex;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 1em;
+        margin-bottom: 1em;
+    }
+    
+    .search-form label{
+        font-size: 1.5em;
+    }
+    
+    .team-name-input{
+        width: 100%;
+        margin-bottom: 1em;
+    }
+    
+    .search-button input{
+        width: 100%;
+    }
+    
+    .team-details{
+        flex-direction: column;
+    }
+    
+    .team-info{
+        width: 100%;
+        padding: 0;
+    }
+    
+    .team-name{
+        text-align: center;
+        margin-bottom: 10px;
+        order: 1;
+    }
+    
+    .team-captain{
+        display: none;
+    }
+    
+    .button-group{
+        order:3;
+        width: 100%;
+    }
+  
+    .team-tag img{
+        order: 2;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 20px;
+    }
+    
+    .button-group form{
+        margin-bottom: 5px;
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top: auto;
+    }
+    
 }

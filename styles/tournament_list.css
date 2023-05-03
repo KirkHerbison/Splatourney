@@ -28,7 +28,8 @@ main{
 
 .tournament-name-input{
     height: 45px;
-    width: 25%;
+    flex-grow: 1;
+    width: auto;
     outline: none;
     font-size: 16px;
     border-radius: 5px;
@@ -250,7 +251,7 @@ main{
         border-radius: 25px;
         align-items: center;
         position: relative;
-        padding-top: 100%;
+        padding-top: 110%;
         margin-bottom: 2em;
         margin-right: auto;
         margin-left: auto;
@@ -266,10 +267,11 @@ main{
     
     .tournament-details .details-bottom{
         width: 100%;
+        bottom: 5px;
         position: absolute;
-        bottom: 0;
         display: flex;
         flex-direction: row;
+        background-color: rgba(0,0,0,0);
         color: white;
     }
     

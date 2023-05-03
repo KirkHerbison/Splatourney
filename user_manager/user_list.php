@@ -14,12 +14,16 @@
     <?php foreach ($users as $user) : ?>
         <div class="user-tag" id="<?php echo $user->getId(); ?>">
             <div class="user-details">
-                <div class="username">
-                    <span><?php echo $user->getUsername(); ?></span>
-                </div>
-                <div class="user-info">
-                    <span id="user-switch-username"><?php echo $user->getSwitchUsername(); ?></span>
-                    <span class="user-switch-friendcode"><?php echo $user->getSwitchFriendCode(); ?></span>               
+                <div class="user-group">      
+                    <div class="username">
+                        <span><?php echo $user->getUsername(); ?></span>
+                    </div>
+                    <div class="user-info">
+                        <label>Switch Username:</label>
+                        <span id="user-switch-username"><?php echo $user->getSwitchUsername(); ?></span>
+                        <label>Friend Code:</label>
+                        <span class="user-switch-friendcode"><?php echo $user->getSwitchFriendCode(); ?></span>               
+                    </div>
                 </div>
                 <div class="button-group">
                     <form action="user_manager/index.php" method="POST">

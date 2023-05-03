@@ -3,6 +3,8 @@ main{
     background-color: #1F2041;
 }
 
+/*===================search form===========================*/
+
 .search-form{
     display:  flex;
     flex-direction: row;
@@ -14,21 +16,17 @@ main{
 .search-form label{
     width: auto;
     color: white;
-    font-size: 1.8em;
+    font-size: 1.6em;
 }
 .search-form .search-button{
     width: auto;
     margin: 0;
 }
 
-
-
-
-
-
 .user-username-input{
     height: 45px;
-    width: 25%;
+    flex-grow: 1;
+    width: auto;
     outline: none;
     font-size: 16px;
     border-radius: 5px;
@@ -50,6 +48,7 @@ main{
     font-weight: 700;
     cursor: pointer;
     outline: none;
+    
 }
 .search-button input:hover{
     border-color: #FFC857;
@@ -96,6 +95,12 @@ main{
     width: 100%;
 }
 
+.user-group{
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+}
+
 .user-info{
     padding-left: 20px;
     width: 35%;
@@ -109,7 +114,7 @@ main{
 }
 
 .username span{
-    color: white;
+    color: #FFC857;
     font-size: 3em;
     margin-top: auto;
     margin-bottom: auto;
@@ -117,19 +122,14 @@ main{
 }
 
 .user-info span{
-    margin-top: .5em;
-    margin-bottom: .5em;
     color: white;
     font-size:  2em;
 }
 
-.team-captain{
-    color: white;
-    font-size: 1.5em;
-    margin-top: auto;
-    margin-bottom: 1em;
+.user-info label{
+    padding: 0;
+    color: #e099ff;
 }
-
 
 /*==============================================*/
 
@@ -182,4 +182,75 @@ main{
 .button-group .button-teams:hover{
     border-color: #A51EE1;
     transition: .5s;
+}
+
+
+
+
+
+@media only screen and (max-width: 767px){
+
+}
+
+@media only screen and (max-width: 476px){
+    
+    main{
+        width: 100%;
+    }
+    
+    .search-form{
+        display:  flex;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 1em;
+        margin-bottom: 1em;
+    }
+    
+    .search-form label{
+        font-size: 1.5em;
+    }
+    
+    .user-username-input{
+        width: 100%;
+        margin-bottom: 1em;
+    }
+    
+    .search-button input{
+        width: 100%;
+    }
+    
+    
+    .user-details{
+        flex-direction: row;
+    }
+    
+    .user-group{
+        width: 70%;
+        flex-direction: column;
+    }
+    
+    #user-switch-username{
+        font-size: 1.5em;
+    }
+    
+    .user-info .user-switch-friendcode{
+        font-size: 1.5em;
+    }
+    .username span{
+        font-size: 200%;
+        width: 100%;
+        margin-left: 0;
+        padding-left: 20px;
+    }
+
+    .button-group{
+        width: 30%;
+        margin-right: 5px;
+    }
+    
+    .button-group form{
+        margin-bottom: auto;
+        margin-top: auto;
+    }
+    
 }

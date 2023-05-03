@@ -86,3 +86,42 @@ h1{
   background-color: rgba(0, 0, 0, 1);
   border-radius: 30px;
 }
+
+@media only screen and (max-width: 767px){
+
+}
+
+@media only screen and (max-width: 476px){
+    
+    main{
+        width: 100%;
+    }
+    
+    .user-info-container{
+                        position: static;
+        transform: none;
+    }
+    
+    .info-containter{
+        flex-direction: column;
+        width: 100%;
+
+    }
+    
+    .user-info-container .user-info{
+        width: 100%;
+        flex-direction: column;
+        margin-left: 10px;
+        margin-bottom: 0;
+    }
+    
+    .user-info label{
+        width: 100%;
+        text-align: left;
+    }
+    
+    .user-info p{
+        width: 100%;
+    }
+    
+}

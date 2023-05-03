@@ -14,7 +14,7 @@ main{
 .search-form label{
     width: auto;
     color: white;
-    font-size: 1.8em;
+    font-size: 1.6em;
 }
 .search-form .search-button{
     width: auto;
@@ -64,6 +64,7 @@ main{
 
 .button-group{
     width: 30%;
+    padding-right: 5px;
 }
 
 
@@ -119,7 +120,6 @@ main{
 
 .tournament-tag{
     align-items: center;
-
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -145,6 +145,7 @@ main{
 
 .tournament-details .details-top{
     background-color: rgba(0,0,0,.5);
+    border-radius:  0 0 5px 5px;
 }
 
 .tournament-details .details-bottom{
@@ -154,6 +155,8 @@ main{
     display: flex;
     flex-direction: row;
     color: white;
+     border-radius: 5px 5px 0 0;
+     background-color: rgba(0,0,0,.5);
 
 }
 
@@ -185,13 +188,149 @@ main{
 .dates{
     color: white;
     display: flex;
-    background-color: rgba(0,0,0,.5);
+    
     width: 70%;
     flex-direction: column;
+    
 }
 
 .dates label{
     text-align: right;
     width: auto;
     margin-left: 1em;
+}
+
+
+@media only screen and (max-width: 767px){
+
+}
+
+@media only screen and (max-width: 476px){
+    
+    main{
+        width: 100%;
+    }
+    
+    .search-form{
+        display:  flex;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 1em;
+        margin-bottom: 1em;
+    }
+    
+    .search-form label{
+        font-size: 1.5em;
+    }
+    
+    .tournament-name-input{
+        width: 100%;
+        margin-bottom: 1em;
+    }
+    
+    .search-button input{
+        width: 100%;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    .tournament-tag{
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-radius: 25px;
+        align-items: center;
+        position: relative;
+        padding-top: 100%;
+        margin-bottom: 2em;
+        margin-right: auto;
+        margin-left: auto;
+        background-color: rgba(0,0,0,.5);
+    }
+    
+    .tournament-tag .tournament-details{
+        width: 100%;
+        opacity: 1;
+    }
+    
+    
+    
+    .tournament-details .details-bottom{
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        display: flex;
+        flex-direction: row;
+        color: white;
+    }
+    
+    .tournament-details .details-top{
+        background-color: rgba(0,0,0,0);
+        position: absolute;
+        top: 20px;
+        
+    }
+    
+    .details-top h2{
+        margin-left: 5px;
+    }
+    
+    .details-top h3{
+        display: none;
+    }
+
+    
+    .dates{
+        display: flex;
+        flex-direction: column;
+        width: 60%;
+        background-color: rgba(0,0,0,0);
+    }
+    
+    .dateStart{
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .dateStart label{
+        text-align: left;
+        padding-bottom: 0;
+    }
+    
+    .dateStart span{
+        margin-left: 1em;
+    }
+    
+    .dateRegister{
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .dateRegister label{
+        text-align: left;
+        padding-bottom: 0;
+    }
+    
+    .dateRegister span{
+        margin-left: 1em;
+    }
+
+    .button-group{
+        width: 40%;
+    }
+    
+    .button-group form{
+        margin-bottom: 2.5px;
+        margin-top: 2.5px;
+    }
+    
 }

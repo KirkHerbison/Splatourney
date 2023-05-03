@@ -278,7 +278,8 @@ function update_tournament($tournament) {
 function get_tournaments() {
     $db = Database::getDB();
     $tournamentArray = array();
-    $query = 'SELECT * FROM tournament';
+    $query = 'SELECT * FROM tournament'
+            . ' ORDER BY ABS(DATEDIFF(tournament_date, NOW()))';
     $statement = $db->prepare($query);
     $statement->execute();
     $tournaments = $statement->fetchAll();
@@ -306,7 +307,8 @@ function get_tournaments_by_ownerId($ID) {
     $db = Database::getDB();
     $tournamentArray = array();
     $query = 'SELECT * FROM tournament'
-            . ' WHERE tournament_owner_id = :tournament_owner_id';
+            . ' WHERE tournament_owner_id = :tournament_owner_id'
+            . ' ORDER BY ABS(DATEDIFF(tournament_date, NOW()))';
     $statement = $db->prepare($query);
     $statement->bindValue(':tournament_owner_id', $ID);
     $statement->execute();

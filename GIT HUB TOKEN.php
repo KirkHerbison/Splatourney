@@ -1,8 +1,0 @@
-
-TOKEN FOR GITHUB SPLAT
-
-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
-
-
-
-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

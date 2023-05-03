@@ -109,7 +109,7 @@ else if ($controllerChoice == 'team_register_confirmation') {
                 $userLogedin->getID(),
                 $userLogedin->getUsername(),
                 filter_input(INPUT_POST, 'teamName'),
-                'test for now',
+                null,
                 1
         );
 
@@ -118,6 +118,7 @@ else if ($controllerChoice == 'team_register_confirmation') {
             require_once("team_register.php");
         } else if (check_if_team_exists($teamToCreate) != null) {
             $error_message = "You have already created a team under this name.";
+            $team_id = -1;
             require_once("team_register.php");
         } else {
             
@@ -151,9 +152,10 @@ else if ($controllerChoice == 'team_register_confirmation') {
                 $team = get_team_by_id($teamId);
                 add_team_member($userLogedin, $team);
                 $teamMembers = get_team_members($team);
-                require_once ("tournament_edit.php");
+                require_once ("team_edit.php");
             } else {
-                require_once("tournament_register.php");
+                $team_id = -1;
+                require_once("team_register.php");
             }
         }
     }

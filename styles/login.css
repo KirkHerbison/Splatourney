@@ -105,3 +105,22 @@ button:hover{
   border-color: #FFC857;
   transition: .5s;
 }
+
+
+@media(max-width: 584px){
+    
+    body{
+        overflow-y: auto;
+    }
+    
+    main{
+        width: 100%;
+    }
+    .center{
+        max-width: 100%;
+        position: static;
+        transform: none;
+        overflow-y: scroll;    
+    }
+    
+}

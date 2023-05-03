@@ -277,11 +277,14 @@ main{
         background-color: rgba(0,0,0,0);
         position: absolute;
         top: 20px;
+        width: 100%;
         
     }
     
     .details-top h2{
-        margin-left: 5px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
     }
     
     .details-top h3{
@@ -308,6 +311,7 @@ main{
     
     .dateStart span{
         margin-left: 1em;
+        margin-bottom: 1em;
     }
     
     .dateRegister{

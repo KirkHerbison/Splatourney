@@ -77,7 +77,7 @@ CREATE TABLE team(
   ID        		INT         	NOT NULL   AUTO_INCREMENT,
   captain_user_id       INT    		NOT NULL,
   team_name      	VARCHAR(255)   	NOT NULL,
-  team_image_link	VARCHAR(5000),
+  team_image_link	VARCHAR(5000)   Default 'default.png',
   isActive      	BOOLEAN     	DEFAULT 1,
   PRIMARY KEY (ID)
 );

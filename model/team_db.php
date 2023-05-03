@@ -7,7 +7,7 @@ require_once('../model/Result.php');
 function add_team($team) {
     $db = Database::getDB();
     $query = 'INSERT INTO team (captain_user_id, team_name, team_image_link)
-                VALUES(:captain_user_id, :team_name, :team_image_link)';
+                VALUES(:captain_user_id, :team_name, COALESCE(:team_image_link, \'default.png\'))';
     $statement = $db->prepare($query);
     $statement->bindValue(':captain_user_id', $team->getCaptainUserId());
     $statement->bindValue(':team_name', $team->getTeamName());

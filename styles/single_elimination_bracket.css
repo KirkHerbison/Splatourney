@@ -63,5 +63,21 @@ h3{
 }
 
 
+@media only screen and (max-width: 476px){
 
+    
+    main{
+        width: 100%;
+    }
+
+    ::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+    
+    .bracketContainer{
+        height: 65vh;
+    }
+}
 

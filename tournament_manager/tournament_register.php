@@ -1,5 +1,4 @@
 <?php require_once '../view/header.php'; ?> 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><!--for image upload -->
 <link rel="stylesheet" type="text/css" href="styles/image_upload_1.css"><!-- for image upload -->
 <link rel="stylesheet" href="styles/tournament_register.css"/>
 

@@ -17,7 +17,7 @@ require_once '../view/header.php';
 
 
 
-    <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script> <!-- for jquery bracket -->
+
     <script type="text/javascript" src="js/jquery.bracket.min.js"></script> <!-- for jquery bracket -->
     <link rel="stylesheet" type="text/css" href="styles/jquery.bracket.min.css" /> <!-- for jquery bracket -->
     <input type="hidden" id="tournament-id" value="<?php echo $tournament_id; ?> ">

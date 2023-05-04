@@ -2,6 +2,7 @@
 main{
     border: none;
     background-color: #1F2041;
+    width: 100%;  
 }
 main h1{
     color: #FFC857;
@@ -41,7 +42,8 @@ img{
 
 .team-name-input{
     height: 45px;
-    width: 25%;
+    flex-grow: 1;
+    width: auto;
     outline: none;
     font-size: 16px;
     border-radius: 5px;
@@ -112,12 +114,9 @@ margin-right: auto;
 }
 
 
-.edit-button{
-    
-}
 
 .center-button{
-    margin-top:1em;
+  margin-top:1em;
   width: 300px;
   height: 50px;
   border: 1px solid;
@@ -137,4 +136,80 @@ margin-right: auto;
 .center-button:hover{
     border-color: #FFC857;
     transition: .5s;
+}
+
+
+@media only screen and (max-width: 767px){
+    .team-name {
+      font-size: 200%;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 0 10px;
+      background-color: #1F2041;
+      max-width: 90%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+}
+
+
+@media only screen and (max-width: 476px){
+    
+    main{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        
+    }
+    
+    .search-form{
+        display:  flex;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 1em;
+        margin-bottom: 1em;
+    }
+    
+    .search-form label{
+        font-size: 1.5em;
+    }
+    
+    .team-name-input{
+        width: 100%;
+        margin-bottom: 1em;
+    }
+    
+    .search-button input{
+        width: 100%;
+    }
+    
+    
+    .divider{
+        order: 1;
+    }
+    
+    .team-display{
+        order: 2;
+    }
+    
+    h3{
+        order: 3;
+        margin-top: 10px;
+    }
+    
+    form{
+        order: 4;
+    }
+    
+    h2{
+        order: 5;
+    }
+    
+    table{
+        order: 6;
+    }
+
+    
 }

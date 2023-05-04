@@ -3,6 +3,7 @@ html{
 }
 body{
     height: 100%;
+    width: 100%;
 }
 main{
     background-color: #1F2041;
@@ -11,6 +12,8 @@ main{
     border: none;
     height: 100%;
     width: 100%;
+    margin:0;
+    max-width: none;
     
 }
 
@@ -32,7 +35,7 @@ button{
 }
 
 #vs{
-    color: white;
+    color: #FFC857;
     text-align: center;
     margin-bottom: 0;
 }
@@ -95,7 +98,8 @@ button{
 
 /*scrollbar*/
 ::-webkit-scrollbar {
-  width: 20px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
@@ -184,7 +188,7 @@ footer{
 }
 
 .game .mode{
-    height: 60px;
+    max-height: 60px;
     width: 60px;
     margin-left: auto;
     margin-right: auto;
@@ -217,7 +221,7 @@ footer{
   height: 85%;
   overflow-y: auto;
   transform: translateX(100%);
-   width: 95%;
+   width: 100%;
   opacity: 0;
   transition: all 0.3s cubic-bezier(0.25, 0.5, 0.5, 0.9);
 }
@@ -297,8 +301,9 @@ p {
 }
 
 .chat-control {
-  padding: 1.2em;
-  margin-top: 39%;
+    position: absolute;
+  bottom: 10px;
+  width: 100%;
 }
 
 .chat-input {
@@ -338,4 +343,100 @@ p {
   -webkit-filter: grayscale(100%);
   filter: grayscale(100%);
   cursor: pointer
+}
+
+
+
+
+
+
+
+
+@media only screen and (max-width: 476px){
+    
+    main{
+        width: 100%;  
+        min-height: 100vh;
+        overflow: visible;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    main h1{
+        padding: 0;
+        font-size: 150%;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    
+    footer{
+        display: none;
+    }
+    
+    #match{
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        min-height: 100%;
+        
+    }
+    
+    #match::-webkit-scrollbar{
+        display: none;
+    }   
+    
+    
+    
+    .middle-div{
+        order: 1;
+        height: 70%;
+        width: 100%;
+        padding-bottom: 10px;
+    }
+    
+    .scoreTeamOne{
+        order: 2;
+        width: 50%;
+        border-radius: 0;
+        border-right: solid 5px black;
+    }
+    
+    .scoreTeamTwo{
+        order: 3;
+        width: 50%;
+        border-radius: 0;
+        border-left: solid 5px black;
+    }
+       
+    
+    
+    .chat-box{
+        height: 38%;
+        margin-top: 2%;
+    }
+    
+    .mapList{
+        height: 60%;
+    }
+    
+    .chat-container{
+        padding-bottom: 0;
+        height: 75%;
+    }
+    
+    
+    
+    
+    
+    
+    
+    img{
+        width: 100px;
+        height: 100px;
+    }
+    
+    
 }

@@ -147,3 +147,54 @@ main{
   border-top-right-radius: 10px;
 
 }
+
+
+
+@media only screen and (max-width: 476px){
+    
+    .ui-tabs .ui-tabs-nav li a {
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        background-color: #A51EE1;
+        font-size: 18px;
+        color: white;
+        border: none;
+    }
+    
+    
+    main{
+        width: 100%;
+    }
+    
+    .search-form{
+        display:  flex;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 1em;
+        margin-bottom: 1em;
+    }
+    
+    .search-form label{
+        font-size: 1.5em;
+    }
+    
+    .team-name-input{
+        width: 100%;
+        margin-bottom: 1em;
+    }
+    
+    .search-button input{
+        width: 100%;
+    }
+
+    .button-group{
+        width: 30%;
+        margin-right: 5px;
+    }
+    
+    .button-group form{
+        margin-bottom: auto;
+        margin-top: auto;
+    }
+    
+}

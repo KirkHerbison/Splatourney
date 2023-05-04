@@ -157,3 +157,24 @@ form .button input:hover {
   object-fit: cover;
   border-radius: 5px;
 }
+
+ @media(max-width: 584px){
+
+     .drag-image h6{
+         display: none;
+     }
+     
+     .drag-image p{
+         font-size: 1em;
+         margin-bottom: 10px;
+     }
+     
+     .drag-image span{
+         display: none;
+     }
+     
+     
+}
+  @media(max-width: 459px){
+
+}

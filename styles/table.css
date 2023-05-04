@@ -43,7 +43,6 @@ p{
     margin: auto;
     font-size: 0.9em;
     width: 100%;
-    min-width: 400px;
     border-radius: 5px 5px 0 0;
     overflow: hidden;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15)
@@ -68,6 +67,7 @@ td, th{
 .content-table tbody tr {
     border-bottom: 1px solid #dddddd;
     background-color: white;
+    font-size: 1.3em;
 }
 
 .content-table tbody tr:nth-of-type(even) {
@@ -87,4 +87,92 @@ td, th{
     color: black;
     background-color: rgba(197,0,255,0.34);
     border-bottom: black 2px solid;
+}
+
+
+
+
+
+
+table input{
+    width: 100%;
+    height: 40px;
+    border: 1px solid;
+    border-color: black;
+    background: #A51EE1;
+    border-radius: 25px;
+    font-size: 1em;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    outline: none;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+
+
+table input:hover{
+    border-color: #A51EE1;
+    transition: .5s;
+
+}
+
+
+.button-group .button-regiser{
+    margin-top: auto;
+    
+    color: white;
+    border-color: black;
+}
+
+
+.button-group .button-regiser:hover{
+    border-color: #A51EE1;
+    transition: .5s;
+}
+
+
+
+
+
+
+
+
+
+
+
+@media only screen and (max-width: 767px){
+    
+    .content-table thead{
+        display: none;
+    }
+    
+    .content-table, .content-table tbody, .content-table tr, .content-table td{
+        display: block;
+        width: 100%;
+    }
+    
+    .content-table tr{
+        margin-bottom: 1em;
+    }
+    
+    .content-table tr td:first-child{
+        color: #FFC857;
+        background-color: #4c4c4c;
+        font-size: 1.5em;
+    }
+    
+    table{
+        border: none;
+    }
+    
+    table input{
+        font-size: 1.5em;
+    }
+    
+    
+    
+    
+
 }

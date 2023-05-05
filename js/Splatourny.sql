@@ -221,7 +221,14 @@ VALUES(1),
 	(6),
 	(7),
 	(8),
-	(9);
+	(9),
+        (10),
+        (11),
+        (12),
+        (13),
+        (14),
+        (15);
+
 
 INSERT INTO chat_message(chat_id, user_id, message)
 VALUES(1, 1,'Hi, could you please add me?'),
@@ -830,7 +837,7 @@ VALUES(1,1,1,2,1   ,4,2    ,1,1),
 	(1,1,4,5,3     ,3,0    ,4,13),
 	(1,1,11,13,3   ,3,1    ,13,14),
 	
-	(1,1,13,4,4   ,5,3     ,13,15);
+	(1,1,4,11,4   ,5,3     ,13,15);
 	
 INSERT INTO tournament_admin(tournament_id,user_id)
 VALUES(1,1),

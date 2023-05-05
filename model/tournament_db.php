@@ -400,3 +400,97 @@ function update_seeding_by_team_id_and_tournament_id($team_id, $tournament_id, $
     $statement->execute();
     $statement->closeCursor();
 }
+
+
+
+////////////////////////////////////FOR TOURNAMENT DELETION/////////////////////////////////////////////////////////////
+function delete_tournament_by_id($tournament_id) {
+    $db = Database::getDB();
+    $query = 'DELETE FROM tournament
+              WHERE ID = :ID';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':ID', $tournament_id);
+    $statement->execute();
+    $statement->closeCursor();
+}
+
+function delete_tournament_results_by_tournament_id($tournament_id) {
+    $db = Database::getDB();
+    $query = 'DELETE FROM tournament_result
+              WHERE tournament_id = :tournament_id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':tournament_id', $tournament_id);
+    $statement->execute();
+    $statement->closeCursor();
+}
+
+function delete_tournament_teams_by_tournament_id($tournament_id) {
+    $db = Database::getDB();
+    $query = 'DELETE FROM tournament_team
+              WHERE tournament_id = :tournament_id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':tournament_id', $tournament_id);
+    $statement->execute();
+    $statement->closeCursor();
+}
+
+function delete_bracket_map_list_map_by_bracket_match_list_id($bracket_match_list_id) {
+    $db = Database::getDB();
+    $query = 'DELETE FROM bracket_map_list_map
+              WHERE bracket_match_list_id = :bracket_match_list_id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':bracket_match_list_id', $bracket_match_list_id);
+    $statement->execute();
+    $statement->closeCursor();
+}
+
+function delete_bracket_map_lists_by_bracket_id($bracket_id) {
+    $db = Database::getDB();
+    $query = 'DELETE FROM bracket_map_list
+              WHERE bracket_id = :bracket_id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':bracket_id', $bracket_id);
+    $statement->execute();
+    $statement->closeCursor();
+}
+
+function delete_chat_messages_by_chat_id($chat_id) {
+    $db = Database::getDB();
+    $query = 'DELETE FROM chat_message
+              WHERE chat_id = :chat_id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':chat_id', $chat_id);
+    $statement->execute();
+    $statement->closeCursor();
+}
+
+function delete_chat_by_chat_id($chat_id) {
+    $db = Database::getDB();
+    $query = 'DELETE FROM chat
+              WHERE ID = :ID';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':ID', $chat_id);
+    $statement->execute();
+    $statement->closeCursor();
+}
+
+function delete_bracket_match_by_tournament_id($tournament_id) {
+    $db = Database::getDB();
+    $query = 'DELETE FROM bracket_match
+              WHERE tournament_id = :tournament_id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':tournament_id', $tournament_id);
+    $statement->execute();
+    $statement->closeCursor();
+}
+
+
+function delete_bracket_by_tournament_id($tournament_id){
+    $db = Database::getDB();
+    $query = 'DELETE FROM bracket
+              WHERE tournament_id = :tournament_id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':tournament_id', $tournament_id);
+    $statement->execute();
+    $statement->closeCursor();
+}

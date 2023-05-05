@@ -171,36 +171,36 @@ else if ($controllerChoice == 'start_bracket') {
     }
     
     
-// Split teams into two groups
-$num_teams = pow(2, $bracket->getNumberOfRounds() -1)*2;
+    // Split teams into two groups
+    $num_teams = pow(2, $bracket->getNumberOfRounds() -1)*2;
 
-$half_num_teams = ceil($num_teams / 2);
-$top_half = array_slice($teams, 0, $half_num_teams);
-$bottom_half = array_slice($teams, $half_num_teams);
+    $half_num_teams = ceil($num_teams / 2);
+    $top_half = array_slice($teams, 0, $half_num_teams);
+    $bottom_half = array_slice($teams, $half_num_teams);
 
-// Assign seeds to each group separately
-$seeds = array();
-for ($i = 1; $i <= $num_teams; $i++) {
-    // Calculate the reversed binary representation of the seed
-    $binary = strrev(str_pad(decbin($i), $total_rounds, '0', STR_PAD_LEFT));
+    // Assign seeds to each group separately
+    $seeds = array();
+    for ($i = 1; $i <= $num_teams; $i++) {
+        // Calculate the reversed binary representation of the seed
+        $binary = strrev(str_pad(decbin($i), $total_rounds, '0', STR_PAD_LEFT));
 
-    // Add the seed and binary representation to the array if it doesn't already exist
-    if (!in_array($i, array_column($seeds, 'seed'))) {
-        $seeds[] = array('seed' => $i, 'binary' => $binary);
+        // Add the seed and binary representation to the array if it doesn't already exist
+        if (!in_array($i, array_column($seeds, 'seed'))) {
+            $seeds[] = array('seed' => $i, 'binary' => $binary);
+        }
     }
-}
 
-// Sort the seeds based on their reversed binary representations
-usort($seeds, function($a, $b) {
-    return strcmp($a['binary'], $b['binary']);
-});
+    // Sort the seeds based on their reversed binary representations
+    usort($seeds, function($a, $b) {
+        return strcmp($a['binary'], $b['binary']);
+    });
 
 
-for ($i = 0; $i < $num_teams / 2; $i++) {
-    $seedTop[] = $seeds[$i]['seed'];
-    $seedBottom[] = $seeds[$num_teams - $i - 1]['seed'];
-}
-$seedBottom = array_reverse($seedBottom);
+    for ($i = 0; $i < $num_teams / 2; $i++) {
+        $seedTop[] = $seeds[$i]['seed'];
+        $seedBottom[] = $seeds[$num_teams - $i - 1]['seed'];
+    }
+    $seedBottom = array_reverse($seedBottom);
 
     $match_number = 1;
     for ($i = 0; $i < count($seedBottom); $i++) {

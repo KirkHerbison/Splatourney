@@ -6,6 +6,7 @@ require_once '../model/Tournament.php';
 require_once('../model/database.php');
 require_once('../model/user_db.php');
 require_once('../model/team_db.php');
+require_once('../model/bracket_db.php');
 require_once('../model/tournament_db.php');
 require_once('../model/bracket_db.php');
 require_once('../model/Round.php');
@@ -29,6 +30,7 @@ $controllerChoice = filter_input(INPUT_POST, 'controllerRequest');
 $error_message = '';
 $error_message_bracket = '';
 $error_message_maplist = '';
+$error_message_scores = '';
 if ($controllerChoice == NULL) {
     $controllerChoice = filter_input(INPUT_GET, 'controllerRequest');
     if ($controllerChoice == NULL) {
@@ -60,6 +62,7 @@ else if ($controllerChoice == 'edit_my_tournament') {
     $tournament_id = filter_input(INPUT_POST, 'tournament_id');
     $tournament = get_tournament_by_id($tournament_id);
     $bracket = get_bracket_by_tournament_id($tournament_id);
+    $matchList = get_matches_by_tournament_id($tournament_id);
     
     $roundExists = true;
     $roundArray = array();
@@ -260,7 +263,7 @@ else if ($controllerChoice == 'tournament_register_confirmation') {
             }
             
             
-            
+            $matchList = get_matches_by_tournament_id($tournament_id);
             $mapLists = get_bracket_map_lists_by_bracket_id($bracket->getId());
             $maps = get_maps();
             $modes = get_modes();
@@ -291,6 +294,7 @@ else if ($controllerChoice == 'tournament_update_confirmation') {
     $tournamentId = filter_input(INPUT_POST, 'tournament_id');
     $tournament = get_tournament_by_id($tournamentId);
 
+    $matchList = get_matches_by_tournament_id($tournamentId);
     $bracket = get_bracket_by_tournament_id($tournamentId);
     $mapLists = get_bracket_map_lists_by_bracket_id($bracket->getId());
     $maps = get_maps();
@@ -365,6 +369,7 @@ else if ($controllerChoice == 'tournament_update_confirmation') {
 
         if ($imageValid == true) {
             update_tournament($tournamentUpdated);
+            $matchList = get_matches_by_tournament_id($tournamentId);
             $teams = get_tournament_teams_by_tournament_id($tournamentId);
             $bracket = get_bracket_by_tournament_id($tournamentId);
             $tournament = get_tournament_by_id($tournamentId);
@@ -375,6 +380,7 @@ else if ($controllerChoice == 'tournament_update_confirmation') {
             require_once("tournament_edit.php");
         } else {
             
+            $matchList = get_matches_by_tournament_id($tournament_id);
             $teams = get_tournament_teams_by_tournament_id($tournamentId);
             $bracket = get_bracket_by_tournament_id($tournamentId);
             $tournament = get_tournament_by_id($tournamentId);
@@ -441,6 +447,7 @@ else if ($controllerChoice == 'tournament_update_confirmation') {
     
     
     $tournament_id = filter_input(INPUT_POST, 'tournament_id');
+    $matchList = get_matches_by_tournament_id($tournament_id);
     $teams = get_tournament_teams_by_tournament_id($tournament_id);
     $tournament = get_tournament_by_id($tournament_id);
     $bracket = get_bracket_by_tournament_id($tournament_id);
@@ -462,6 +469,7 @@ else if ($controllerChoice == 'update_seeding') {
         $seedCount++;
     }
 
+    $matchList = get_matches_by_tournament_id($tournament_id);
     $teams = get_tournament_teams_by_tournament_id($tournament_id);
     $tournament = get_tournament_by_id($tournament_id);
     $bracket = get_bracket_by_tournament_id($tournament_id);
@@ -495,6 +503,37 @@ else if ($controllerChoice == 'tournament_bracket') {
         require_once("tournament_bracket.php");
     }
 }
+
+//deletes a tournament
+else if ($controllerChoice == 'tournament_delete'){
+    $tournament_id = filter_input(INPUT_POST, 'tournament_id');
+    
+    delete_tournament_by_id($tournament_id);
+    delete_tournament_results_by_tournament_id($tournament_id);
+    delete_tournament_teams_by_tournament_id($tournament_id);
+    
+    
+    $bracket = get_bracket_by_tournament_id($tournament_id);
+    $bracket_id = $bracket->getId();
+    
+    $mapLists = get_bracket_map_lists_by_bracket_id($bracket_id);
+    foreach($mapLists as $maplist){
+        delete_bracket_map_list_map_by_bracket_match_list_id($maplist->getId());
+    }
+    delete_bracket_map_lists_by_bracket_id($bracket_id);
+    
+    $matchList = get_matches_by_tournament_id($tournament_id);
+    foreach($matchList as $match){ 
+        $chat = get_chat_by_match_id($match->getId());
+        $chat_id = $chat->getId();
+        delete_chat_messages_by_chat_id($chat_id);
+        delete_chat_by_chat_id($chat_id);
+    }
+    delete_bracket_match_by_tournament_id($tournament_id);
+    delete_bracket_by_tournament_id($tournament_id);
+    require_once("tournament_register.php");
+}
+
 //updates the map list when a user saves a round
 else if ($controllerChoice == 'update_maplist') {
 
@@ -613,8 +652,10 @@ else if ($controllerChoice == 'update_maplist') {
 
 
 
+    
     $tab = 2;
     $tournament_id = filter_input(INPUT_POST, 'tournament_id');
+    $matchList = get_matches_by_tournament_id($tournament_id);
     $teams = get_tournament_teams_by_tournament_id($tournament_id);
     $tournament = get_tournament_by_id($tournament_id);
     $bracket = get_bracket_by_tournament_id($tournament_id);
@@ -622,6 +663,123 @@ else if ($controllerChoice == 'update_maplist') {
     $maps = get_maps();
     $modes = get_modes();
     require_once("tournament_edit.php");
+}
+
+else if($controllerChoice == 'update_match_score'){
+    
+    
+    $match = get_match_by_id(filter_input(INPUT_POST, 'match_id'));
+    $team_one_score = (int)filter_input(INPUT_POST, 'teamOneScore');
+    $team_two_score = (int)filter_input(INPUT_POST, 'teamTwoScore');
+    
+    $bracket_id = $match->getBracketId();
+    $tournament_id = $match->getTournamentId();
+    $bracket = get_bracket_by_tournament_id($tournament_id);
+    $bracketMatch = get_math_by_match_number_and_touranemnt_id($match->getMatchNumber(),$tournament_id);
+    $bracket_match_list = get_bracket_map_list_by_round_and_bracket_id($bracket_id, $bracketMatch->getRound());
+    $totalGames =  get_map_count_by_map_list_id($bracket_match_list->getId());
+    
+    //for page load
+    $tab = 2;
+    $teams = get_tournament_teams_by_tournament_id($tournament_id);
+    $tournament = get_tournament_by_id($tournament_id);
+    $mapLists = get_bracket_map_lists_by_bracket_id($bracket->getId());
+    $maps = get_maps();
+    $modes = get_modes();
+    
+    //gets the number of wins needed for a match to be done
+    $wins_needed_to_win = 1;
+    if($totalGames == 3){
+       $wins_needed_to_win = 2;
+    }else if($totalGames == 5){
+        $wins_needed_to_win = 3;
+    }else if($totalGames == 7){
+        $wins_needed_to_win = 4;
+    }else if($totalGames ==9){
+        $wins_needed_to_win = 5;
+    }else if($totalGames == 11){
+        $wins_needed_to_win = 6;
+    }
+    
+    if(!($team_one_score >= $wins_needed_to_win && $team_two_score >= $wins_needed_to_win)){
+
+
+        //updates the scores
+        update_team_one_score_by_match_id_and_number($match->getId(), $team_one_score);
+        update_team_Two_score_by_match_id_and_number($match->getId(), $team_two_score);
+
+        //setting team One to the next game
+        $current_round = $match->getRound();
+        $current_match = $match->getMatchNumber();
+        $number_of_rounds = $bracket->getNumberOfRounds();
+        $total_matches_round_one = pow(2, $number_of_rounds - 1);
+
+        //get total number of matches
+        $total_matches = 0;
+        $matches_in_round = $total_matches_round_one;
+        for($i=1; $i <=$number_of_rounds; $i++){
+            $total_matches += $matches_in_round;
+            $matches_in_round /= 2;
+        }
+
+        //converts $current_match from the match number to the match position in the round
+        for($i = 1; $i < $current_round; $i++){
+            $current_match - $total_matches_round_one;
+            $total_matches_round_one/2;          
+        }
+
+        //gets the position of the next match (round up to get the match)
+        $next_position = $current_match/2.0;
+
+        //getting the last match in the current round
+        $end_of_round_match = $total_matches_round_one;       
+        for($i = 1; $i < $current_round; $i++){
+            $end_of_round_match = $end_of_round_match/2;
+        }
+
+        //gets the match to be updated
+        $future_match = $end_of_round_match + ceil($next_position);
+
+        //updates the team for next round
+        if(fmod($next_position, 1) !== 0.0){
+            update_match_team_one($future_match,0, $bracket_id);
+
+        }
+        else{
+            update_match_team_two($future_match,0,$bracket_id);
+        }
+
+        //if team one wins set as winner
+        if($team_one_score >= $wins_needed_to_win){
+            //updates the team for next round
+            if(fmod($next_position, 1) !== 0.0){
+                update_match_team_one($future_match,$match->getTeamOneId(), $bracket_id);      
+            }
+            else{
+                update_match_team_two($future_match,$match->getTeamOneId(),$bracket_id);
+            }
+        }
+
+        //if team two wins set as winner
+        if($team_two_score >= $wins_needed_to_win){
+            //updates the team for next round
+            if(fmod($next_position, 1) !== 0.0){
+                update_match_team_one($future_match,$match->getTeamTwoId(), $bracket_id);      
+            }
+            else{
+                update_match_team_two($future_match,$match->getTeamTwoId(),$bracket_id);
+            }
+        }  
+        
+        $matchList = get_matches_by_tournament_id($tournament_id);
+        require_once("tournament_edit.php");
+    }
+    else{
+        $matchList = get_matches_by_tournament_id($tournament_id);
+        $error_message_scores = "A match can only have 1 winner, scores not saved";
+        require_once("tournament_edit.php");
+    }
+    
 }
 
 ////////////////////////////////////////////////////////////////////////////////

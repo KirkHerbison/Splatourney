@@ -213,6 +213,35 @@ function update_match_team_one($match_number,$team_one_id, $bracket_id){
     $statement->closeCursor();  
 }
 
+function update_team_one_score_by_match_id_and_number($ID, $team_one_wins){
+    $db = Database::getDB();
+    $query = 'UPDATE bracket_match
+                     SET team_one_wins = :team_one_wins
+                     WHERE ID = :ID';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':ID', $ID);
+    $statement->bindValue(':team_one_wins', $team_one_wins);
+    $statement->execute();
+    $statement->closeCursor();   
+}
+
+function update_team_two_score_by_match_id_and_number($ID, $team_two_wins){
+    $db = Database::getDB();
+    $query = 'UPDATE bracket_match
+                     SET team_two_wins = :team_two_wins
+                     WHERE ID = :ID';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':ID', $ID);
+    $statement->bindValue(':team_two_wins', $team_two_wins);
+    $statement->execute();
+    $statement->closeCursor();   
+}
+
+
+
+
+
+
 function update_match_team_two($match_number,$team_two_id, $bracket_id){
     $db = Database::getDB();
     $query = 'UPDATE bracket_match

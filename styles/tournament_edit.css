@@ -4,6 +4,7 @@ main{
   flex-direction: column;
   padding: 10px;
   background: #1F2041;
+  width: 100%;
 }
 
 #tabs{

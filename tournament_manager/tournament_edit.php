@@ -116,6 +116,23 @@
                     </div>  
                        <?php } ?>
                 </form>
+                <form onsubmit="return confrimDelete();" action="tournament_manager/index.php" method="post"  enctype="multipart/form-data">  
+                    <input type="hidden" name="controllerRequest" value="tournament_delete" /> 
+                    <input type="hidden" name="tournament_id" value="<?php echo $tournament->getId(); ?>" />
+                    <div class="button">
+                        <input type='submit' value='Delete Tournament'>    
+                        <script>
+                            function confrimDelete() {
+                                let result  = confirm("Are you sure you want to delete this tournament? It can not be restored after deleting it.");
+                                if(result){
+                                    return true;
+                                } else{
+                                    return false;
+                                }
+                            }
+                        </script>
+                    </div>  
+                </form>     
             </div>
         </div>       
     </div>
@@ -183,7 +200,36 @@
                     <input type="hidden" name="tournament_id" value="<?php echo $tournament->getId(); ?>" />
                     <input type="hidden" name="controllerRequest" value="start_bracket" /> 
                     <div class="button">
-                        <input type="submit" value="Start Bracket">
+                        <input onclick="confrimStart()" type="submit" value="Start Bracket">
+                        <script>
+                            function confrimStart() {
+                              let result = confirm("Do you want to start the bracket now? This will disable editing of tournament details, maps, bracket info, and seeding.");
+                                if(result){
+                                    return true;
+                                } else{
+                                    return false;
+                                }
+                            }
+                        </script>
+                    </div>
+                </form> 
+                <?php } else { ?>
+                <form action="bracket_manager/index.php" method="POST">
+                    <input type="hidden" name="tournament_id" value="<?php echo $tournament->getId(); ?>" />
+                    <input type="hidden" name="bracket_id" value="<?php echo $bracket->getId(); ?>" />
+                    <input type="hidden" name="controllerRequest" value="finish_bracket" /> 
+                    <div class="button">
+                        <input onclick="confrimFinish()" type="submit" value="Finish Bracket">
+                        <script>
+                            function confrimFinish() {
+                                let result = confirm("Do you want to finish the tournament? This will archive the results and disable the tournament.");
+                                if(result){
+                                    return true;
+                                } else{
+                                    return false;
+                                }
+                            }
+                        </script>
                     </div>
                 </form> 
                 <?php } ?>
@@ -293,6 +339,8 @@
             document.getElementById("order-form").submit();
         }
     </script>
+    
+    
 
     <?php if($teams != null) {?>
     <div id="tabs-4">
@@ -356,12 +404,51 @@
     
     
     <div id="tabs-5">
-        <span>Team 1</span>
-        <input type="text" name="teamOneScore" value="">
-        <span>Team 2</span>
-        <input type="text" name="teamTwoScore" value="">
-<input type="submit" value="Save Changes">
-        
+        <div class="container">
+            <span style='color: red'><?php echo $error_message_scores ?></span>
+            <div class="title" >Update Match Scores</div>
+                <input type="hidden" name="tournament_id" value="<?php echo $tournament->getId(); ?>" />
+                
+                
+                
+                    <?php foreach ($matchList as $match) :
+                
+                
+                            $bracketMatch = get_math_by_match_number_and_touranemnt_id($match->getMatchNumber(),$tournament_id);
+                            $bracket_match_list = get_bracket_map_list_by_round_and_bracket_id($bracket->getId(), $match->getRound());
+                            $totalGames =  get_map_count_by_map_list_id($bracket_match_list->getBracketId());
+                            $wins_needed_to_win = 1;
+                            //gets the number of wins needed for a match to be done
+                            if($totalGames == 3){
+                               $wins_needed_to_win = 2;
+                            }else if($totalGames == 5){
+                                $wins_needed_to_win = 3;
+                            }else if($totalGames == 7){
+                                $wins_needed_to_win = 4;
+                            }else if($totalGames ==9){
+                                $wins_needed_to_win = 5;
+                            }else if($totalGames == 11){
+                                $wins_needed_to_win = 6;
+                            } 
+                        ?>
+                        
+                        <form action="tournament_manager/index.php" method="POST">
+                            <input type="hidden" name="controllerRequest" value="update_match_score" />
+                            <input type="hidden" name="wins_needed_to_win" value="<?php echo $wins_needed_to_win ?>" />
+                            <input type="hidden" name="match_id" value="<?php echo $match->getId(); ?>" />
+                            <input type="hidden" name="tournament_id" value="<?php echo $tournament->getId(); ?>" />
+                            <span class="details">Match #<?php echo $match->getMatchNumber(); ?></span>
+                            <p><?php if($match->getTeamOneId()>0){ echo get_team_by_id($match->getTeamOneId())->getTeamName(); } else{ echo '<span style="color:red;">No Team</span>';} ?></p>
+                            <input type="number"  min="0" max="<?php echo $wins_needed_to_win; ?>" name="teamOneScore" value="<?php echo $match->getTeamOneWins(); ?>"> 
+                            <p><?php if($match->getTeamTwoId()>0){ echo get_team_by_id($match->getTeamTwoId())->getTeamName() ;} else{ echo '<span style="color:red;">No Team</span>';} ?></p>
+                            <input type="number" min="0"  max="<?php echo $wins_needed_to_win; ?>" name="teamTwoScore" value="<?php echo $match->getTeamTwoWins(); ?>"> 
+                             <div class="button">
+                                <input type="submit" value="Save Changes">
+                            </div>
+                        </form>   
+                    <?php endforeach; ?>    
+             
+        </div>               
     </div>
 
     

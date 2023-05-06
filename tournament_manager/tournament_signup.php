@@ -1,5 +1,5 @@
 <?php require_once '../view/header.php'; ?>
-<link rel="stylesheet" href="styles/login.css">
+<link rel="stylesheet" href="styles/tournament_signup.css">
 
 <form action="tournament_manager/index.php" method="POST">
     <input type="hidden" name="controllerRequest" value="signup_confirmation" />
@@ -20,10 +20,7 @@
                 </select>
                 <label>Select Team:</label>
             </div>
-            <br>
-            <br>
-                <button id="loginButton" type="submit" >Login</button>
-            <br>
+                <button id="loginButton" type="submit" >Register</button>
         </div>
     </div>
 </form>

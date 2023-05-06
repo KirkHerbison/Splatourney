@@ -81,9 +81,14 @@ main{
 
 .ui-tabs .ui-tabs-nav li {
     border: none;
-      border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 
+}
+
+.ui-corner-all {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
 }
 
 /*////////////////////////////////////////////////////////////////////////////////*/
@@ -266,38 +271,202 @@ form .input-box span.details{
   background-color: #ffffff;
  
 }
+#tabs-5 .container form{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: .5em;
+}
+
+
+
+#tabs-5 .container form .button{
+    width: 30%;
+    margin: 0;
+    height: 30px;
+    margin-left: 1em;
+}
+
+#tabs-5 .container form .button input{
+    width: 80%;
+    font-size: 14px;
+    height: 30px;
+}
+
+
+    #tabs-5 .container form span{
+        color: #A51EE1;
+        width: 10%;
+    }
+    #tabs-5 .container form p{
+        width: 20%;
+        text-align: right;
+        margin-right: 5px;
+    }
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
+    #tabs-5 .container form input[type='number']{
+        width: 5%;  
+
+    }
+    
+    
   
  @media(max-width: 584px){
- .container{
-  max-width: 100%;
+    .container{
+        max-width: 100%;
+    }
+    form .user-details .input-box{
+        margin-bottom: 15px;
+        width: 100%;
+    }
+    form .category{
+        width: 100%;
+    }
+    .content form .user-details{
+        overflow-y: scroll;
+    }
+    .user-details::-webkit-scrollbar{
+        width: 5px;
+    }
+    
+    .game{
+        display: flex;
+        flex-direction: column;
+    }
+    
+    
+    .mapPicker, .modePicker{
+        display: flex;
+        flex-direction: row;
+        width: 100%
+    }
+    
+    .mapPicker label, .modePicker label{
+        width: 40%;
+        margin: 0;
+        padding-right: 10px;
+        
+    }
+    
+    .map-select, .mode-select{
+        width: 60%;
+    }
+    .button{
+        margin: 0;
+    }
+    
+    .round .button{
+        margin: 0;
+        width: 100%;
+    }
+    
+    .container .button input{
+        width: 100% !important; 
+        height: 30px;
+        font-size: 14px;
+    }
+    
+    #tabs-5 .container form input[type='number']{
+        margin-bottom: 10px;
+        font-size: 18px;
+        width: 30px;
+    }
+    
+    
+    #tabs-5 .container form{
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 0;
+    }
+    
+        
+    #tabs-5 .container form span{
+        width: 100%;
+    }
+    
+    #tabs-5 .container form p{
+        width: 100%;
+        text-align: left;
+    }
+        
+    #tabs-5 .container form{
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 0;
+    }
+        
+    #tabs-5 .container form{
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 0;
+    }
+    
+    #tabs-5 .container form .button{
+    width: 100%;
+    margin: 0;
 }
-form .user-details .input-box{
-    margin-bottom: 15px;
-    width: 100%;
-  }
-  form .category{
-    width: 100%;
-  }
-  .content form .user-details{
-    max-height: 300px;
-    overflow-y: scroll;
-  }
-  .user-details::-webkit-scrollbar{
-    width: 5px;
-  }
-  }
+
+    #tabs-5 .container form .button{
+    width: 50%;
+    margin: 0;
+    margin-bottom: 1em;
+}
+
+    
+    .ui-tabs-tab{
+        color: black;
+        border: none;
+        width: 50%;
+    }
+    
+    #tabs ul{
+        background-color: white;
+        padding: 0;
+    }
+    
+    
+    .ui-tabs .ui-tabs-nav{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        
+    }
+    
+    .ui-tabs .ui-tabs-nav li.ui-tabs-active a {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      background-color: #A51EE1;
+      border: black 1px solid;
+      width: 100%;
+      color: white;
+    }
+
+    .ui-tabs .ui-tabs-nav li:not(.ui-tabs-active) a:hover  {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      background-color: #FFC857;
+      width: 100%;
+      color: black;
+      border: black 1px solid;
+    }
+
+    .ui-tabs .ui-tabs-nav li:not(.ui-tabs-active) a {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      background-color: white;
+      color: black;
+      width: 100%;
+      border: black 1px solid;
+    }
+    
+    .ui-tabs .ui-tabs-nav li {
+        margin: 0;
+    }
+    
+    
+}
   @media(max-width: 459px){
-  .container .content .category{
-    flex-direction: column;
-  }
+    .container .content .category{
+        flex-direction: column;
+    }
 }

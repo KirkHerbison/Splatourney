@@ -550,6 +550,19 @@ function insert_match($bracket, $round) {
     return $db->lastInsertId();
 }
 
+function insert_tournament_result($tournament_id, $bracket_id, $team_id, $result){
+    $db = Database::getDB();
+    $query = 'INSERT INTO tournament_result (tournament_id, bracket_id, team_id, result)
+                VALUES(:tournament_id, :bracket_id, :team_id, :result)';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':tournament_id', $tournament_id);
+    $statement->bindValue(':bracket_id',$bracket_id);
+    $statement->bindValue(':team_id', $team_id);
+    $statement->bindValue(':result', $result);
+    $statement->execute();
+    $statement->closeCursor();
+}
+
 function update_bracket_map_list_isActive($bracket_id, $round, $isActive) {
     $db = Database::getDB();
     $query = 'UPDATE bracket_map_list

@@ -126,6 +126,7 @@ else if ($controllerChoice == 'signup_confirmation'){
 // In the header when the user selects my teams
 else if ($controllerChoice == 'my_tournament_list') {
     if ($userLogedin->getId() > 0) {
+        $tournamentsJoined = get_tournaments_by_user_id($userLogedin->getId());
         $tournamentsOwned = get_tournaments_by_ownerId($userLogedin->getId());
         require_once("user_tournament_list.php");
     } else {
@@ -665,8 +666,82 @@ else if ($controllerChoice == 'update_maplist') {
     require_once("tournament_edit.php");
 }
 
-else if($controllerChoice == 'update_match_score'){
+//checks to see if tournament is over, ends the tournament, sets the results, and deactivates the tournament
+else if($controllerChoice == 'finish_bracket'){
     
+    
+    $tournament_id = filter_input(INPUT_POST, 'tournament_id');
+    
+    $tournament = get_tournament_by_id($tournament_id);
+    $bracket = get_bracket_by_tournament_id($tournament_id);
+    $bracket_id = $bracket->getId();        
+    $totalRounds = $bracket->getNumberOfRounds();
+    
+    $totalGames = 0;
+    
+    for($i=0; $i < $totalRounds; $i++){
+        
+        $totalGames += pow(2, $totalRounds - ($i+1));
+        
+    }
+    
+    $currentGame = 1;
+    
+    $matches = array();
+    
+    for($i=1; $i <= $totalRounds; $i++){
+        $gamesInRound = pow(2, $totalRounds - $i);
+        $matches = get_matches_by_round_number($i, $bracket_id);
+        for($j=1; $j <= $gamesInRound; $j++){
+
+            $bracketMatch = get_math_by_match_number_and_touranemnt_id($currentGame ,$tournament_id);
+            $bracket_match_list = get_bracket_map_list_by_round_and_bracket_id($bracket_id, $bracketMatch->getRound());
+            $totalGames = get_map_count_by_map_list_id($bracket_match_list->getId());
+            $wins_needed_to_win = 1;
+
+            //gets the number of wins needed for a match to be done
+            if($totalGames == 3){
+               $wins_needed_to_win = 2;
+            }else if($totalGames == 5){
+                $wins_needed_to_win = 3;
+            }else if($totalGames == 7){
+                $wins_needed_to_win = 4;
+            }else if($totalGames ==9){
+                $wins_needed_to_win = 5;
+            }else if($totalGames == 11){
+                $wins_needed_to_win = 6;
+            }
+
+            //sets the winner for the final round
+            if($gamesInRound == 1){
+                if($bracketMatch->getTeamOneWins() == $wins_needed_to_win){
+                    insert_tournament_result($tournament_id, $bracket->getId(), $bracketMatch->getTeamOneId(), 1);
+                    insert_tournament_result($tournament_id, $bracket->getId(), $bracketMatch->getTeamTwoId(), 2);
+                }else{
+                    insert_tournament_result($tournament_id, $bracket->getId(), $bracketMatch->getTeamOneId(), 2);
+                    insert_tournament_result($tournament_id, $bracket->getId(), $bracketMatch->getTeamTwoId(), 1);
+                }   
+            }else{
+                if($bracketMatch->getTeamOneWins() == $wins_needed_to_win){
+                    insert_tournament_result($tournament_id, $bracket->getId(), $bracketMatch->getTeamTwoId(), ($gamesInRound + 1));
+                }else{
+                    insert_tournament_result($tournament_id, $bracket->getId(), $bracketMatch->getTeamOneId(), ($gamesInRound + 1));
+                }  
+            }  
+            $currentGame++;   
+        }
+    } 
+    update_tournament_isActive($tournament_id, 0);
+    if ($userLogedin->getId() > 0) {
+        $tournamentsOwned = get_tournaments_by_ownerId($userLogedin->getId());
+        $tournamentsJoined = get_tournaments_by_user_id($userLogedin->getId());
+        require_once("user_tournament_list.php");
+    } else {
+        require_once('../index.php');
+    }
+}
+
+else if($controllerChoice == 'update_match_score'){
     
     $match = get_match_by_id(filter_input(INPUT_POST, 'match_id'));
     $team_one_score = (int)filter_input(INPUT_POST, 'teamOneScore');

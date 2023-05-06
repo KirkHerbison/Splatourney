@@ -79,8 +79,6 @@
         <li><a href="#tabs-2" >Teams</a></li>
         <li><a href="#tabs-3" >Tournaments</a></li>
     </ul>
-
-
     <div id="tabs-1">
         <table class="content-table">
             <thead>

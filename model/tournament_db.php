@@ -308,7 +308,7 @@ function get_tournaments_by_ownerId($ID) {
     $tournamentArray = array();
     $query = 'SELECT * FROM tournament'
             . ' WHERE tournament_owner_id = :tournament_owner_id'
-            . ' ORDER BY ABS(DATEDIFF(tournament_date, NOW()))';
+            . ' ORDER BY tournament_date DESC';
     $statement = $db->prepare($query);
     $statement->bindValue(':tournament_owner_id', $ID);
     $statement->execute();
@@ -332,6 +332,49 @@ function get_tournaments_by_ownerId($ID) {
     }
     return $tournamentArray;
 }
+
+
+
+function get_tournaments_by_user_id($ID) {
+    $db = Database::getDB();
+    $tournamentArray = array();
+    $query = 'SELECT DISTINCT t.* FROM tournament t'
+            . ' JOIN tournament_team tt ON tt.tournament_id = t.ID '
+            . ' JOIN team_member_list tm ON tm.team_id = tt.team_id'
+            . ' WHERE tm.user_id = :user_id'
+            . ' ORDER BY tournament_date DESC';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':user_id', $ID);
+    $statement->execute();
+    $tournaments = $statement->fetchAll();
+    $statement->closeCursor();
+    foreach ($tournaments as $tournament) {
+        $tournamentObject = new Tournament($tournament['ID'],
+                $tournament['tournament_owner_id'],
+                $tournament['tournament_organizer_name'],
+                $tournament['tournament_type_id'],
+                $tournament['tournament_banner_link'],
+                $tournament['tournament_name'],
+                $tournament['tournament_date'],
+                $tournament['tournament_registration_deadline'],
+                $tournament['tournament_about'],
+                $tournament['tournament_prizes'],
+                $tournament['tournament_contact'],
+                $tournament['tournament_rules'],
+                $tournament['isActive']);
+        $tournamentArray[] = $tournamentObject;
+    }
+    return $tournamentArray;
+    
+    
+    
+
+    
+}
+
+
+
+
 
 function get_tournaments_team_count_by_tournament_id($ID) {
     $db = Database::getDB();

@@ -16,9 +16,10 @@
 <div class="tournament-container">
     <?php foreach ($tournaments as $tournament) : ?>
         <input type="hidden" name="tournamentId" value="<?php echo $tournament->getId(); ?>" />
-        <div class="tournament-tag" id="<?php echo $tournament->getId(); ?>" <?php if ($tournament->getTournamentBannerLink() != '') {
-        echo "style=\"background-image: url('images/tournament_images/" . $tournament->getTournamentBannerLink() . "')\"";
-    } ?> >
+        <div class="tournament-tag" id="<?php echo $tournament->getId(); ?>" 
+            <?php if ($tournament->getTournamentBannerLink() != '') {
+                echo "style=\"background-image: url('images/tournament_images/" . $tournament->getTournamentBannerLink() . "')\"";  
+            } ?>>
             <div class="tournament-details">
                 <div class='details-top'> 
 

@@ -1,15 +1,10 @@
 <?php require_once '../view/header.php'; ?>
 <link rel="stylesheet" type="text/css" href="styles/match.css">
-
-
-
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@800&display=swap');
 </style>
-
 <input type="hidden" id="matchId" name="matchId" value="<?php echo $bracketMatch->getId(); ?>">
 <input type="hidden" id="userId" name="userId" value="<?php echo $userLogedin->getId(); ?>">
-
 <?php if($bracketMatch->getTeamOneId() != null && $bracketMatch->getTeamTwoId() != null){ ?>
 <h1 id="vs">
     <?php echo get_team_by_id($bracketMatch->getTeamOneId())->getTeamName(); ?> 
@@ -17,6 +12,15 @@
     <?php echo get_team_by_id($bracketMatch->getTeamTwoId())->getTeamName(); ?>
 </h1>
 <?php } ?>
+
+<form action="bracket_manager/index.php" method="POST" style="display: flex;">
+    <input type="hidden" name="controllerRequest" value="bracket" /> 
+    <input type="hidden" name="tournamentId" value="<?php echo $tournament->getId(); ?>">
+    
+    <div class="button">
+        <input  type="submit" value="Return To Bracket">
+    </div>
+</form>
 
 <div id="match"> 
 
@@ -27,7 +31,7 @@
         <hr>
         <p class="win">wins: </p>
         <h1 class="scoreDisplay"><span id="teamOneScore"><?php echo $bracketMatch->getTeamOneWins(); ?></span></h1>
-        <?php if($bracketMatch->getTeamOneWins() < $wins_needed_to_win && $bracketMatch->getTeamTwoWins() < $wins_needed_to_win ){?>
+        <?php if($bracketMatch->getTeamOneWins() < $wins_needed_to_win && $bracketMatch->getTeamTwoWins() < $wins_needed_to_win && (get_team_by_id($bracketMatch->getTeamOneId())->getCaptainUserId() == $userLogedin->getId() || get_tournament_by_id($bracketMatch->getTournamentId())->getTournamentOwnerId() == $userLogedin->getId())){?>
             <button id="teamOneWin">Add Win</button>
         <?php } ?>
         <hr>
@@ -44,11 +48,7 @@
         <?php } ?>
     </div>
     
-    
-    
-    
     <div class="middle-div"> 
-        
         
         <div class="mapList">
             <?php $gameNumber = 1; ?>
@@ -65,7 +65,6 @@
                 <?php $gameNumber++; ?>
             <?php endforeach; ?>
         </div>
-        
         
         <div class="chat-box">
             <div id='chat' class="chat">
@@ -84,24 +83,15 @@
             </div>
         </div>
         
-        
     </div>      
-
-
-
-
-
     <div class="scoreTeamTwo">
         <?php if($bracketMatch->getTeamTwoId() != null){ ?>
         <h2 class="team"><?php echo get_team_by_id($bracketMatch->getTeamTwoId())->getTeamName(); ?></h2>
         <img style=" max-height: 200px; max-width: 200px" src="images/team_images/<?php echo get_team_by_id($bracketMatch->getTeamTwoId())->getTeamImageLink(); ?>" alt="<?php echo get_team_by_id($bracketMatch->getTeamTwoId())->getTeamName(); ?> team image" />
         <hr>
-
-
-
         <p class="win">wins: </p>
         <h1 class="scoreDisplay"><span id="teamTwoScore"><?php echo $bracketMatch->getTeamTwoWins(); ?></span></h1>
-        <?php if($bracketMatch->getTeamOneWins() < $wins_needed_to_win && $bracketMatch->getTeamTwoWins() < $wins_needed_to_win ){?>
+        <?php if($bracketMatch->getTeamOneWins() < $wins_needed_to_win && $bracketMatch->getTeamTwoWins() < $wins_needed_to_win  && (get_team_by_id($bracketMatch->getTeamTwoId())->getCaptainUserId() == $userLogedin->getId() || get_tournament_by_id($bracketMatch->getTournamentId())->getTournamentOwnerId() == $userLogedin->getId()) ){?>
             <button id="teamTwoWin">Add Win</button>
         <?php } ?>
         <hr>

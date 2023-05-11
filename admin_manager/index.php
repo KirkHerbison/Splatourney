@@ -62,6 +62,15 @@ if ($userLogedin->getUserTypeId() == 2) {
         require_once("admin.php");
     }
     
+    else if ($controllerChoice == 'cencel_team') {
+        $users = get_users();
+        $teams = get_teams();
+        $tournaments = get_tournaments();
+
+        $tab = '1';   
+        require_once("admin.php");
+    }
+    
     else if ($controllerChoice == 'tournament_search_by_name') {
         $users = get_users();
         $teams = get_teams();

@@ -41,6 +41,14 @@
             <div class="button">
                 <input type='submit' value='Update'>               
             </div>  
+            <form action="admin_manager/index.php" method="post">
+                <input type="hidden" name="controllerRequest" value="admin" />
+                <div class="button">
+                    <input type='submit' value='Cancel'>
+                </div>
+            </form>
+            
+            
         </form>
     </div>
 </div>

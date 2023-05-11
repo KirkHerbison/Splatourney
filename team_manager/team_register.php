@@ -38,11 +38,20 @@
                     <div class="display-image" style="display: none;"></div>
                 </div>
             </div>
-            <div class="button">
+            <div class="button" style="margin-bottom: 0;">
                 <input type='submit' value='<?php if($team_id > 0){ echo 'Update Team'; } else { echo 'Create Team';}?>'>
             </div>
             <br>
         </form>
+        <?php if($team_id > 0){ ?>
+            <form action="team_manager/index.php" method="post">
+                <input type="hidden" name="controllerRequest" value="edit_selected_team" /> 
+                <input type="hidden" name="team_id" value="<?php echo $team_id ?>" /> 
+                <div class="button" style="margin-top: 0;">
+                    <input type='submit' value='Cancel'>
+                </div>
+            </form>
+        <?php } ?>
     </div>
 </div>
 

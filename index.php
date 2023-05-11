@@ -33,7 +33,7 @@ require_once 'view/header.php';
  <p>This is an early version of Splatourney. I am looking to build a team of developers 
     and graphics designers who would be interested in helping make this project a reality.
     If you have skills in graphics design, CSS, PHP, SQL, Javascript, or any relevant field
-    please consider offering your help with this project. Contact HamRum#0001 on Discord if you are interested.
+    please consider offering your help with this project. Contact *******#0001 on Discord if you are interested.
  </p>
 
  <h1>Upcoming Tournmanets</h1>

@@ -1,6 +1,9 @@
 main{
     border: none;
     background-color: #1F2041;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
 }
 main h1{
     color: #FFC857;
@@ -68,6 +71,7 @@ main h1{
 .team-container{
     display: flex;
     flex-wrap: wrap;
+    width: 100%;
     justify-content: space-around;
 }
 

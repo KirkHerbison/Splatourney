@@ -9,6 +9,7 @@ main{
   display: flex;
   flex-direction: column;
   padding: 10px;
+  width: 100%;
   background: #1F2041;
 }
 
@@ -45,6 +46,21 @@ main{
 .team-name-input{
     height: 45px;
     width: 25%;
+    outline: none;
+    font-size: 16px;
+    border-radius: 5px;
+    padding-left: 15px;
+    border: 1px solid #ccc;
+    border-bottom-width: 2px;
+    transition: all 0.3s ease;
+    margin-right: 2em;
+}
+
+
+.team-name-input{
+    height: 45px;
+    flex-grow: 1;
+    width: auto;
     outline: none;
     font-size: 16px;
     border-radius: 5px;

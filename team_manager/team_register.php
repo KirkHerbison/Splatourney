@@ -28,10 +28,8 @@
                     <span class="details"><?php if($team_id > 0){ echo 'New ';}?>Team Profile Picture</span>
                     <div class="drag-image">
                         <div class="icon"><i class="fas fa-cloud-upload-alt"></i></div>
-                        <h6>Drag & Drop File Here</h6>
                         <p>200px x 200px</p>
-                        <span>OR</span>
-
+                        <br>
                         <button type="button">Browse File</button>
                         <input type="file" name="image" accept = "image/*" hidden>
                     </div>

@@ -160,6 +160,7 @@ elseif ($controllerChoice == 'user_register_confirmation') {
     if(filter_input(INPUT_POST, 'showName') == 'on'){
         $displayName = 1;
     }
+    $var = filter_input(INPUT_POST, 'friendCode');
 
     $user = new User(
             -1,
@@ -180,6 +181,18 @@ elseif ($controllerChoice == 'user_register_confirmation') {
 
     if ($user->getFirstName() == null || $user->getLastName() == null || $user->getEmailAddress() == null || $user->getPassword() == null || $user->getUsername() == null) {
         $error_message = "Invalid registration, please fill out first name, last name, email, username, and password";
+        require_once("user_register.php");
+    } else if(strlen($user->getSwitchFriendCode()) != 12 && filter_input(INPUT_POST, 'friendCode') != '' ){
+        $error_message = "Invalid Friend Code, Friend code must have 12 numbers";
+        require_once("user_register.php");
+    } else if(!preg_match('/^[a-zA-Z0-9]{2,32}#[0-9]{4}$/', $user->getDiscordUsername()) && $user->getDiscordUsername() != ''){
+        $error_message = "Invalid discord username. Please make sure to include the # tag";
+        require_once("user_register.php");
+    } else if(!preg_match('/^[a-zA-Z0-9]{10}#[0-9]{4}$/', $user->getSplashtag()) && $user->getSplashtag() != ''){
+        $error_message = "Invalid splashtag. Please make sure to include the # tag";
+        require_once("user_register.php");
+    } else if(strlen($user->getSwitchUsername()) != 12 && $user->getSwitchUsername() != '' ){
+        $error_message = "Invalid switch username.";
         require_once("user_register.php");
     } elseIf (check_user_email($user->getEmailAddress())) {
         $error_message = "Invalid registration, this email is already in use";

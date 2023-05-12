@@ -254,8 +254,8 @@ else if ($controllerChoice == 'tournament_register_confirmation') {
             $roundExists = true;
             $roundArray = array();
             for ($roundNumber = 1; $roundExists == true; $roundNumber++) {
-                if (check_round_exists_by_number($roundNumber, $tournament_id)) {
-                    $matches = get_matches_by_round_number($roundNumber, $tournament_id);
+                if (check_round_exists_by_number($roundNumber, $tournament->getId())) {
+                    $matches = get_matches_by_round_number($roundNumber, $tournament->getId());
                     $round = new Round($roundNumber, $matches);
                     $roundArray[] = $round;
                 } else {
@@ -264,10 +264,16 @@ else if ($controllerChoice == 'tournament_register_confirmation') {
             }
             
             
-            $matchList = get_matches_by_tournament_id($tournament_id);
+            $matchList = get_matches_by_tournament_id($tournament->getId());
             $mapLists = get_bracket_map_lists_by_bracket_id($bracket->getId());
             $maps = get_maps();
             $modes = get_modes();
+            
+            
+            $teams = get_tournament_teams_by_tournament_id($tournament->getId());
+            $tab = 0;
+            
+            
             require_once("tournament_edit.php");
         } else {
             require_once("tournament_register.php");

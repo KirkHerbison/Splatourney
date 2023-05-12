@@ -38,9 +38,8 @@
               <div class="drag-image">
                 <div class="wrapper">
                   <div class="icon"><i class="fas fa-cloud-upload-alt"></i></div>
-                  <h6>Drag & Drop File Here</h6>
                   <p>1290 x 600</p>
-                  <span>OR</span>
+                  <br>
                   <button type="button">Browse File</button>
                   <input type="file" name="image" accept = "image/*" hidden>
                 </div>

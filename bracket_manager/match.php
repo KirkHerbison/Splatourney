@@ -36,10 +36,19 @@
         <?php } ?>
         <hr>
         <div class="contactInfo">
+            <p class="win">Captain Info</p>
             <div class="contactDiv">
                 <p class="constactLabel">Friend Code:</p>
                 <p class="constactDetail"><?php echo get_user_by_id(get_team_by_id($bracketMatch->getTeamOneId())->getCaptainUserId())->getSwitchFriendCode(); ?></p>
             </div>
+            <div class="contactDiv">
+                <p class="constactLabel">Switch Username:</p>
+                <p class="constactDetail"><?php echo get_user_by_id(get_team_by_id($bracketMatch->getTeamOneId())->getCaptainUserId())->getSwitchUsername(); ?></p>
+            </div>
+            <div class="contactDiv">
+                <p class="constactLabel">Splashtag:</p>
+                <p class="constactDetail"><?php echo get_user_by_id(get_team_by_id($bracketMatch->getTeamOneId())->getCaptainUserId())->getSplashtag(); ?></p>
+            </div>            
             <div class="contactDiv">
                 <p class="constactLabel">Discord:</p>
                 <p class="constactDetail"><?php echo get_user_by_id(get_team_by_id($bracketMatch->getTeamOneId())->getCaptainUserId())->getDiscordUsername(); ?> </p>
@@ -96,10 +105,19 @@
         <?php } ?>
         <hr>
         <div class="contactInfo">
+            <p class="win">Captain Info</p>
             <div class="contactDiv">
                 <p class="constactLabel">Friend Code:</p>
                 <p class="constactDetail"><?php echo get_user_by_id(get_team_by_id($bracketMatch->getTeamTwoId())->getCaptainUserId())->getSwitchFriendCode(); ?></p>
             </div>
+            <div class="contactDiv">
+                <p class="constactLabel">Switch Username:</p>
+                <p class="constactDetail"><?php echo get_user_by_id(get_team_by_id($bracketMatch->getTeamTwoId())->getCaptainUserId())->getSwitchUsername(); ?></p>
+            </div>
+            <div class="contactDiv">
+                <p class="constactLabel">Splashtag:</p>
+                <p class="constactDetail"><?php echo get_user_by_id(get_team_by_id($bracketMatch->getTeamTwoId())->getCaptainUserId())->getSplashtag(); ?></p>
+            </div>                 
             <div class="contactDiv">
                 <p class="constactLabel">Discord:</p>
                 <p class="constactDetail"><?php echo get_user_by_id(get_team_by_id($bracketMatch->getTeamTwoId())->getCaptainUserId())->getDiscordUsername(); ?> </p>
